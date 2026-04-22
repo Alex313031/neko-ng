@@ -1,6 +1,6 @@
 # Neko-ng
 
-Neko98 Reborn!
+__*Neko98 Reborn!*__
 
 <p align="center">
 <img src="./assets/neko.png?raw=true" width="48px">
@@ -16,10 +16,12 @@ See also this history page > https://nekothecat.neocities.org/
 
 ## Building
 
+<img src="./assets/Windows_2000_logo.svg" height="64">
+
 It can be built with Visual Studio 2005 - 2022, however, the primary way I use to build it is with GN/Ninja,
 using the BUILD.gn files inside. TODO: Add build instructions
 
-### Support Info
+#### Support Info
 Support for Windows 9x and NT 4.0 is not planned, the original releases for Win 9x are [Here](./original/Releases/Neko98_1999_release.zip)
 and original release for NT 4.0 is [Here](./original/Releases/Neko98_NT4.0_2012_i386.zip) (both are inside this repo in ./original/Releases/).
 
