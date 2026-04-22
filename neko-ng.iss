@@ -2,7 +2,7 @@
 ; Only for Inno Setup 5.x to support Windows 2000/XP
 ; Tested with ISS 5.6.1
 
-#define AppVer "4.0.4"
+#define AppVer "4.0.5"
 #define AppName "Neko-ng"
 #define CFGAppName "Neko-ng Config"
 #define ExeName "neko_win32"

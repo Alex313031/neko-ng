@@ -70,7 +70,7 @@
 // Adhere to semver > semver.org
 #define MAJOR_VERSION 4
 #define MINOR_VERSION 0
-#define BUILD_VERSION 4
+#define BUILD_VERSION 5
 
 // String constants
 #define VERSION_STRING _VERSION(MAJOR_VERSION, MINOR_VERSION, BUILD_VERSION)
