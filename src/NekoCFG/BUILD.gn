@@ -22,11 +22,11 @@ executable("neko_cfg") {
 config("neko_cfg_config") {
   defines = [ "NEKO_CFG", ]
 
-  cflags = []
-
   include_dirs = [ "./", ]
 
-  cflags += [
+  cflags = [
+    "-Wall",
+    "-Werror",
     "-Wunused-function",
   ]
 

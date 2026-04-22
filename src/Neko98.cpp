@@ -1,5 +1,5 @@
 /************************************
-	Neko for Windows
+	Neko for Windows NT
  *************************************/
 
 #include <windows.h> 
@@ -30,7 +30,7 @@ BOOL g_fNeedReinit = TRUE;
 void ExecuteConfigProcess()
 {
     if( (int)(INT_PTR)ShellExecuteW( NULL, L"open", L"neko_cfg.exe", 0, L"", SW_SHOWNORMAL ) <= 32 )
-        MessageBoxW( NULL, L"Neko was unable to start the configuration program\n'neko_cfg.exe'\n\nMake sure that this file is in the same folder as the main Neko program.", L"Configure Neko", MB_ICONEXCLAMATION );
+        MessageBoxW( NULL, L"Neko was unable to start the configuration program\n'neko_cfg.exe'\n\nMake sure that this file is in the same folder as the main Neko-ng program.", L"Configure Neko-ng", MB_ICONEXCLAMATION );
 }
 
 
@@ -216,6 +216,9 @@ int APIENTRY wWinMain(HINSTANCE hInstance,
 		PostMessageW( hWndOld, WM_QUIT, 0, 0 );
 		return FALSE;
 	}
+
+    //ensure the common control library is loaded
+    InitCommonControls();
 
     //initialise the program
     if( !InitApplication( hInstance ) ) return FALSE;

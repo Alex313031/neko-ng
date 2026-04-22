@@ -132,7 +132,7 @@ CNeko::CNeko( LPCWSTR lpszName )
 
 	//load the images
 	BOOL fLoadProblems = FALSE;
-	if( m_szLibname == NULL || *m_szLibname == L'\0' || ((INT_PTR)ExtractIconW( g_hInstance, m_szLibname, -1 ) < 32 ))
+	if( *m_szLibname == L'\0' || ((INT_PTR)ExtractIconW( g_hInstance, m_szLibname, -1 ) < 32 ))
     {
         //use default images if there is no file or not enough icons
 		GetModuleFileNameW( NULL, m_szLibname, MAX_PATH );
@@ -305,19 +305,22 @@ void CNeko::RunTowards(int nX, int nY)
     switch( m_State ) 
     {
         case STOP:
-            if( MoveStart() ) 
-                SetState( AWAKE ); 
-            else
-                if( m_uStateCount >= STOP_TIME ) 
-                    if( m_nDX < 0 && m_pPet->GetPosition().x <= 0 ) SetState( L_CLAW ); 
-                    else 
-                        if( m_nDX > 0 && m_pPet->GetPosition().x >= ( m_pPet->GetBoundsRect().right - m_pPet->GetBoundsRect().left ) - m_pPet->GetSize().cx ) SetState( R_CLAW ); 
-                        else 
-                            if( m_nDY < 0 && m_pPet->GetPosition().y <= 0 ) SetState( U_CLAW ); 
-                            else
-                                if( m_nDY > 0 && m_pPet->GetPosition().y >= ( m_pPet->GetBoundsRect().bottom - m_pPet->GetBoundsRect().top ) - m_pPet->GetSize().cy ) SetState( D_CLAW );
-                                else SetState( WASH );
-			m_pPet->SetImage( GetStateAnimationFrameIndex() );
+            if( MoveStart() )
+                SetState( AWAKE );
+            else if( m_uStateCount >= STOP_TIME )
+            {
+                if( m_nDX < 0 && m_pPet->GetPosition().x <= 0 )
+                    SetState( L_CLAW );
+                else if( m_nDX > 0 && m_pPet->GetPosition().x >= ( m_pPet->GetBoundsRect().right - m_pPet->GetBoundsRect().left ) - m_pPet->GetSize().cx )
+                    SetState( R_CLAW );
+                else if( m_nDY < 0 && m_pPet->GetPosition().y <= 0 )
+                    SetState( U_CLAW );
+                else if( m_nDY > 0 && m_pPet->GetPosition().y >= ( m_pPet->GetBoundsRect().bottom - m_pPet->GetBoundsRect().top ) - m_pPet->GetSize().cy )
+                    SetState( D_CLAW );
+                else
+                    SetState( WASH );
+            }
+            m_pPet->SetImage( GetStateAnimationFrameIndex() );
             break;
 
         case WASH:
@@ -391,6 +394,7 @@ void CNeko::RunTowards(int nX, int nY)
                         case UR_MOVE: iFpAnim = 1; break;
                         case DL_MOVE: iFpAnim = 5; break;
                         case DR_MOVE: iFpAnim = 3; break;
+                        default: break;
                     }
                     if( iFpAnim != -1 )
                     {
@@ -604,16 +608,26 @@ void CNeko::Update()
 			
 			//repel invisible ball from the edges of the screen.
 			if( m_nActionX < (int)(m_pPet->GetBoundsRect().left + dwBoundingBox) )
-				if( m_nActionX > m_pPet->GetBoundsRect().left ) m_nActionDX++; else m_nActionDX = -m_nActionDX;
-			else
-				if( m_nActionX > (int)(m_pPet->GetBoundsRect().right - dwBoundingBox) )
-					if( m_nActionX < m_pPet->GetBoundsRect().right ) m_nActionDX--; else m_nActionDX = -m_nActionDX;
+			{
+				if( m_nActionX > m_pPet->GetBoundsRect().left ) m_nActionDX++;
+				else m_nActionDX = -m_nActionDX;
+			}
+			else if( m_nActionX > (int)(m_pPet->GetBoundsRect().right - dwBoundingBox) )
+			{
+				if( m_nActionX < m_pPet->GetBoundsRect().right ) m_nActionDX--;
+				else m_nActionDX = -m_nActionDX;
+			}
 
 			if( m_nActionY < (int)(m_pPet->GetBoundsRect().top + dwBoundingBox) )
-				if( m_nActionY > m_pPet->GetBoundsRect().top ) m_nActionDY++; else m_nActionDY = -m_nActionDY;
-			else
-				if( m_nActionY > (int)(m_pPet->GetBoundsRect().bottom - dwBoundingBox) )
-					if( m_nActionY < m_pPet->GetBoundsRect().bottom ) m_nActionDY--; else m_nActionDY = -m_nActionDY;
+			{
+				if( m_nActionY > m_pPet->GetBoundsRect().top ) m_nActionDY++;
+				else m_nActionDY = -m_nActionDY;
+			}
+			else if( m_nActionY > (int)(m_pPet->GetBoundsRect().bottom - dwBoundingBox) )
+			{
+				if( m_nActionY < m_pPet->GetBoundsRect().bottom ) m_nActionDY--;
+				else m_nActionDY = -m_nActionDY;
+			}
 
 			//tell Neko to run towards the new point
             RunTowards( m_nActionX, m_nActionY );

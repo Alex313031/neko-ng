@@ -1,13 +1,11 @@
-//Microsoft Developer Studio generated resource script.
-//
+// Microsoft Developer Studio generated resource script.
+
 #include "version.h"
 #include "resource.h"
 
 #define APSTUDIO_READONLY_SYMBOLS
-/////////////////////////////////////////////////////////////////////////////
-//
+
 // Generated from the TEXTINCLUDE 2 resource.
-//
 #define APSTUDIO_HIDDEN_SYMBOLS
 #include <windows.h>
 #undef APSTUDIO_HIDDEN_SYMBOLS
@@ -18,23 +16,95 @@
 #include <winuser.h>
 #endif // __MINGW32__
 
-/////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
 
-/////////////////////////////////////////////////////////////////////////////
-// Neutral resources
+// Embed manifest for common controls and UTF-8 support
+#if defined(__MINGW32__) || defined(__clang__)
+CREATEPROCESS_MANIFEST_RESOURCE_ID RT_MANIFEST "res/neko_win32.manifest"
+#endif // __MINGW32__
 
+// Icons
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_AWAKE        ICON DISCARDABLE "res/Awake.ico"
+IDI_UP1          ICON DISCARDABLE "res/Up1.ico"
+IDI_UP2          ICON DISCARDABLE "res/Up2.ico"
+IDI_UPRIGHT1     ICON DISCARDABLE "res/Upright1.ico"
+IDI_UPRIGHT2     ICON DISCARDABLE "res/Upright2.ico"
+IDI_RIGHT1       ICON DISCARDABLE "res/Right1.ico"
+IDI_RIGHT2       ICON DISCARDABLE "res/right2.ico"
+IDI_DOWNRIGHT1   ICON DISCARDABLE "res/Downright1.ico"
+IDI_DOWNRIGHT2   ICON DISCARDABLE "res/downright2.ico"
+IDI_DOWN1        ICON DISCARDABLE "res/Down1.ico"
+IDI_DOWN2        ICON DISCARDABLE "res/down2.ico"
+IDI_DOWNLEFT1    ICON DISCARDABLE "res/downleft1.ico"
+IDI_DOWNLEFT2    ICON DISCARDABLE "res/Downleft2.ico"
+IDI_LEFT1        ICON DISCARDABLE "res/left1.ico"
+IDI_LEFT2        ICON DISCARDABLE "res/left2.ico"
+IDI_UPLEFT1      ICON DISCARDABLE "res/Upleft1.ico"
+IDI_UPLEFT2      ICON DISCARDABLE "res/Upleft2.ico"
+IDI_UPCLAW1      ICON DISCARDABLE "res/upclaw1.ico"
+IDI_UPCLAW2      ICON DISCARDABLE "res/upclaw2.ico"
+IDI_RIGHTCLAW1   ICON DISCARDABLE "res/rightclaw1.ico"
+IDI_RIGHTCLAW2   ICON DISCARDABLE "res/Rightclaw2.ico"
+IDI_LEFTCLAW1    ICON DISCARDABLE "res/leftclaw1.ico"
+IDI_LEFTCLAW2    ICON DISCARDABLE "res/leftclaw2.ico"
+IDI_DOWNCLAW1    ICON DISCARDABLE "res/downclaw1.ico"
+IDI_DOWNCLAW2    ICON DISCARDABLE "res/downclaw2.ico"
+IDI_WASH2        ICON DISCARDABLE "res/wash2.ico"
+IDI_SCRATCH1     ICON DISCARDABLE "res/scratch1.ico"
+IDI_SCRATCH2     ICON DISCARDABLE "res/scratch2.ico"
+IDI_YAWN2        ICON DISCARDABLE "res/yawn2.ico"
+IDI_YAWN3        ICON DISCARDABLE "res/yawn3.ico"
+IDI_SLEEP1       ICON DISCARDABLE "res/sleep1.ico"
+IDI_SLEEP2       ICON DISCARDABLE "res/sleep2.ico"
+IDI_FP_UP        ICON DISCARDABLE "res/fp_up.ico"
+IDI_FP_UPRIGHT   ICON DISCARDABLE "res/fp_upright.ico"
+IDI_FP_RIGHT     ICON DISCARDABLE "res/fp_right.ico"
+IDI_FP_DOWNRIGHT ICON DISCARDABLE "res/fp_downright.ico"
+IDI_FP_DOWN      ICON DISCARDABLE "res/fp_down.ico"
+IDI_FP_DOWNLEFT  ICON DISCARDABLE "res/fp_downleft.ico"
+IDI_FP_LEFT      ICON DISCARDABLE "res/fp_left.ico"
+IDI_FP_UPLEFT    ICON DISCARDABLE "res/fp_upleft.ico"
+
+// English resources
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEU)
 #ifdef _WIN32
 LANGUAGE LANG_ENGLISH, SUBLANG_NEUTRAL
 #endif //_WIN32
 
-#ifndef _MAC
-/////////////////////////////////////////////////////////////////////////////
-//
-// Version
-//
+#ifdef APSTUDIO_INVOKED
 
+// TEXTINCLUDE
+1 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#ifndef APSTUDIO_INVOKED\r\n"
+    "#include ""version.h""\r\n"
+    "#endif\r\n"
+    "#define APSTUDIO_HIDDEN_SYMBOLS\r\n"
+    "#include ""windows.h""\r\n"
+    "#undef APSTUDIO_HIDDEN_SYMBOLS\r\n"
+    "#include ""winres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif // APSTUDIO_INVOKED
+
+#ifndef _MAC
+
+// Version Info
 VS_VERSION_INFO VERSIONINFO
  FILEVERSION MAJOR_VERSION, MINOR_VERSION, BUILD_VERSION
  PRODUCTVERSION MAJOR_VERSION, MINOR_VERSION, BUILD_VERSION
@@ -71,111 +141,6 @@ BEGIN
     END
 END
 
-#endif    // !_MAC
+#endif // !_MAC
 
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// Icon
-//
-
-// Icon with lowest ID value placed first to ensure application icon
-// remains consistent on all systems.
-IDI_AWAKE               ICON    DISCARDABLE     "res/Awake.ico"
-IDI_UP1                 ICON    DISCARDABLE     "res/Up1.ico"
-IDI_UP2                 ICON    DISCARDABLE     "res/Up2.ico"
-IDI_UPRIGHT1            ICON    DISCARDABLE     "res/Upright1.ico"
-IDI_UPRIGHT2            ICON    DISCARDABLE     "res/Upright2.ico"
-IDI_RIGHT1              ICON    DISCARDABLE     "res/Right1.ico"
-IDI_RIGHT2              ICON    DISCARDABLE     "res/right2.ico"
-IDI_DOWNRIGHT1          ICON    DISCARDABLE     "res/Downright1.ico"
-IDI_DOWNRIGHT2          ICON    DISCARDABLE     "res/downright2.ico"
-IDI_DOWN1               ICON    DISCARDABLE     "res/Down1.ico"
-IDI_DOWN2               ICON    DISCARDABLE     "res/down2.ico"
-IDI_DOWNLEFT1           ICON    DISCARDABLE     "res/downleft1.ico"
-IDI_DOWNLEFT2           ICON    DISCARDABLE     "res/Downleft2.ico"
-IDI_LEFT1               ICON    DISCARDABLE     "res/left1.ico"
-IDI_LEFT2               ICON    DISCARDABLE     "res/left2.ico"
-IDI_UPLEFT1             ICON    DISCARDABLE     "res/Upleft1.ico"
-IDI_UPLEFT2             ICON    DISCARDABLE     "res/Upleft2.ico"
-IDI_UPCLAW1             ICON    DISCARDABLE     "res/upclaw1.ico"
-IDI_UPCLAW2             ICON    DISCARDABLE     "res/upclaw2.ico"
-IDI_RIGHTCLAW1          ICON    DISCARDABLE     "res/rightclaw1.ico"
-IDI_RIGHTCLAW2          ICON    DISCARDABLE     "res/Rightclaw2.ico"
-IDI_LEFTCLAW1           ICON    DISCARDABLE     "res/leftclaw1.ico"
-IDI_LEFTCLAW2           ICON    DISCARDABLE     "res/leftclaw2.ico"
-IDI_DOWNCLAW1           ICON    DISCARDABLE     "res/downclaw1.ico"
-IDI_DOWNCLAW2           ICON    DISCARDABLE     "res/downclaw2.ico"
-IDI_WASH2               ICON    DISCARDABLE     "res/wash2.ico"
-IDI_SCRATCH1            ICON    DISCARDABLE     "res/scratch1.ico"
-IDI_SCRATCH2            ICON    DISCARDABLE     "res/scratch2.ico"
-IDI_YAWN2               ICON    DISCARDABLE     "res/yawn2.ico"
-IDI_YAWN3               ICON    DISCARDABLE     "res/yawn3.ico"
-IDI_SLEEP1              ICON    DISCARDABLE     "res/sleep1.ico"
-IDI_SLEEP2              ICON    DISCARDABLE     "res/sleep2.ico"
-IDI_FP_UP               ICON    DISCARDABLE     "res/fp_up.ico"
-IDI_FP_UPRIGHT          ICON    DISCARDABLE     "res/fp_upright.ico"
-IDI_FP_RIGHT            ICON    DISCARDABLE     "res/fp_right.ico"
-IDI_FP_DOWNRIGHT        ICON    DISCARDABLE     "res/fp_downright.ico"
-IDI_FP_DOWN             ICON    DISCARDABLE     "res/fp_down.ico"
-IDI_FP_DOWNLEFT         ICON    DISCARDABLE     "res/fp_downleft.ico"
-IDI_FP_LEFT             ICON    DISCARDABLE     "res/fp_left.ico"
-IDI_FP_UPLEFT           ICON    DISCARDABLE     "res/fp_upleft.ico"
-#endif    // Neutral resources
-/////////////////////////////////////////////////////////////////////////////
-
-
-/////////////////////////////////////////////////////////////////////////////
-// English (U.K.) resources
-
-#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENG)
-#ifdef _WIN32
-LANGUAGE LANG_ENGLISH, SUBLANG_NEUTRAL
-#endif //_WIN32
-
-#ifdef APSTUDIO_INVOKED
-/////////////////////////////////////////////////////////////////////////////
-//
-// TEXTINCLUDE
-//
-
-1 TEXTINCLUDE DISCARDABLE 
-BEGIN
-    "resource.h\0"
-END
-
-2 TEXTINCLUDE DISCARDABLE 
-BEGIN
-    "#ifndef APSTUDIO_INVOKED\r\n"
-    "#include ""version.h""\r\n"
-    "#endif\r\n"
-    "#define APSTUDIO_HIDDEN_SYMBOLS\r\n"
-    "#include ""windows.h""\r\n"
-    "#undef APSTUDIO_HIDDEN_SYMBOLS\r\n"
-    "#include ""winres.h""\r\n"
-    "\0"
-END
-
-3 TEXTINCLUDE DISCARDABLE 
-BEGIN
-    "\r\n"
-    "\0"
-END
-
-#endif    // APSTUDIO_INVOKED
-
-#endif    // English (U.K.) resources
-/////////////////////////////////////////////////////////////////////////////
-
-
-
-#ifndef APSTUDIO_INVOKED
-/////////////////////////////////////////////////////////////////////////////
-//
-// Generated from the TEXTINCLUDE 3 resource.
-//
-
-
-/////////////////////////////////////////////////////////////////////////////
-#endif    // not APSTUDIO_INVOKED
-
+#endif // English resources

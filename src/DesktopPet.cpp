@@ -11,7 +11,7 @@
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-CDesktopPet::CDesktopPet() : CDesktopHack(), CPet()
+CDesktopPet::CDesktopPet() : CPet(), CDesktopHack()
 {
 	//clear the update counter
 	m_nUpdateHWndCounter = 0;

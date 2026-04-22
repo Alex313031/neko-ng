@@ -1,5 +1,5 @@
-//Microsoft Developer Studio generated resource script.
-//
+// Microsoft Developer Studio generated resource script.
+
 #include "../version.h"
 #include "NekoCFG_resource.h"
 
@@ -9,10 +9,7 @@
 #undef APSTUDIO_HIDDEN_SYMBOLS
 
 #define APSTUDIO_READONLY_SYMBOLS
-/////////////////////////////////////////////////////////////////////////////
-//
 // Generated from the TEXTINCLUDE 2 resource.
-//
 #define APSTUDIO_HIDDEN_SYMBOLS
 #include <windows.h>
 #undef APSTUDIO_HIDDEN_SYMBOLS
@@ -23,38 +20,70 @@
 #include <winuser.h>
 #endif // __MINGW32__
 
-/////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
 
-/////////////////////////////////////////////////////////////////////////////
-// English (U.K.) resources
+// Embed manifest for common controls and UTF-8 support
+#if defined(__MINGW32__) || defined(__clang__)
+CREATEPROCESS_MANIFEST_RESOURCE_ID RT_MANIFEST "res/neko_cfg.manifest"
+#endif // __MINGW32__
 
+// Icons
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_APPICON          ICON DISCARDABLE "res/appicon.ico"
+IDI_DEFAULT          ICON DISCARDABLE "res/default.ico"
+IDI_TAB_SOUNDS       ICON DISCARDABLE "res/sounds.ico"
+IDI_TAB_MOVEMENT     ICON DISCARDABLE "res/movement.ico"
+IDI_TAB_DISPLAY      ICON DISCARDABLE "res/displayi.ico"
+IDI_TAB_INDEPENDENCE ICON DISCARDABLE "res/independence.ico"
+IDI_TAB_EFFECTS      ICON DISCARDABLE "res/tab_effects.ico"
+
+// Cursors
+
+IDC_PLAYING CURSOR DISCARDABLE "res/playing.cur"
+
+// Bitmaps
+
+IDR_PLAYBITMAP BITMAP DISCARDABLE "res/play.bmp"
+
+// English resources
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENG)
 #ifdef _WIN32
 LANGUAGE LANG_ENGLISH, SUBLANG_NEUTRAL
 #endif //_WIN32
 
-/////////////////////////////////////////////////////////////////////////////
-//
-// Icon
-//
+#ifdef APSTUDIO_INVOKED
 
-// Icon with lowest ID value placed first to ensure application icon
-// remains consistent on all systems.
-IDI_APPICON             ICON    DISCARDABLE     "res/appicon.ico"
-IDI_DEFAULT             ICON    DISCARDABLE     "res/default.ico"
-IDI_TAB_SOUNDS          ICON    DISCARDABLE     "res/sounds.ico"
-IDI_TAB_MOVEMENT        ICON    DISCARDABLE     "res/movement.ico"
-IDI_TAB_DISPLAY         ICON    DISCARDABLE     "res/displayi.ico"
-IDI_TAB_INDEPENDENCE    ICON    DISCARDABLE     "res/independence.ico"
-IDI_TAB_EFFECTS         ICON    DISCARDABLE     "res/tab_effects.ico"
+// TEXTINCLUDE
+1 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "NekoCFG_resource.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#ifndef APSTUDIO_INVOKED\r\n"
+    "#include ""../version.h""\r\n"
+    "#endif\r\n"
+    "#define APSTUDIO_HIDDEN_SYMBOLS\r\n"
+    "#include ""windows.h""\r\n"
+    "#undef APSTUDIO_HIDDEN_SYMBOLS\r\n"
+    "#include ""winres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
 
 #ifndef _MAC
-/////////////////////////////////////////////////////////////////////////////
-//
-// Version
-//
 
+// Version Info
 VS_VERSION_INFO VERSIONINFO
  FILEVERSION MAJOR_VERSION, MINOR_VERSION, BUILD_VERSION
  PRODUCTVERSION MAJOR_VERSION, MINOR_VERSION, BUILD_VERSION
@@ -91,28 +120,24 @@ BEGIN
     END
 END
 
-#endif    // !_MAC
+#endif // !_MAC
 
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// Dialog
-//
+// Dialogs
 
 IDD_CONFIG DIALOGEX 0, 0, 312, 210
 STYLE DS_MODALFRAME | DS_SETFOREGROUND | DS_CENTER | DS_CONTEXTHELP | 
     WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
 EXSTYLE WS_EX_CONTROLPARENT
-CAPTION "Configure Neko"
-FONT 8, "MS Sans Serif"
+CAPTION "Configure Neko-ng"
+FONT 8, "MS Shell Dlg 2"
 BEGIN
-    LTEXT           "Na&me:",IDC_STATIC,7,7,22,8
-    PUSHBUTTON      "&Add A New Neko...",IDC_NEW,13,108,75,14,0,0,HIDC_NEW
+    LTEXT           "&Name:",IDC_STATIC,7,7,22,8
+    PUSHBUTTON      "&Add New Neko",IDC_NEW,13,108,75,14,0,0,HIDC_NEW
     PUSHBUTTON      "&Delete",IDC_DELETE,93,108,41,14,0,0,HIDC_DELETE
     GROUPBOX        "&General",IDC_STATIC,5,140,125,40
     CONTROL         "Show &icon in taskbar",IDC_TASKBAR,"Button",
                     BS_AUTOCHECKBOX | WS_TABSTOP,15,160,80,10,0,HIDC_TASKBAR
-    PUSHBUTTON      "Abo&ut...",IDC_ABOUT,7,189,50,14,0,0,HIDC_ABOUT
+    PUSHBUTTON      "Abo&ut",IDC_ABOUT,7,189,50,14,0,0,HIDC_ABOUT
     CONTROL         "Tab1",IDC_TABS,"SysTabControl32",TCS_MULTILINE | 
                     WS_TABSTOP,146,7,159,178,0,HIDC_TABS
     DEFPUSHBUTTON   "OK",IDOK,145,189,50,14,0,0,HIDOK
@@ -125,7 +150,7 @@ END
 
 IDD_MOVEMENT DIALOGEX 0, 0, 155, 151
 STYLE DS_CONTROL | WS_CHILD
-FONT 8, "MS Sans Serif", 0, 0, 0x1
+FONT 8, "MS Shell Dlg 2"
 BEGIN
     GROUPBOX        "&Speed",IDC_STATIC,7,7,141,48
     CONTROL         "Slow",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,12,23,15,
@@ -145,7 +170,7 @@ END
 
 IDD_SOUND DIALOGEX 0, 0, 155, 151
 STYLE DS_CONTROL | WS_CHILD
-FONT 8, "MS Sans Serif", 0, 0, 0x1
+FONT 8, "MS Shell Dlg 2"
 BEGIN
     GROUPBOX        "&Frequency",IDC_STATIC,8,7,140,63
     LTEXT           "None",IDC_STATIC,14,18,20,8
@@ -169,7 +194,7 @@ END
 IDD_NEWNEKO DIALOG DISCARDABLE  0, 0, 213, 66
 STYLE DS_MODALFRAME | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "New Neko"
-FONT 8, "MS Sans Serif"
+FONT 8, "MS Shell Dlg 2"
 BEGIN
     ICON            IDI_DEFAULT,IDC_STATIC,7,9,20,20
     LTEXT           "Enter the &name for your new Neko:",IDC_STATIC,38,7,111,
@@ -182,8 +207,8 @@ END
 
 IDD_ABOUTBOX DIALOGEX 0, 0, 182, 101
 STYLE DS_MODALFRAME | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "About Neko"
-FONT 8, "MS Sans Serif"
+CAPTION "About Neko-ng"
+FONT 8, "MS Shell Dlg 2"
 BEGIN
     DEFPUSHBUTTON   "OK",IDOK,65,80,50,14
     ICON            IDI_DEFAULT,IDC_STATIC,5,10,21,20
@@ -197,7 +222,7 @@ END
 
 IDD_DISPLAY DIALOGEX 0, 0, 155, 151
 STYLE DS_CONTROL | WS_CHILD
-FONT 8, "MS Sans Serif"
+FONT 8, "MS Shell Dlg 2"
 BEGIN
     GROUPBOX        "&Size",IDC_STATIC,7,7,136,65
     LTEXT           "Smaller",IDC_STATIC,12,20,24,8
@@ -220,7 +245,7 @@ END
 
 IDD_INDEPENDENCE DIALOGEX 0, 0, 155, 149
 STYLE DS_CONTROL | WS_CHILD
-FONT 8, "MS Sans Serif", 0, 0, 0x1
+FONT 8, "MS Shell Dlg 2"
 BEGIN
     GROUPBOX        "&Behaviour",IDC_STATIC,7,7,141,58
     LTEXT           "&Action:",IDC_STATIC,15,23,23,8
@@ -231,7 +256,7 @@ END
 
 IDD_EFFECTS DIALOGEX 0, 0, 155, 151
 STYLE DS_CONTROL | WS_CHILD
-FONT 8, "MS Sans Serif"
+FONT 8, "MS Shell Dlg 2"
 BEGIN
     GROUPBOX        "&Footprint Images",IDC_STATIC,7,7,141,74
     CONTROL         "&Enable Footprints",IDC_FOOTPRINTS,"Button",
@@ -245,10 +270,7 @@ BEGIN
 END
 
 
-/////////////////////////////////////////////////////////////////////////////
-//
 // DESIGNINFO
-//
 
 #ifdef APSTUDIO_INVOKED
 GUIDELINES DESIGNINFO DISCARDABLE 
@@ -321,66 +343,7 @@ BEGIN
         BOTTOMMARGIN, 144
     END
 END
-#endif    // APSTUDIO_INVOKED
+#endif // APSTUDIO_INVOKED
 
-
-#ifdef APSTUDIO_INVOKED
-/////////////////////////////////////////////////////////////////////////////
-//
-// TEXTINCLUDE
-//
-
-1 TEXTINCLUDE DISCARDABLE 
-BEGIN
-    "NekoCFG_resource.h\0"
-END
-
-2 TEXTINCLUDE DISCARDABLE 
-BEGIN
-    "#ifndef APSTUDIO_INVOKED\r\n"
-    "#include ""version.h""\r\n"
-    "#endif\r\n"
-    "#define APSTUDIO_HIDDEN_SYMBOLS\r\n"
-    "#include ""windows.h""\r\n"
-    "#undef APSTUDIO_HIDDEN_SYMBOLS\r\n"
-    "#include ""winres.h""\r\n"
-    "\0"
-END
-
-3 TEXTINCLUDE DISCARDABLE 
-BEGIN
-    "\r\n"
-    "\0"
-END
-
-#endif    // APSTUDIO_INVOKED
-
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// Cursor
-//
-
-IDC_PLAYING             CURSOR  DISCARDABLE     "res/playing.cur"
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// Bitmap
-//
-
-IDR_PLAYBITMAP          BITMAP  DISCARDABLE     "res/play.bmp"
-#endif    // English (U.K.) resources
-/////////////////////////////////////////////////////////////////////////////
-
-
-
-#ifndef APSTUDIO_INVOKED
-/////////////////////////////////////////////////////////////////////////////
-//
-// Generated from the TEXTINCLUDE 3 resource.
-//
-
-
-/////////////////////////////////////////////////////////////////////////////
-#endif    // not APSTUDIO_INVOKED
+#endif    // English resources
 

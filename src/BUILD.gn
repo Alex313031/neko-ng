@@ -31,16 +31,14 @@ executable("neko_win32") {
 
 # neko_win32 specific configs
 config("neko_win32_config") {
-  defines = []
-
-  cflags = []
-
   include_dirs = [
     "./",
     "./NekoCFG",
   ]
 
-  cflags += [
+  cflags = [
+    "-Wall",
+    "-Werror",
     "-Wunused-function",
   ]
 
