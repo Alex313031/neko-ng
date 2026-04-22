@@ -7,7 +7,6 @@
 
 *****************/
 
-#define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #include <commctrl.h>
 #include <wctype.h>
@@ -52,6 +51,9 @@ LPCATSETTINGS catSettings = NULL;
 //function forward declaration
 void WINAPI WriteSettings();
 
+static HICON kMainIcon = nullptr;
+static HICON kSmallIcon = nullptr;
+
 /*************************************************************************************************/
 
 /* DeleteCatSettings - removes the given cat from the list */
@@ -59,6 +61,16 @@ BOOL WINAPI DeleteCatSettings( LPCATSETTINGS cat )
 {
     cat->fDeleted = TRUE;
     return TRUE;
+}
+
+/* ExecuteNekoProcess - runs the main program *******************************/
+static bool ExecuteNekoProcess() {
+  if ((int)(INT_PTR)ShellExecuteW(nullptr, L"open", L"neko_win32.exe", 0, L"", SW_SHOWNORMAL) <= 32 ) {
+    MessageBoxW( NULL, L"Neko Config was unable to start the main program\n'neko_win32.exe'\n\nMake sure that it is in the same folder as this program.", L"neko_win32.exe Not Found", MB_ICONEXCLAMATION );
+    return false;
+  } else {
+    return true;
+  }
 }
 
 /* DlgProc_NewNeko - dialog box procedure to add a neko */
@@ -204,10 +216,28 @@ BOOL CALLBACK DlgProc_NewNeko( HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPara
 }
 
 /* DlgProc_About - dialog box procedure for about dialog */
-BOOL CALLBACK DlgProc_About( HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam )
-{
-    if( ( uMsg == WM_CLOSE ) || ( uMsg == WM_COMMAND && LOWORD(wParam)==IDOK ) ) EndDialog( hDlg, TRUE ); else return FALSE;
-    return TRUE;
+static INT_PTR CALLBACK DlgProc_About( HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam ) {
+  UNREFERENCED_PARAMETER(lParam);
+  switch (uMsg) {
+    case WM_INITDIALOG:
+      // Set icon in titlebar of about dialog
+      static const HICON kAboutIcon = LoadIconW(g_hInstance, MAKEINTRESOURCEW(IDI_ABOUTICON));
+      SendMessageW(hDlg, WM_SETICON, ICON_BIG, (LPARAM)kAboutIcon);
+      SendMessageW(hDlg, WM_SETICON, ICON_SMALL, (LPARAM)kAboutIcon);
+      return TRUE;
+    case WM_CLOSE:
+      EndDialog( hDlg, TRUE );
+      return TRUE;
+    case WM_COMMAND:
+      if (LOWORD(wParam) == IDOK || LOWORD(wParam) == IDCANCEL) {
+        EndDialog(hDlg, LOWORD(wParam));
+        return TRUE;
+      }
+    default:
+      break;
+  }
+
+  return FALSE;
 }
 
 /* DlgProc_Config - dialog box procedure for configuration dialog */
@@ -217,6 +247,10 @@ BOOL CALLBACK DlgProc_Config( HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam
     {
         case WM_INITDIALOG:
         {
+            // Set icon in titlebar/taskbar
+            SendMessageW(hDlg, WM_SETICON, ICON_BIG, (LPARAM)kMainIcon);
+            SendMessageW(hDlg, WM_SETICON, ICON_SMALL, (LPARAM)kSmallIcon);
+
             SendDlgItemMessageW( hDlg, IDC_TASKBAR, BM_SETCHECK, g_fShowTaskbar, 0 );
 
             LPCATSETTINGS cat = catSettings;
@@ -343,6 +377,9 @@ BOOL CALLBACK DlgProc_Config( HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam
                             MessageBoxW( hDlg, L"Internal Error: Dropped off the end of the cat list!", szWindowTitle, MB_ICONERROR );
                     }
                     break;
+                case IDC_OPENMAIN:
+                  ExecuteNekoProcess();
+                  break;
             }
             break;
 
@@ -649,6 +686,9 @@ int APIENTRY wWinMain(HINSTANCE hInstance,
     //store the instance handle and find the Neko window
     g_hInstance = hInstance;
     g_hWndNeko = FindWindowW( szNekoClassName, szNekoWindowTitle );
+
+  kMainIcon = LoadIconW(g_hInstance, MAKEINTRESOURCEW(IDI_APPICON));
+  kSmallIcon = LoadIconW(g_hInstance, MAKEINTRESOURCEW(IDI_SMALL));
 
     //initialise program and display dialog
     ReadSettings();

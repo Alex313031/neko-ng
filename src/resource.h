@@ -48,6 +48,10 @@
 #define IDI_FP_LEFT		      139
 #define IDI_FP_UPLEFT		    140
 
+#define IDC_ABOUT           141
+#define IDI_ABOUTICON       IDI_AWAKE
+#define IDD_ABOUTBOX        142
+
 // For resources to be loaded without an ID from the system.
 #ifndef IDC_STATIC
  #define IDC_STATIC         -1

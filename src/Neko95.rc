@@ -102,6 +102,36 @@ END
 
 #endif // APSTUDIO_INVOKED
 
+// Dialogs
+IDD_ABOUTBOX DIALOGEX 0, 0, 182, 100
+STYLE DS_MODALFRAME | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "About Neko-ng"
+FONT 8, "MS Shell Dlg 2"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,65,80,50,14
+    ICON            IDI_ABOUTICON,IDC_STATIC,5,10,21,20
+    LTEXT           ABOUT_CONTENT,
+                    IDC_STATIC,35,10,142,12,0,WS_EX_TRANSPARENT
+    LTEXT           "https://github.com/Alex313031/neko-ng",
+                    IDC_STATIC,35,22,142,12
+    LTEXT           "Neko for Windows NT, forked from David Harvey's original Neko98 source.",
+                    IDC_STATIC,25,42,142,24
+END
+
+// DESIGNINFO
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO DISCARDABLE
+BEGIN
+    IDD_ABOUTBOX, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 175
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 93
+    END
+END
+#endif // APSTUDIO_INVOKED
+
 #ifndef _MAC
 
 // Version Info

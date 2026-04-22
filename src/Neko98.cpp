@@ -2,10 +2,8 @@
 	Neko for Windows NT
  *************************************/
 
-#include <windows.h> 
-#include <commctrl.h>
-#include <stdlib.h>
-#include <stdio.h>
+#include "Neko98.h"
+
 #include "Tray.h"
 #include "NekoSettings.h"
 #include "NekoCommon.h"
@@ -25,15 +23,18 @@ DWORD g_dwSleepTime = 100;
 
 BOOL g_fNeedReinit = TRUE;
 
+static HICON kMainIcon = nullptr;
+static HICON kSmallIcon = nullptr;
 
 /* ExecuteConfigProcess - runs the configuration program *******************************/
-void ExecuteConfigProcess()
-{
-    if( (int)(INT_PTR)ShellExecuteW( NULL, L"open", L"neko_cfg.exe", 0, L"", SW_SHOWNORMAL ) <= 32 )
-        MessageBoxW( NULL, L"Neko was unable to start the configuration program\n'neko_cfg.exe'\n\nMake sure that this file is in the same folder as the main Neko-ng program.", L"Configure Neko-ng", MB_ICONEXCLAMATION );
+static bool ExecuteConfigProcess() {
+  if ((int)(INT_PTR)ShellExecuteW(nullptr, L"open", L"neko_cfg.exe", 0, L"", SW_SHOWNORMAL) <= 32 ) {
+    MessageBoxW( NULL, L"Neko was unable to start the configuration program\n'neko_cfg.exe'\n\nMake sure that this file is in the same folder as the main Neko-ng program.", L"Configure Neko-ng", MB_ICONEXCLAMATION );
+    return false;
+  } else {
+    return true;
+  }
 }
-
-
 
 /* LoadConfiguration - reloads the program configuration *******************************/
 void LoadConfiguration()
@@ -99,7 +100,7 @@ void LoadConfiguration()
 
 
 /* WndProc - message processing function for the hidden Neko window ********************/
-LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
+static LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
 {
     switch( message )
     {
@@ -111,6 +112,9 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam 
         case WM_COMMAND:
             switch(LOWORD(wParam))
             {
+                case IDC_ABOUT:
+                    DialogBoxW( g_hInstance, MAKEINTRESOURCEW(IDD_ABOUTBOX), hWnd, (DLGPROC)AboutDlgProc );
+                    break;
                 case ID_SETTINGS:
                     ExecuteConfigProcess();
                     break;
@@ -169,10 +173,12 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam 
 
 
 /* InitApplication - program initialisation function ***********************************/
-BOOL InitApplication( HINSTANCE hInstance )
-{
+static BOOL InitApplication(HINSTANCE hInstance) {
     //store the instance handle
     g_hInstance = hInstance;
+
+  kMainIcon = LoadIconW(g_hInstance, MAKEINTRESOURCEW(IDI_AWAKE));
+  kSmallIcon = LoadIconW(g_hInstance, MAKEINTRESOURCEW(IDI_AWAKE));
 
 	//create the (hidden) window
     WNDCLASSW wc;
@@ -249,4 +255,28 @@ int APIENTRY wWinMain(HINSTANCE hInstance,
     delete Tray;
 
     return (int)msg.wParam;
+}
+
+INT_PTR CALLBACK AboutDlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam) {
+  UNREFERENCED_PARAMETER(lParam);
+  switch (uMsg) {
+    case WM_INITDIALOG:
+      // Set icon in titlebar of about dialog
+      static const HICON kAboutIcon = LoadIconW(g_hInstance, MAKEINTRESOURCEW(IDI_ABOUTICON));
+      SendMessageW(hDlg, WM_SETICON, ICON_BIG, (LPARAM)kAboutIcon);
+      SendMessageW(hDlg, WM_SETICON, ICON_SMALL, (LPARAM)kAboutIcon);
+      return TRUE;
+    case WM_CLOSE:
+      EndDialog( hDlg, TRUE );
+      return TRUE;
+    case WM_COMMAND:
+      if (LOWORD(wParam) == IDOK || LOWORD(wParam) == IDCANCEL) {
+        EndDialog(hDlg, LOWORD(wParam));
+        return TRUE;
+      }
+    default:
+      break;
+  }
+
+  return FALSE;
 }

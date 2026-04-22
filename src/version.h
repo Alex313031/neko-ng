@@ -1,5 +1,5 @@
-#ifndef _NEKOVERSION_H
-#define _NEKOVERSION_H
+#ifndef _NEKO_VERSION_H_
+#define _NEKO_VERSION_H_
 
 // This file is for specifying the target windows version, as well as application
 // version constants.
@@ -74,8 +74,8 @@
 
 // String constants
 #define VERSION_STRING _VERSION(MAJOR_VERSION, MINOR_VERSION, BUILD_VERSION)
-
-#define LEGAL_COPYRIGHT L"Copyright \251 2026 Alex313031"
+#define ABOUT_CONTENT  L"Neko-ng " VERSION_STRING
+#define LEGAL_COPYRIGHT L"Copyright \251 2026 Alex313031 "
 
 #ifndef _PACKVERSION
  #define _PACKVERSION(major,minor) MAKELONG((minor), ((major) << 8))
@@ -83,4 +83,4 @@
 
 // clang-format on: Done with version DEFINES
 
-#endif // _NEKOVERSION_H
+#endif // _NEKO_VERSION_H_

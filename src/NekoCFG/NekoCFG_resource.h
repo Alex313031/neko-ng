@@ -59,7 +59,7 @@
 #define IDI_DEFAULT          146
 #define IDI_DISPLAYICON      147
 #define IDI_MOVEMENTICON     148
-#define IDI_ABOUTICON        149
+#define IDI_ABOUTICON        IDI_DEFAULT // Same as default icon
 #define IDD_ABOUT            150
 #define IDI_SOUNDSICON       151
 #define IDD_SOUNDS           152
@@ -113,6 +113,9 @@
 #define IDC_ACTIONDESC       1055
 #define IDC_ALWAYSONTOP      1056
 #define IDC_FOOTPRINTS       1058
+
+#define IDI_SMALL            200
+#define IDC_OPENMAIN         201
 
 // For resources to be loaded without an ID from the system.
 #ifndef IDC_STATIC

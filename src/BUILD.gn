@@ -15,6 +15,7 @@ executable("neko_win32") {
     "Neko.h",
     "Neko95.rc",
     "Neko98.cpp",
+    "Neko98.h",
     "NekoCommon.h",
     "NekoSettings.cpp",
     "NekoSettings.h",

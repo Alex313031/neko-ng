@@ -32,6 +32,7 @@ CREATEPROCESS_MANIFEST_RESOURCE_ID RT_MANIFEST "res/neko_cfg.manifest"
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
 IDI_APPICON          ICON DISCARDABLE "res/appicon.ico"
+IDI_SMALL            ICON DISCARDABLE "res/small.ico"
 IDI_DEFAULT          ICON DISCARDABLE "res/default.ico"
 IDI_TAB_SOUNDS       ICON DISCARDABLE "res/sounds.ico"
 IDI_TAB_MOVEMENT     ICON DISCARDABLE "res/movement.ico"
@@ -131,24 +132,25 @@ EXSTYLE WS_EX_CONTROLPARENT
 CAPTION "Configure Neko-ng"
 FONT 8, "MS Shell Dlg 2"
 BEGIN
-    LTEXT           "&Name:",IDC_STATIC,7,7,22,8
-    PUSHBUTTON      "&Add New Neko",IDC_NEW,13,108,75,14,0,0,HIDC_NEW
-    PUSHBUTTON      "&Delete",IDC_DELETE,93,108,41,14,0,0,HIDC_DELETE
-    GROUPBOX        "&General",IDC_STATIC,5,140,125,40
+    LTEXT           "Nekos &List:",IDC_STATIC,8,7,48,8
+    LISTBOX         IDC_NAME,7,18,127,85,LBS_SORT | LBS_NOINTEGRALHEIGHT | 
+                    WS_VSCROLL | WS_TABSTOP,0,HIDC_NAME
+    PUSHBUTTON      "Add &New Neko",IDC_NEW,8,108,75,14,0,0,HIDC_NEW
+    PUSHBUTTON      "&Delete",IDC_DELETE,87,108,46,14,0,0,HIDC_DELETE
+    GROUPBOX        "&General",IDC_STATIC,8,131,125,52
+    PUSHBUTTON      "&Run/Stop Neko", IDC_OPENMAIN, 16,144,80,14,0
     CONTROL         "Show &icon in taskbar",IDC_TASKBAR,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,15,160,80,10,0,HIDC_TASKBAR
-    PUSHBUTTON      "Abo&ut",IDC_ABOUT,7,189,50,14,0,0,HIDC_ABOUT
+                    BS_AUTOCHECKBOX | WS_TABSTOP,16,164,80,10,0,HIDC_TASKBAR
+    PUSHBUTTON      "&About",IDC_ABOUT,8,189,50,14,0,0,HIDC_ABOUT
+    PUSHBUTTON      "&Help",IDC_HELP32,62,189,50,14,0,0,HIDC_HELP
     CONTROL         "Tab1",IDC_TABS,"SysTabControl32",TCS_MULTILINE | 
-                    WS_TABSTOP,146,7,159,178,0,HIDC_TABS
+                    WS_TABSTOP,145,7,160,176,0,HIDC_TABS
     DEFPUSHBUTTON   "OK",IDOK,145,189,50,14,0,0,HIDOK
     PUSHBUTTON      "Cancel",IDCANCEL,200,189,50,14,0,0,HIDCANCEL
     PUSHBUTTON      "&Apply",IDC_APPLY,255,189,50,14,0,0,HIDC_APPLY
-    PUSHBUTTON      "&Help",IDC_HELP32,62,189,50,14,0,0,HIDC_HELP
-    LISTBOX         IDC_NAME,7,18,127,85,LBS_SORT | LBS_NOINTEGRALHEIGHT | 
-                    WS_VSCROLL | WS_TABSTOP,0,HIDC_NAME
 END
 
-IDD_MOVEMENT DIALOGEX 0, 0, 155, 151
+IDD_MOVEMENT DIALOGEX 0, 0, 155, 148
 STYLE DS_CONTROL | WS_CHILD
 FONT 8, "MS Shell Dlg 2"
 BEGIN
@@ -168,11 +170,11 @@ BEGIN
                     15,8
 END
 
-IDD_SOUND DIALOGEX 0, 0, 155, 151
+IDD_SOUND DIALOGEX 0, 0, 155, 148
 STYLE DS_CONTROL | WS_CHILD
 FONT 8, "MS Shell Dlg 2"
 BEGIN
-    GROUPBOX        "&Frequency",IDC_STATIC,8,7,140,63
+    GROUPBOX        "&Frequency",IDC_STATIC,7,7,141,63
     LTEXT           "None",IDC_STATIC,14,18,20,8
     CONTROL         "Slider1",IDC_SOUNDFREQ,"msctls_trackbar32",TBS_NOTICKS | 
                     WS_TABSTOP,15,27,125,17,0,HIDC_SOUNDFREQ
@@ -205,45 +207,46 @@ BEGIN
     PUSHBUTTON      "Cancel",IDCANCEL,156,45,50,14
 END
 
-IDD_ABOUTBOX DIALOGEX 0, 0, 182, 101
+IDD_ABOUTBOX DIALOGEX 0, 0, 182, 100
 STYLE DS_MODALFRAME | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "About Neko-ng"
 FONT 8, "MS Shell Dlg 2"
 BEGIN
     DEFPUSHBUTTON   "OK",IDOK,65,80,50,14
-    ICON            IDI_DEFAULT,IDC_STATIC,5,10,21,20
-    LTEXT           "This program is proud to be FREEWARE!",IDC_STATIC,25,60,
-                    131,8
-    LTEXT           "Neko for Windows v4.0g\nPorted by David Harvey from\nX-Windows source code by Masayuki Koba",
-                    IDC_STATIC,35,10,142,25,0,WS_EX_TRANSPARENT
-    LTEXT           "http://www.geocities.com/siliconvalley/haven/4173/",
-                    IDC_STATIC,5,40,170,8
+    ICON            IDI_ABOUTICON,IDC_STATIC,5,10,21,20
+    LTEXT           ABOUT_CONTENT,
+                    IDC_STATIC,35,10,142,12,0,WS_EX_TRANSPARENT
+    LTEXT           "https://github.com/Alex313031/neko-ng",
+                    IDC_STATIC,35,22,142,12
+    LTEXT           "Neko for Windows NT, forked from David Harvey's original Neko98 source.",
+                    IDC_STATIC,25,42,142,24
+    // "http://www.geocities.com/siliconvalley/haven/4173/
 END
 
-IDD_DISPLAY DIALOGEX 0, 0, 155, 151
+IDD_DISPLAY DIALOGEX 0, 0, 155, 148
 STYLE DS_CONTROL | WS_CHILD
 FONT 8, "MS Shell Dlg 2"
 BEGIN
-    GROUPBOX        "&Size",IDC_STATIC,7,7,136,65
+    GROUPBOX        "&Size",IDC_STATIC,7,7,141,64
     LTEXT           "Smaller",IDC_STATIC,12,20,24,8
     LTEXT           "Larger",IDC_STATIC,122,20,21,8
     CONTROL         "Slider1",IDC_SCALESLIDER,"msctls_trackbar32",
                     TBS_NOTICKS | WS_TABSTOP,15,30,125,15,0,HIDC_SCALESLIDER
     LTEXT           "Scale:",IDC_STATIC,36,55,21,8
     LTEXT           "100%",IDC_SCALEDISPLAY,62,55,25,8,0,0,HIDC_SCALEDISPLAY
-    PUSHBUTTON      "Use &Default",IDC_SET100,92,52,50,14,0,0,HIDC_SET100
-    GROUPBOX        "&Image library",IDC_STATIC,7,76,136,54
+    PUSHBUTTON      "Use &Default",IDC_SET100,88,52,50,14,0,0,HIDC_SET100
+    GROUPBOX        "&Image library",IDC_STATIC,7,76,141,52
     LTEXT           "&File name:",IDC_STATIC,15,88,33,8
     EDITTEXT        IDC_IMAGELIB,15,98,125,12,ES_AUTOHSCROLL | ES_READONLY | 
                     NOT WS_BORDER,0,HIDC_IMAGELIB
-    PUSHBUTTON      "&Change...",IDC_CHANGE,36,112,50,15,0,0,HIDC_CHANGE
-    PUSHBUTTON      "&Use Default",IDC_DEFAULT,92,112,50,15,0,0,HIDC_DEFAULT
+    PUSHBUTTON      "&Change...",IDC_CHANGE,32,110,50,14,0,0,HIDC_CHANGE
+    PUSHBUTTON      "&Use Default",IDC_DEFAULT,88,110,50,14,0,0,HIDC_DEFAULT
     CONTROL         "Alwa&ys On Top",IDC_ALWAYSONTOP,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,7,134,64,10,0,
+                    BS_AUTOCHECKBOX | WS_TABSTOP,8,132,64,10,0,
                     HIDC_ALWAYSONTOP
 END
 
-IDD_INDEPENDENCE DIALOGEX 0, 0, 155, 149
+IDD_INDEPENDENCE DIALOGEX 0, 0, 155, 148
 STYLE DS_CONTROL | WS_CHILD
 FONT 8, "MS Shell Dlg 2"
 BEGIN
@@ -254,7 +257,7 @@ BEGIN
     LTEXT           "(none)",IDC_ACTIONDESC,15,35,125,25,0,0,HIDC_ACTIONDESC
 END
 
-IDD_EFFECTS DIALOGEX 0, 0, 155, 151
+IDD_EFFECTS DIALOGEX 0, 0, 155, 148
 STYLE DS_CONTROL | WS_CHILD
 FONT 8, "MS Shell Dlg 2"
 BEGIN
@@ -288,7 +291,7 @@ BEGIN
         LEFTMARGIN, 7
         RIGHTMARGIN, 148
         TOPMARGIN, 7
-        BOTTOMMARGIN, 144
+        BOTTOMMARGIN, 141
     END
 
     IDD_SOUND, DIALOG
@@ -297,7 +300,7 @@ BEGIN
         RIGHTMARGIN, 148
         VERTGUIDE, 10
         TOPMARGIN, 7
-        BOTTOMMARGIN, 149
+        BOTTOMMARGIN, 141
         HORZGUIDE, 137
     END
 
@@ -316,7 +319,7 @@ BEGIN
         LEFTMARGIN, 7
         RIGHTMARGIN, 175
         TOPMARGIN, 7
-        BOTTOMMARGIN, 94
+        BOTTOMMARGIN, 93
     END
 
     IDD_DISPLAY, DIALOG
@@ -324,7 +327,7 @@ BEGIN
         LEFTMARGIN, 7
         RIGHTMARGIN, 148
         TOPMARGIN, 7
-        BOTTOMMARGIN, 144
+        BOTTOMMARGIN, 141
     END
 
     IDD_INDEPENDENCE, DIALOG
@@ -332,7 +335,7 @@ BEGIN
         LEFTMARGIN, 7
         RIGHTMARGIN, 148
         TOPMARGIN, 7
-        BOTTOMMARGIN, 142
+        BOTTOMMARGIN, 141
     END
 
     IDD_EFFECTS, DIALOG
@@ -340,7 +343,7 @@ BEGIN
         LEFTMARGIN, 7
         RIGHTMARGIN, 148
         TOPMARGIN, 7
-        BOTTOMMARGIN, 144
+        BOTTOMMARGIN, 141
     END
 END
 #endif // APSTUDIO_INVOKED

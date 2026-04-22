@@ -21,7 +21,7 @@ BOOL CTray::AddIcon( HWND hWnd, HICON hIcon, UINT uID )
     tnid.uFlags = NIF_MESSAGE|NIF_ICON|NIF_TIP;
     tnid.uCallbackMessage = MY_NOTIFYICON;
     tnid.hIcon = hIcon;
-    lstrcpynW( tnid.szTip, L"Neko", sizeof(tnid.szTip)/sizeof(tnid.szTip[0]) );
+    lstrcpynW( tnid.szTip, L"Neko-ng", sizeof(tnid.szTip)/sizeof(tnid.szTip[0]) );
 
     //give the command
     res = Shell_NotifyIconW( NIM_ADD, &tnid );
@@ -60,6 +60,7 @@ void CTray::ShowPopupMenu( HWND hWnd )
     //create the popup menu
     HMENU hMenu = CreatePopupMenu();
     AppendMenuW( hMenu, MF_STRING, ID_SETTINGS, L"&Settings" );
+    AppendMenuW( hMenu, MF_STRING, IDC_ABOUT,   L"&About" );
     AppendMenuW( hMenu, MF_STRING, ID_EXIT,     L"E&xit" );
     SetMenuDefaultItem( hMenu, ID_SETTINGS, FALSE );
 
