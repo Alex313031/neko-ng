@@ -4,6 +4,7 @@
 
 #define AppVer "4.0.4"
 #define AppName "Neko-ng"
+#define CFGAppName "Neko-ng Config"
 #define ExeName "neko_win32"
 #define CFGExeName "neko_cfg"
 #define Developer "Alex313031"
@@ -47,6 +48,7 @@ Source: "assets\Readme.txt"; DestDir: "{app}";
 
 [Icons]
 Name: "{group}\{#AppName}"; Filename: "{app}\{#ExeName}.exe"
+Name: "{group}\{#CFGAppName}"; Filename: "{app}\{#CFGExeName}.exe"
 
 [Run]
 ;Filename: "{app}\Readme.txt"; Description: "View Readme.txt"; Flags: postinstall nowait skipifsilent shellexec unchecked
