@@ -178,7 +178,9 @@ static BOOL InitApplication(HINSTANCE hInstance) {
     g_hInstance = hInstance;
 
   kMainIcon = LoadIconW(g_hInstance, MAKEINTRESOURCEW(IDI_AWAKE));
-  kSmallIcon = LoadIconW(g_hInstance, MAKEINTRESOURCEW(IDI_AWAKE));
+  kSmallIcon = (HICON)LoadImageW(g_hInstance, MAKEINTRESOURCEW(IDI_AWAKE), IMAGE_ICON,
+                                 GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON),
+                                 LR_DEFAULTCOLOR);
 
 	//create the (hidden) window
     WNDCLASSW wc;
@@ -274,6 +276,7 @@ INT_PTR CALLBACK AboutDlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam
         EndDialog(hDlg, LOWORD(wParam));
         return TRUE;
       }
+      break;
     default:
       break;
   }

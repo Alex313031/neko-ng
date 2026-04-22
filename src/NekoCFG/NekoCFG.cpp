@@ -233,6 +233,7 @@ static INT_PTR CALLBACK DlgProc_About( HWND hDlg, UINT uMsg, WPARAM wParam, LPAR
         EndDialog(hDlg, LOWORD(wParam));
         return TRUE;
       }
+      break;
     default:
       break;
   }
