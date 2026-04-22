@@ -22,7 +22,7 @@ CDesktopPet::CDesktopPet() : CPet(), CDesktopHack()
 
 CDesktopPet::~CDesktopPet()
 {
-	RedrawWindow( m_hWndDesktop, NULL, NULL, RDW_INVALIDATE|RDW_ERASE );
+	RedrawWindow( m_hWndDesktop, nullptr, nullptr, RDW_INVALIDATE|RDW_ERASE );
 }
 
 
@@ -37,7 +37,7 @@ void CDesktopPet::Draw( int nImage )
 	HDC hDC = GetDC( m_hWndDesktop );
 	
 	//draw the icon on it
-    DrawIconEx( hDC, m_ptPosition.x, m_ptPosition.y, m_hIcons[nImage], m_sizeImage.cx, m_sizeImage.cy, 0, NULL, DI_NORMAL );
+    DrawIconEx( hDC, m_ptPosition.x, m_ptPosition.y, m_hIcons[nImage], m_sizeImage.cx, m_sizeImage.cy, 0, nullptr, DI_NORMAL );
 
 	//release the device context
     ReleaseDC( m_hWndDesktop, hDC );
@@ -67,7 +67,7 @@ void CDesktopPet::DrawOnTarget( int x, int y, HICON hIcon )
     HDC hDC = GetDC( m_hWndDesktop );
 
     //draw the icon on it
-    DrawIconEx( hDC, x, y, hIcon, 0, 0, 0, NULL, DI_NORMAL );
+    DrawIconEx( hDC, x, y, hIcon, 0, 0, 0, nullptr, DI_NORMAL );
 
     //release the device context
     ReleaseDC( m_hWndDesktop, hDC );

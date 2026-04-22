@@ -38,15 +38,15 @@ static DWORD dwHelpID[] = {
 };
 
 //global variables
-HINSTANCE g_hInstance = NULL;
-HWND g_hWndNeko = NULL;
+HINSTANCE g_hInstance = nullptr;
+HWND g_hWndNeko = nullptr;
 
 
 //global settings
 BOOL g_fShowTaskbar = TRUE;
 
 //list of all cats
-LPCATSETTINGS catSettings = NULL;
+LPCATSETTINGS catSettings = nullptr;
 
 //function forward declaration
 void WINAPI WriteSettings();
@@ -66,7 +66,7 @@ BOOL WINAPI DeleteCatSettings( LPCATSETTINGS cat )
 /* ExecuteNekoProcess - runs the main program *******************************/
 static bool ExecuteNekoProcess() {
   if ((int)(INT_PTR)ShellExecuteW(nullptr, L"open", L"neko_win32.exe", 0, L"", SW_SHOWNORMAL) <= 32 ) {
-    MessageBoxW( NULL, L"Neko Config was unable to start the main program\n'neko_win32.exe'\n\nMake sure that it is in the same folder as this program.", L"neko_win32.exe Not Found", MB_ICONEXCLAMATION );
+    MessageBoxW( nullptr, L"Neko Config was unable to start the main program\n'neko_win32.exe'\n\nMake sure that it is in the same folder as this program.", L"neko_win32.exe Not Found", MB_ICONEXCLAMATION );
     return false;
   } else {
     return true;
@@ -262,7 +262,7 @@ BOOL CALLBACK DlgProc_Config( HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam
             }
             SendDlgItemMessageW( hDlg, IDC_NAME, LB_SELECTSTRING, 0, (LPARAM)szDefaultName );
             EnableWindow( GetDlgItem( hDlg, IDC_DELETE ), FALSE );
-            EnableWindow( GetDlgItem( hDlg, IDC_APPLY ), (g_hWndNeko != NULL ) ? TRUE : FALSE );
+            EnableWindow( GetDlgItem( hDlg, IDC_APPLY ), (g_hWndNeko != nullptr ) ? TRUE : FALSE );
 
             InitialisePropertyDialog( GetDlgItem( hDlg, IDC_TABS ) );
             SendMessageW( hDlg, WM_COMMAND, MAKEWPARAM(IDC_NAME, LBN_SELCHANGE), 0 );
@@ -276,12 +276,12 @@ BOOL CALLBACK DlgProc_Config( HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam
             switch( LOWORD(wParam) )
             {
                 case IDOK:
-                    SetCursor( LoadCursorW( NULL, IDC_WAIT ) );
+                    SetCursor( LoadCursorW( nullptr, IDC_WAIT ) );
                     g_fShowTaskbar = ( IsDlgButtonChecked( hDlg, IDC_TASKBAR ) == BST_CHECKED );
                     WriteSettings();
                     if( IsWindow( g_hWndNeko ) == FALSE ) g_hWndNeko = FindWindowW( szNekoClassName, szNekoWindowTitle );
                     SendMessageW( g_hWndNeko, MY_UPDATENEKO, 0, 0 );
-                    SetCursor( LoadCursorW( NULL, IDC_ARROW ) );
+                    SetCursor( LoadCursorW( nullptr, IDC_ARROW ) );
                     EndDialog( hDlg, TRUE );
                     break;
 
@@ -289,12 +289,12 @@ BOOL CALLBACK DlgProc_Config( HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam
                     EndDialog( hDlg, FALSE ); break;
 
                 case IDC_APPLY:
-                    SetCursor( LoadCursorW( NULL, IDC_WAIT ) );
+                    SetCursor( LoadCursorW( nullptr, IDC_WAIT ) );
                     g_fShowTaskbar = ( IsDlgButtonChecked( hDlg, IDC_TASKBAR ) == BST_CHECKED );
                     WriteSettings();
                     if( IsWindow( g_hWndNeko ) == FALSE ) g_hWndNeko = FindWindowW( szNekoClassName, szNekoWindowTitle );
                     SendMessageW( g_hWndNeko, MY_UPDATENEKO, 0, 0 );
-                    SetCursor( LoadCursorW( NULL, IDC_ARROW ) );
+                    SetCursor( LoadCursorW( nullptr, IDC_ARROW ) );
                     break;
 
                 case IDC_ABOUT:
@@ -439,15 +439,15 @@ void WINAPI WriteCatSettings( LPCATSETTINGS cat, LPCWSTR szName )
 
                     FormatMessageW(
                         FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM,
-                        NULL,
+                        nullptr,
                         l,
                         MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), // Default language
                         (LPWSTR) &lpMsgBuf,
                         0,
-                        NULL
+                        nullptr
                     );
                     // Display the string.
-                    MessageBoxW( NULL, (LPCWSTR)lpMsgBuf, L"Can't Delete Key", MB_OK|MB_ICONINFORMATION );
+                    MessageBoxW( nullptr, (LPCWSTR)lpMsgBuf, L"Can't Delete Key", MB_OK|MB_ICONINFORMATION );
 
                     // Free the buffer.
                     LocalFree( lpMsgBuf );
@@ -457,10 +457,10 @@ void WINAPI WriteCatSettings( LPCATSETTINGS cat, LPCWSTR szName )
                 RegCloseKey( hKey );
             }
             else
-                MessageBoxW( NULL, L"Internal Error: Couldn't open registry key!", 0, MB_TASKMODAL );
+                MessageBoxW( nullptr, L"Internal Error: Couldn't open registry key!", 0, MB_TASKMODAL );
         }
         else
-            MessageBoxW( NULL, L"Internal Error: Tried to delete default Neko!", 0, MB_TASKMODAL );
+            MessageBoxW( nullptr, L"Internal Error: Tried to delete default Neko!", 0, MB_TASKMODAL );
     }
     else
     {
@@ -618,7 +618,7 @@ void WINAPI ReadSettings()
     {
         //the user hasn't run the config program, or there are no Nekos - use default
         cat = new CATSETTINGS;
-        cat->next = NULL;
+        cat->next = nullptr;
         ReadCatSettings( cat, L"" );
 
         catSettings = cat;
@@ -662,7 +662,7 @@ void WINAPI DeleteConfigList()
    if it has been loaded twice */
 BOOL FindAndActivateOldInstance()
 {
-    HWND hWnd = FindWindowW( NULL, szWindowTitle );
+    HWND hWnd = FindWindowW( nullptr, szWindowTitle );
     if( hWnd )
     {
         OpenIcon(hWnd);
@@ -694,7 +694,7 @@ int APIENTRY wWinMain(HINSTANCE hInstance,
 
     //initialise program and display dialog
     ReadSettings();
-    DialogBoxW( g_hInstance, MAKEINTRESOURCEW(IDD_CONFIG), NULL, (DLGPROC)DlgProc_Config );
+    DialogBoxW( g_hInstance, MAKEINTRESOURCEW(IDD_CONFIG), nullptr, (DLGPROC)DlgProc_Config );
     DeleteConfigList();
     ShutdownPropertyDialog();
     return 0;

@@ -65,7 +65,7 @@ void CTray::ShowPopupMenu( HWND hWnd )
     SetMenuDefaultItem( hMenu, ID_SETTINGS, FALSE );
 
     //display the menu
-    TrackPopupMenu( hMenu, TPM_LEFTALIGN | TPM_RIGHTBUTTON, mouse.x, mouse.y, 0, hWnd, NULL );
+    TrackPopupMenu( hMenu, TPM_LEFTALIGN | TPM_RIGHTBUTTON, mouse.x, mouse.y, 0, hWnd, nullptr );
  
     //destroy it
     DestroyMenu(hMenu); 

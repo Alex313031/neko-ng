@@ -13,7 +13,7 @@ CPet::CPet()
 	//prepare empty icon table
 	m_nIcons = 0;
 	m_nLastIcon = -1;
-	m_hIcons = NULL;
+	m_hIcons = nullptr;
 
 	//set initial and old position
 	m_ptPosition.x = 0;
@@ -95,7 +95,7 @@ void CPet::DestroyImages()
 
 		//delete the table
 		delete[] m_hIcons;
-		m_hIcons = NULL;
+		m_hIcons = nullptr;
 	}
 }
 

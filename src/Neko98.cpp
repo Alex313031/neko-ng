@@ -11,14 +11,14 @@
 #include "Neko.h"
 
 //global variables
-HINSTANCE g_hInstance = NULL;
-HWND g_hWndMain = NULL;
+HINSTANCE g_hInstance = nullptr;
+HWND g_hWndMain = nullptr;
 BOOL g_fTaskbar = TRUE;
-CTray * Tray = NULL;
+CTray * Tray = nullptr;
 
 int g_nNumCats = 0;
 typedef CNeko* PNeko;
-PNeko* g_NekoArray = NULL; //array of CNeko pointers
+PNeko* g_NekoArray = nullptr; //array of CNeko pointers
 DWORD g_dwSleepTime = 100;
 
 BOOL g_fNeedReinit = TRUE;
@@ -29,7 +29,7 @@ static HICON kSmallIcon = nullptr;
 /* ExecuteConfigProcess - runs the configuration program *******************************/
 static bool ExecuteConfigProcess() {
   if ((int)(INT_PTR)ShellExecuteW(nullptr, L"open", L"neko_cfg.exe", 0, L"", SW_SHOWNORMAL) <= 32 ) {
-    MessageBoxW( NULL, L"Neko was unable to start the configuration program\n'neko_cfg.exe'\n\nMake sure that this file is in the same folder as the main Neko-ng program.", L"Configure Neko-ng", MB_ICONEXCLAMATION );
+    MessageBoxW( nullptr, L"Neko was unable to start the configuration program\n'neko_cfg.exe'\n\nMake sure that this file is in the same folder as the main Neko-ng program.", L"Configure Neko-ng", MB_ICONEXCLAMATION );
     return false;
   } else {
     return true;
@@ -190,18 +190,18 @@ static BOOL InitApplication(HINSTANCE hInstance) {
     wc.cbClsExtra = 0;
     wc.cbWndExtra = 0;
     wc.hInstance = hInstance;
-    wc.hIcon = NULL;
-    wc.hCursor = NULL;
+    wc.hIcon = nullptr;
+    wc.hCursor = nullptr;
     wc.hbrBackground = (HBRUSH)(COLOR_WINDOW+1);
-    wc.lpszMenuName = NULL;
+    wc.lpszMenuName = nullptr;
     wc.lpszClassName = szNekoClassName;
 
     if( RegisterClassW(&wc) )
     {
         //create the window
-        g_hWndMain = CreateWindowW( szNekoClassName, szNekoWindowTitle, WS_OVERLAPPEDWINDOW, 0, 0, 0, 0, NULL, NULL, hInstance, NULL);
+        g_hWndMain = CreateWindowW( szNekoClassName, szNekoWindowTitle, WS_OVERLAPPEDWINDOW, 0, 0, 0, 0, nullptr, nullptr, hInstance, nullptr);
 
-		if( g_hWndMain == NULL ) return FALSE;
+		if( g_hWndMain == nullptr ) return FALSE;
     }
 	else
 		return FALSE;
@@ -220,7 +220,7 @@ int APIENTRY wWinMain(HINSTANCE hInstance,
   UNREFERENCED_PARAMETER(hPrevInstance);
 	//check for previous version & unload both if it's found
 	HWND hWndOld = FindWindowW( szNekoClassName, szNekoWindowTitle );
-	if( hWndOld != NULL )
+	if( hWndOld != nullptr )
 	{
 		PostMessageW( hWndOld, WM_QUIT, 0, 0 );
 		return FALSE;
@@ -236,10 +236,10 @@ int APIENTRY wWinMain(HINSTANCE hInstance,
     Tray = new CTray( hInstance );
 
     //set a timer to update Neko
-    SetTimer( g_hWndMain, ID_TIMER_NEKO, 200, NULL );
+    SetTimer( g_hWndMain, ID_TIMER_NEKO, 200, nullptr );
 
     MSG msg;
-    while( GetMessageW( &msg, NULL, 0, 0 ) )
+    while( GetMessageW( &msg, nullptr, 0, 0 ) )
     {
 		//pass the message onto our WndProc
 		TranslateMessage( &msg );

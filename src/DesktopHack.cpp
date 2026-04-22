@@ -12,8 +12,8 @@
 #define ENUM_GETDESKTOP     3
 
 //variables used by callback function
-HWND g_hWndDesktop = NULL;
-HWND g_hWndShellDefView = NULL;
+HWND g_hWndDesktop = nullptr;
+HWND g_hWndShellDefView = nullptr;
 BOOL g_fActiveDesktop = FALSE;
 
 //callback function prototype
@@ -45,8 +45,8 @@ CDesktopHack::~CDesktopHack()
 void CDesktopHack::FindDesktopHandle()
 {
     //reset everything
-	g_hWndDesktop = NULL;
-	g_hWndShellDefView = NULL;
+	g_hWndDesktop = nullptr;
+	g_hWndShellDefView = nullptr;
 	g_fActiveDesktop = FALSE;
 	m_fNoChicagoDesktop = FALSE;
 
@@ -54,7 +54,7 @@ void CDesktopHack::FindDesktopHandle()
     EnumWindows( (WNDENUMPROC)DesktopHunter, ENUM_ALLWINDOWS );
 
     //if no desktop was found, we're running on a non-chicago style shell (win32s/NT3)
-    if( g_hWndDesktop == NULL )
+    if( g_hWndDesktop == nullptr )
     {
         m_fNoChicagoDesktop = TRUE;
         g_hWndDesktop = GetDesktopWindow();
@@ -90,7 +90,7 @@ BOOL CALLBACK DesktopHunter( HWND hWnd, LPARAM lParam )
             if( lstrcmpiW( szBuffer, L"Progman" ) == 0 )
             {
                 EnumChildWindows( hWnd, (WNDENUMPROC)DesktopHunter, ENUM_SHELLDEFVIEW );
-                return ( g_hWndDesktop == NULL ); //keep looking if it's not found
+                return ( g_hWndDesktop == nullptr ); //keep looking if it's not found
             }
             break;
 

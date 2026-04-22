@@ -10,16 +10,16 @@
 
 CNekoSettings::CNekoSettings( LPCWSTR key, BOOL fCreate /*TRUE*/ )
 {
-	m_hKey = NULL;
+	m_hKey = nullptr;
 	if( fCreate )
 	{
 		DWORD dwDisposition;
-		RegCreateKeyExW( HKEY_CURRENT_USER, key, 0, NULL, REG_OPTION_NON_VOLATILE, KEY_ALL_ACCESS, NULL, &m_hKey, &dwDisposition );
+		RegCreateKeyExW( HKEY_CURRENT_USER, key, 0, nullptr, REG_OPTION_NON_VOLATILE, KEY_ALL_ACCESS, nullptr, &m_hKey, &dwDisposition );
 	}
 	else
 	{
 		if( RegOpenKeyExW( HKEY_CURRENT_USER, key, 0, KEY_READ|KEY_WRITE, &m_hKey ) != ERROR_SUCCESS )
-			m_hKey = NULL;
+			m_hKey = nullptr;
 	}
 }
 
@@ -30,27 +30,27 @@ CNekoSettings::~CNekoSettings()
 
 BOOL CNekoSettings::IsOpen()
 {
-	return( m_hKey != NULL );
+	return( m_hKey != nullptr );
 }
 
 BOOL CNekoSettings::GetString( LPCWSTR keyname, LPWSTR result, ULONG size )
 {
     DWORD dwType;
-    return ( RegQueryValueExW( m_hKey, keyname, NULL, &dwType, (LPBYTE)result, &size ) == ERROR_SUCCESS );
+    return ( RegQueryValueExW( m_hKey, keyname, nullptr, &dwType, (LPBYTE)result, &size ) == ERROR_SUCCESS );
 }
 
 BOOL CNekoSettings::GetInt( LPCWSTR keyname, DWORD * result )
 {
     DWORD dwType;
     ULONG ulSize = sizeof(DWORD);
-    return ( RegQueryValueExW( m_hKey, keyname, NULL, &dwType, (LPBYTE)result, &ulSize ) == ERROR_SUCCESS );
+    return ( RegQueryValueExW( m_hKey, keyname, nullptr, &dwType, (LPBYTE)result, &ulSize ) == ERROR_SUCCESS );
 }
 
 BOOL CNekoSettings::GetBool( LPCWSTR keyname, BOOL * result )
 {
     DWORD dwType;
     ULONG ulSize = sizeof(BOOL);
-    return ( RegQueryValueExW( m_hKey, keyname, NULL, &dwType, (LPBYTE)result, &ulSize ) == ERROR_SUCCESS );
+    return ( RegQueryValueExW( m_hKey, keyname, nullptr, &dwType, (LPBYTE)result, &ulSize ) == ERROR_SUCCESS );
 }
 
 

@@ -35,7 +35,7 @@ extern HINSTANCE g_hInstance;
 CNeko::CNeko( LPCWSTR lpszName )
 {
 	//store pet
-	m_pPet = NULL;
+	m_pPet = nullptr;
 
     //plug icons into animation table
 	m_nAnimation[STOP][0]	 = 28;      m_nAnimation[STOP][1] =	    28;
@@ -125,7 +125,7 @@ CNeko::CNeko( LPCWSTR lpszName )
     }
 
     //initialse footprint icons
-    for( int i = 0; i < 8; i++ ) m_hIconFootprints[i] = NULL;
+    for( int i = 0; i < 8; i++ ) m_hIconFootprints[i] = nullptr;
 
     //apply scaling
     m_pPet->SetScale( ((float)m_dwScale / 100.0f ) );
@@ -135,7 +135,7 @@ CNeko::CNeko( LPCWSTR lpszName )
 	if( *m_szLibname == L'\0' || ((INT_PTR)ExtractIconW( g_hInstance, m_szLibname, -1 ) < 32 ))
     {
         //use default images if there is no file or not enough icons
-		GetModuleFileNameW( NULL, m_szLibname, MAX_PATH );
+		GetModuleFileNameW( nullptr, m_szLibname, MAX_PATH );
 		fLoadProblems = !LoadImages();
     }
 	else
@@ -145,7 +145,7 @@ CNeko::CNeko( LPCWSTR lpszName )
 		if( fLoadProblems ) 
 		{
 			//use default images if it fails with the user's choice
-			GetModuleFileNameW( NULL, m_szLibname, MAX_PATH );
+			GetModuleFileNameW( nullptr, m_szLibname, MAX_PATH );
 			fLoadProblems = !LoadImages();
 		}
 	}
@@ -498,7 +498,7 @@ BOOL CNeko::LoadImages()
 
         WCHAR szBuffer[1024];
         wsprintfW( szBuffer, L"There are not enough icons in this icon library\n%s\nIt must contain at least 32 icons", m_szLibname );
-        MessageBoxW( NULL, szBuffer, L"Error", MB_ICONERROR|MB_TASKMODAL );
+        MessageBoxW( nullptr, szBuffer, L"Error", MB_ICONERROR|MB_TASKMODAL );
 		return FALSE;
 	}
 
@@ -643,19 +643,19 @@ void CNeko::Update()
             switch( GetState() )
             {
                 case AWAKE:
-                    PlaySoundW( m_szSndAwake, NULL, SND_NOSTOP|SND_NOWAIT|SND_FILENAME|SND_NODEFAULT|SND_ASYNC );
+                    PlaySoundW( m_szSndAwake, nullptr, SND_NOSTOP|SND_NOWAIT|SND_FILENAME|SND_NODEFAULT|SND_ASYNC );
                     break;
 
                 case SLEEP:
-                    PlaySoundW( m_szSndSleep, NULL, SND_NOSTOP|SND_NOWAIT|SND_FILENAME|SND_NODEFAULT|SND_ASYNC );
+                    PlaySoundW( m_szSndSleep, nullptr, SND_NOSTOP|SND_NOWAIT|SND_FILENAME|SND_NODEFAULT|SND_ASYNC );
                     break;
 
 				default:
                     switch( rand()%3 )
                     {
-                        case 0:  PlaySoundW( m_szSndIdle1, NULL, SND_NOSTOP|SND_NOWAIT|SND_FILENAME|SND_NODEFAULT|SND_ASYNC ); break;
-                        case 1:  PlaySoundW( m_szSndIdle2, NULL, SND_NOSTOP|SND_NOWAIT|SND_FILENAME|SND_NODEFAULT|SND_ASYNC ); break;
-                        default: PlaySoundW( m_szSndIdle3, NULL, SND_NOSTOP|SND_NOWAIT|SND_FILENAME|SND_NODEFAULT|SND_ASYNC ); break;
+                        case 0:  PlaySoundW( m_szSndIdle1, nullptr, SND_NOSTOP|SND_NOWAIT|SND_FILENAME|SND_NODEFAULT|SND_ASYNC ); break;
+                        case 1:  PlaySoundW( m_szSndIdle2, nullptr, SND_NOSTOP|SND_NOWAIT|SND_FILENAME|SND_NODEFAULT|SND_ASYNC ); break;
+                        default: PlaySoundW( m_szSndIdle3, nullptr, SND_NOSTOP|SND_NOWAIT|SND_FILENAME|SND_NODEFAULT|SND_ASYNC ); break;
                     }
                 break;
             }

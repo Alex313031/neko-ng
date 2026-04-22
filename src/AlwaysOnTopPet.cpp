@@ -23,11 +23,11 @@ extern HINSTANCE g_hInstance;
 CAlwaysOnTopPet::CAlwaysOnTopPet() : CPet()
 {
 	//clear regions
-	m_hRgns = NULL;
+	m_hRgns = nullptr;
 
 	//initialise members
 	m_fBeingDragged = FALSE;
-	m_hWndOnTop = NULL;
+	m_hWndOnTop = nullptr;
 
 	//register class
 	if( m_fRegisteredClass == FALSE )
@@ -39,10 +39,10 @@ CAlwaysOnTopPet::CAlwaysOnTopPet() : CPet()
 		wc.cbClsExtra    = 0;
 		wc.cbWndExtra    = sizeof(LPVOID);
 		wc.hInstance     = g_hInstance;
-		wc.hIcon         = NULL;
-		wc.hCursor       = LoadCursorW( NULL, IDC_ARROW );
-		wc.hbrBackground = NULL;
-		wc.lpszMenuName  = NULL;
+		wc.hIcon         = nullptr;
+		wc.hCursor       = LoadCursorW( nullptr, IDC_ARROW );
+		wc.hbrBackground = nullptr;
+		wc.lpszMenuName  = nullptr;
 		wc.lpszClassName = g_szOnTopClassName;
 
 		m_fRegisteredClass = RegisterClassW(&wc);
@@ -74,12 +74,12 @@ void CAlwaysOnTopPet::Draw( int nImage )
 	{
 		//clip the window to the shape of the icon
 		HRGN hRgnCopy = CreateRectRgn( 0, 0, m_sizeImage.cx, m_sizeImage.cy );
-		CombineRgn( hRgnCopy, m_hRgns[nImage], NULL, RGN_COPY );
+		CombineRgn( hRgnCopy, m_hRgns[nImage], nullptr, RGN_COPY );
 		SetWindowRgn( m_hWndOnTop, hRgnCopy, TRUE );
 
 		//draw the current frame on the window
 		HDC hDC = GetDC( m_hWndOnTop );
-		DrawIconEx( hDC, 0, 0, m_hIcons[nImage], m_sizeImage.cx, m_sizeImage.cy, 0, NULL, DI_NORMAL );
+		DrawIconEx( hDC, 0, 0, m_hIcons[nImage], m_sizeImage.cx, m_sizeImage.cy, 0, nullptr, DI_NORMAL );
 		ReleaseDC( m_hWndOnTop, hDC );
 	}
 }
@@ -101,9 +101,9 @@ void CAlwaysOnTopPet::SetImages(HICON * hIconTable, int nIcons )
     BuildRegions();
 
 	//create the window if it doesn't exist already
-	if( m_hWndOnTop == NULL )
+	if( m_hWndOnTop == nullptr )
 	{
-        m_hWndOnTop = CreateWindowExW( WS_EX_TOPMOST|WS_EX_TOOLWINDOW, g_szOnTopClassName, NULL, WS_POPUP, m_ptPosition.x, m_ptPosition.y, m_sizeImage.cx, m_sizeImage.cy, NULL, NULL, g_hInstance, NULL );
+        m_hWndOnTop = CreateWindowExW( WS_EX_TOPMOST|WS_EX_TOOLWINDOW, g_szOnTopClassName, nullptr, WS_POPUP, m_ptPosition.x, m_ptPosition.y, m_sizeImage.cx, m_sizeImage.cy, nullptr, nullptr, g_hInstance, nullptr );
 
         if( m_hWndOnTop )
         {
@@ -130,13 +130,13 @@ void CAlwaysOnTopPet::DestroyImages()
 void CAlwaysOnTopPet::DrawOnTarget( int x, int y, HICON hIcon )
 {
     //grab the device context of the display
-    HDC hDC = GetDC( NULL );
+    HDC hDC = GetDC( nullptr );
 
     //draw the icon on it
-    DrawIconEx( hDC, x, y, hIcon, 0, 0, 0, NULL, DI_NORMAL );
+    DrawIconEx( hDC, x, y, hIcon, 0, 0, 0, nullptr, DI_NORMAL );
 
     //release the device context
-    ReleaseDC( NULL, hDC );
+    ReleaseDC( nullptr, hDC );
 }
 
 
@@ -159,10 +159,10 @@ LRESULT CALLBACK WndProc_OnTop( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
             {
     			//draw the current icon onto the window (we can't call draw because it checks for icon index and changes the window's region
 			    HDC hDC = GetDC( hWnd );
-			    DrawIconEx( hDC, 0, 0, pPet->m_hIcons[pPet->m_nLastIcon], pPet->GetSize().cx, pPet->GetSize().cy, 0, NULL, DI_NORMAL );
+			    DrawIconEx( hDC, 0, 0, pPet->m_hIcons[pPet->m_nLastIcon], pPet->GetSize().cx, pPet->GetSize().cy, 0, nullptr, DI_NORMAL );
 			    ReleaseDC( hWnd, hDC );
             }
-            ValidateRect( hWnd, NULL );
+            ValidateRect( hWnd, nullptr );
             break;
 		}
 
@@ -226,7 +226,7 @@ void CAlwaysOnTopPet::DestroyRegions()
     	//delete all regions and free the array
     	for( int i = 0; i < m_nIcons; i++ ) if( m_hRgns[i] ) DeleteObject( m_hRgns[i] );
     	delete[] m_hRgns;
-        m_hRgns = NULL;
+        m_hRgns = nullptr;
     }
 }
 
@@ -273,12 +273,12 @@ void CAlwaysOnTopPet::SetImage( int nImage )
 void CAlwaysOnTopPet::BuildRegions()
 {
 	//create a memory DC inside which we will scan the bitmap content
-	HDC hMemDC = CreateCompatibleDC(NULL);
+	HDC hMemDC = CreateCompatibleDC(nullptr);
 
 	//create a 32 bits depth bitmap and select it into the memory DC 
     BITMAPINFOHEADER bi = { sizeof(BITMAPINFOHEADER), int(m_sizeImage.cx/m_fScale), int(m_sizeImage.cy/m_fScale), 1, 16, BI_RGB, 0, 0, 0, 0, 0 };
 	VOID* pBitsDib; 
-	HBITMAP hBmDib = CreateDIBSection( hMemDC, (BITMAPINFO*)&bi, DIB_RGB_COLORS, &pBitsDib, NULL, 0 );
+	HBITMAP hBmDib = CreateDIBSection( hMemDC, (BITMAPINFO*)&bi, DIB_RGB_COLORS, &pBitsDib, nullptr, 0 );
 	HBITMAP hOldMemBmp = (HBITMAP)SelectObject( hMemDC, hBmDib );
 
 	//create a DC just to copy the bitmap into the memory DC
@@ -298,7 +298,7 @@ void CAlwaysOnTopPet::BuildRegions()
     //build all regions
 	for( int i = 0; i < m_nIcons; i++ )
     {
-        HRGN hRgn = NULL;
+        HRGN hRgn = nullptr;
 
         //extract icon mask image
         ICONINFO ii;

@@ -39,7 +39,7 @@ static DWORD dwHelpID[] = {
 /**************************************************************************************/
 
 //cat settings
-LPCATSETTINGS g_lpCurrentCat = NULL;
+LPCATSETTINGS g_lpCurrentCat = nullptr;
 #define MY_WRITESETTINGS (WM_USER+32)
 #define MY_READSETTINGS  (WM_USER+33)
 
@@ -53,18 +53,18 @@ BOOL CALLBACK PropPage_Sound( HWND hPage, UINT uMsg, WPARAM wParam, LPARAM lPara
 BOOL CALLBACK PropPage_Independence( HWND hPage, UINT uMsg, WPARAM wParam, LPARAM lParam );
 BOOL CALLBACK PropPage_Effects( HWND hPage, UINT uMsg, WPARAM wParam, LPARAM lParam );
 TABINITDATA tibTabs[NUM_PAGES] = {
-    { L"Display",      IDD_DISPLAY,      (DLGPROC)PropPage_Display,      IDI_TAB_DISPLAY,      NULL },
-    { L"Movement",     IDD_MOVEMENT,     (DLGPROC)PropPage_Movement,     IDI_TAB_MOVEMENT,     NULL },
-    { L"Sound",        IDD_SOUND,        (DLGPROC)PropPage_Sound,        IDI_TAB_SOUNDS,       NULL },
-    { L"Behavior",     IDD_INDEPENDENCE, (DLGPROC)PropPage_Independence, IDI_TAB_INDEPENDENCE, NULL },
-    { L"Effects",      IDD_EFFECTS,      (DLGPROC)PropPage_Effects,      IDI_TAB_EFFECTS,      NULL },
+    { L"Display",      IDD_DISPLAY,      (DLGPROC)PropPage_Display,      IDI_TAB_DISPLAY,      nullptr },
+    { L"Movement",     IDD_MOVEMENT,     (DLGPROC)PropPage_Movement,     IDI_TAB_MOVEMENT,     nullptr },
+    { L"Sound",        IDD_SOUND,        (DLGPROC)PropPage_Sound,        IDI_TAB_SOUNDS,       nullptr },
+    { L"Behavior",     IDD_INDEPENDENCE, (DLGPROC)PropPage_Independence, IDI_TAB_INDEPENDENCE, nullptr },
+    { L"Effects",      IDD_EFFECTS,      (DLGPROC)PropPage_Effects,      IDI_TAB_EFFECTS,      nullptr },
 };
 
-HWND g_hDlgDisplay = NULL;      //current child dialog
-HWND g_hWndTab = NULL;          //tab control
+HWND g_hDlgDisplay = nullptr;      //current child dialog
+HWND g_hWndTab = nullptr;          //tab control
 RECT g_rcTabStart;              //offset in dialog to draw tab pages
 
-HIMAGELIST g_himgTabIcons = NULL;
+HIMAGELIST g_himgTabIcons = nullptr;
 
 /**************************************************************************************/
 
@@ -121,7 +121,7 @@ void WINAPI OnSelChanged( HWND hWnd )
     int iSel = TabCtrl_GetCurSel( hWnd ); 
  
     //destroy the current child dialog box, if any. 
-    if( g_hDlgDisplay != NULL) ShowWindow( g_hDlgDisplay, SW_HIDE ); 
+    if( g_hDlgDisplay != nullptr) ShowWindow( g_hDlgDisplay, SW_HIDE ); 
  
     //create the new child dialog box. 
     g_hDlgDisplay = tibTabs[iSel].hDlg;
@@ -201,15 +201,15 @@ BOOL CALLBACK PropPage_Display( HWND hPage, UINT uMsg, WPARAM wParam, LPARAM lPa
 
                     ofn.lStructSize = sizeof(OPENFILENAMEW);
                     ofn.hwndOwner = hPage;
-                    ofn.hInstance = NULL;
+                    ofn.hInstance = nullptr;
                     ofn.lpstrFilter = lpstrFileMasks;
-                    ofn.lpstrCustomFilter = NULL;
+                    ofn.lpstrCustomFilter = nullptr;
                     ofn.nFilterIndex = 1;
                     ofn.lpstrFile = lpstrLibrary;
                     ofn.nMaxFile = MAX_PATH-1;
-                    ofn.lpstrFileTitle = NULL;
+                    ofn.lpstrFileTitle = nullptr;
                     ofn.nMaxFileTitle = 0;
-                    ofn.lpstrInitialDir = NULL;
+                    ofn.lpstrInitialDir = nullptr;
                     ofn.lpstrTitle = L"Select Image Library";
                     ofn.Flags = OFN_EXPLORER|OFN_HIDEREADONLY|OFN_PATHMUSTEXIST|OFN_FILEMUSTEXIST;
                     ofn.lpstrDefExt = L"icl";
@@ -295,7 +295,7 @@ BOOL CALLBACK PropPage_Movement( HWND hPage, UINT uMsg, WPARAM wParam, LPARAM lP
 /* PropPage_Sound - message processsing function for the 'sound' property page */
 BOOL CALLBACK PropPage_Sound( HWND hPage, UINT uMsg, WPARAM wParam, LPARAM lParam )
 {
-    static HCURSOR s_hcPlaying = NULL;
+    static HCURSOR s_hcPlaying = nullptr;
 
     switch( uMsg )
     {
@@ -367,8 +367,8 @@ BOOL CALLBACK PropPage_Sound( HWND hPage, UINT uMsg, WPARAM wParam, LPARAM lPara
                     if( lpszFile[0] != L'\0' )
                     {
                         SetCursor( s_hcPlaying );
-                        if( !PlaySoundW( lpszFile, NULL, SND_FILENAME|SND_NODEFAULT|SND_SYNC ) ) MessageBoxW( hPage, L"Unable to start playing wave file!", L"Preview Sound", MB_ICONEXCLAMATION );
-                        SetCursor( LoadCursorW( NULL, IDC_ARROW ) );
+                        if( !PlaySoundW( lpszFile, nullptr, SND_FILENAME|SND_NODEFAULT|SND_SYNC ) ) MessageBoxW( hPage, L"Unable to start playing wave file!", L"Preview Sound", MB_ICONEXCLAMATION );
+                        SetCursor( LoadCursorW( nullptr, IDC_ARROW ) );
                     }
                     break;
                 }
@@ -401,15 +401,15 @@ BOOL CALLBACK PropPage_Sound( HWND hPage, UINT uMsg, WPARAM wParam, LPARAM lPara
                     //get the current file
                     ofn.lStructSize = sizeof(OPENFILENAMEW);
                     ofn.hwndOwner = hPage;
-                    ofn.hInstance = NULL;
+                    ofn.hInstance = nullptr;
                     ofn.lpstrFilter = lpstrFileMasks;
-                    ofn.lpstrCustomFilter = NULL;
+                    ofn.lpstrCustomFilter = nullptr;
                     ofn.nFilterIndex = 1;
                     ofn.lpstrFile = szSoundName;
                     ofn.nMaxFile = MAX_PATH-1;
-                    ofn.lpstrFileTitle = NULL;
+                    ofn.lpstrFileTitle = nullptr;
                     ofn.nMaxFileTitle = 0;
-                    ofn.lpstrInitialDir = NULL;
+                    ofn.lpstrInitialDir = nullptr;
                     ofn.lpstrTitle = szPrompt;
                     ofn.Flags = OFN_EXPLORER|OFN_HIDEREADONLY|OFN_PATHMUSTEXIST|OFN_FILEMUSTEXIST;
                     ofn.lpstrDefExt = L"WAV";
@@ -556,15 +556,15 @@ BOOL CALLBACK PropPage_Effects( HWND hPage, UINT uMsg, WPARAM wParam, LPARAM lPa
 
                     ofn.lStructSize = sizeof(OPENFILENAMEW);
                     ofn.hwndOwner = hPage;
-                    ofn.hInstance = NULL;
+                    ofn.hInstance = nullptr;
                     ofn.lpstrFilter = lpstrFileMasks;
-                    ofn.lpstrCustomFilter = NULL;
+                    ofn.lpstrCustomFilter = nullptr;
                     ofn.nFilterIndex = 1;
                     ofn.lpstrFile = lpstrLibrary;
                     ofn.nMaxFile = MAX_PATH-1;
-                    ofn.lpstrFileTitle = NULL;
+                    ofn.lpstrFileTitle = nullptr;
                     ofn.nMaxFileTitle = 0;
-                    ofn.lpstrInitialDir = NULL;
+                    ofn.lpstrInitialDir = nullptr;
                     ofn.lpstrTitle = L"Select Footprint Image Library";
                     ofn.Flags = OFN_EXPLORER|OFN_HIDEREADONLY|OFN_PATHMUSTEXIST|OFN_FILEMUSTEXIST;
                     ofn.lpstrDefExt = L"icl";
