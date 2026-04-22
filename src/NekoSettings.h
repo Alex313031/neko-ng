@@ -9,8 +9,6 @@
 
 #include "framework.h"
 
-#include "NekoCommon.h"
-
 class CNekoSettings {
 public:
     CNekoSettings( LPCWSTR key, BOOL fCreate = TRUE );
