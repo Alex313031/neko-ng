@@ -10,7 +10,10 @@ executable("neko_cfg") {
     "NekoCFG.rc",
     "NekoCFG_resource.h",
     "NekoCFG_Tabs.cpp",
+    # TODO: Make static library, so exe's are independent of one another
     "../NekoSettings.cpp",
+    "../NekoSettings.h",
+    "../version.h",
   ]
 
   deps = [
@@ -20,7 +23,7 @@ executable("neko_cfg") {
 
 # neko_cfg specific configs
 config("neko_cfg_config") {
-  defines = [ "NEKO_CFG", ]
+  defines = [ "NEKO_SETTINGS_SHARED", ]
 
   include_dirs = [ "./", ]
 

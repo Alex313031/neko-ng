@@ -9,7 +9,10 @@
 
 #include <wctype.h>
 
-#include "../NekoCommon.h"
+#ifdef NEKO_SETTINGS_SHARED
+ #include "../NekoCommon.h"
+ #include "../NekoSettings.h"
+#endif
 
 //structures
 typedef struct tagTABINITDATA {

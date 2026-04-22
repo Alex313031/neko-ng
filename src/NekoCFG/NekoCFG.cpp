@@ -8,7 +8,6 @@
 *****************/
 
 #include "NekoCFG.h"
-#include "../NekoSettings.h"
 #include "NekoCFG_resource.h"
 #include "NekoCFG_resource.hm"
 
