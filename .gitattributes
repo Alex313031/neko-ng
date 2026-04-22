@@ -36,6 +36,7 @@
 *.cmd text eol=crlf
 *.rc text eol=crlf
 
+*.CNT eol=crlf
 *.GID eol=crlf
 *.HPJ eol=crlf
 /src/NekoHelp/Neko98.RTF eol=crlf
