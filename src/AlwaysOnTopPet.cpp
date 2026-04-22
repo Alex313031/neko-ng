@@ -282,8 +282,13 @@ void CAlwaysOnTopPet::BuildRegions()
 	//create a memory DC inside which we will scan the bitmap content
 	HDC hMemDC = CreateCompatibleDC(nullptr);
 
-	//create a 32 bits depth bitmap and select it into the memory DC 
-    BITMAPINFOHEADER bi = { sizeof(BITMAPINFOHEADER), int(m_sizeImage.cx/m_fScale), int(m_sizeImage.cy/m_fScale), 1, 16, BI_RGB, 0, 0, 0, 0, 0 };
+	//create a 32-bpp bitmap at the icon's native (unscaled) size and select it
+	//into the memory DC. Using m_sizeOriginal instead of recovering the size
+	//via int(m_sizeImage.cx/m_fScale) — the latter truncates at fractional
+	//scales and undersizes the DIB by 1 pixel, causing the scan loop below
+	//to read past the buffer on the last row (silent on XP, access violation
+	//on Vista+).
+    BITMAPINFOHEADER bi = { sizeof(BITMAPINFOHEADER), m_sizeOriginal.cx, m_sizeOriginal.cy, 1, 16, BI_RGB, 0, 0, 0, 0, 0 };
 	VOID* pBitsDib; 
 	HBITMAP hBmDib = CreateDIBSection( hMemDC, (BITMAPINFO*)&bi, DIB_RGB_COLORS, &pBitsDib, nullptr, 0 );
 	HBITMAP hOldMemBmp = (HBITMAP)SelectObject( hMemDC, hBmDib );

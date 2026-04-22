@@ -24,6 +24,8 @@ CPet::CPet()
 	//set initial size and scale
 	m_sizeImage.cx = 0;
 	m_sizeImage.cy = 0;
+	m_sizeOriginal.cx = 0;
+	m_sizeOriginal.cy = 0;
     m_fScale = 1.0f;
 
 	//set initial bounding box (none)
@@ -78,7 +80,9 @@ void CPet::SetImages( HICON* hIconTable, int nIcons )
     DeleteObject( ii.hbmMask );
     DeleteObject( ii.hbmColor );
 
-    //calculate scaled size
+    //record the mask's native size and the scaled display size
+	m_sizeOriginal.cx = bm.bmWidth;
+	m_sizeOriginal.cy = bm.bmHeight;
 	m_sizeImage.cx = int( bm.bmWidth * m_fScale );
 	m_sizeImage.cy = int( bm.bmHeight * m_fScale );
 }

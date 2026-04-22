@@ -52,7 +52,10 @@ protected:
 	//position & size information
 	POINT m_ptPosition;
 	POINT m_ptOldPosition;
-	SIZE  m_sizeImage;
+	SIZE  m_sizeImage;     // scaled (display) size
+	SIZE  m_sizeOriginal;  // unscaled icon mask size — kept verbatim from the
+	                       // mask bitmap so region-building doesn't have to
+	                       // reconstruct it via lossy int(scaled/m_fScale).
 	float m_fScale;
 
 	//bounding box information
