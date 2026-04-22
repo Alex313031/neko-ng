@@ -113,6 +113,7 @@ static LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM 
             switch(LOWORD(wParam))
             {
                 case IDC_ABOUT:
+                    PlaySoundW(L"SystemNotification", nullptr, SND_ASYNC);
                     DialogBoxW( g_hInstance, MAKEINTRESOURCEW(IDD_ABOUTBOX), hWnd, (DLGPROC)AboutDlgProc );
                     break;
                 case ID_SETTINGS:

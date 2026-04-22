@@ -138,9 +138,9 @@ BEGIN
     PUSHBUTTON      "Add &New Neko",IDC_NEW,8,108,75,14,0,0,HIDC_NEW
     PUSHBUTTON      "&Delete",IDC_DELETE,87,108,46,14,0,0,HIDC_DELETE
     GROUPBOX        "&General",IDC_STATIC,8,131,125,52
-    PUSHBUTTON      "&Run/Stop Neko", IDC_OPENMAIN, 16,144,80,14,0
+    PUSHBUTTON      "&Run/Stop Neko", IDC_OPENMAIN, 14,144,80,14,0
     CONTROL         "Show &icon in taskbar",IDC_TASKBAR,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,16,164,80,10,0,HIDC_TASKBAR
+                    BS_AUTOCHECKBOX | WS_TABSTOP,14,164,80,10,0,HIDC_TASKBAR
     PUSHBUTTON      "&About",IDC_ABOUT,8,189,50,14,0,0,HIDC_ABOUT
     PUSHBUTTON      "&Help",IDC_HELP32,62,189,50,14,0,0,HIDC_HELP
     CONTROL         "Tab1",IDC_TABS,"SysTabControl32",TCS_MULTILINE | 
@@ -199,7 +199,7 @@ CAPTION "New Neko"
 FONT 8, "MS Shell Dlg 2"
 BEGIN
     ICON            IDI_DEFAULT,IDC_STATIC,7,9,20,20
-    LTEXT           "Enter the &name for your new Neko:",IDC_STATIC,38,7,111,
+    LTEXT           "Enter the &name for your new Neko:",IDC_STATIC,38,7,132,
                     8
     COMBOBOX        IDC_NEWNEKONAME,38,16,168,78,CBS_DROPDOWN | CBS_SORT | 
                     WS_VSCROLL | WS_TABSTOP
@@ -241,8 +241,8 @@ BEGIN
                     NOT WS_BORDER,0,HIDC_IMAGELIB
     PUSHBUTTON      "&Change...",IDC_CHANGE,32,110,50,14,0,0,HIDC_CHANGE
     PUSHBUTTON      "&Use Default",IDC_DEFAULT,88,110,50,14,0,0,HIDC_DEFAULT
-    CONTROL         "Alwa&ys On Top",IDC_ALWAYSONTOP,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,8,132,64,10,0,
+    CONTROL         "Alwa&ys Put Neko On Top",IDC_ALWAYSONTOP,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,8,132,90,10,0,
                     HIDC_ALWAYSONTOP
 END
 

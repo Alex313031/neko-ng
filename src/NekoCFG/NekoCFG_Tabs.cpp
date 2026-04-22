@@ -56,7 +56,7 @@ TABINITDATA tibTabs[NUM_PAGES] = {
     { L"Display",      IDD_DISPLAY,      (DLGPROC)PropPage_Display,      IDI_TAB_DISPLAY,      NULL },
     { L"Movement",     IDD_MOVEMENT,     (DLGPROC)PropPage_Movement,     IDI_TAB_MOVEMENT,     NULL },
     { L"Sound",        IDD_SOUND,        (DLGPROC)PropPage_Sound,        IDI_TAB_SOUNDS,       NULL },
-    { L"Independence", IDD_INDEPENDENCE, (DLGPROC)PropPage_Independence, IDI_TAB_INDEPENDENCE, NULL },
+    { L"Behavior",     IDD_INDEPENDENCE, (DLGPROC)PropPage_Independence, IDI_TAB_INDEPENDENCE, NULL },
     { L"Effects",      IDD_EFFECTS,      (DLGPROC)PropPage_Effects,      IDI_TAB_EFFECTS,      NULL },
 };
 

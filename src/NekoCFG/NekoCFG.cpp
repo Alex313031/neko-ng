@@ -298,6 +298,7 @@ BOOL CALLBACK DlgProc_Config( HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam
                     break;
 
                 case IDC_ABOUT:
+                    PlaySoundW(L"SystemNotification", nullptr, SND_ASYNC);
                     DialogBoxW( g_hInstance, MAKEINTRESOURCEW(IDD_ABOUTBOX), hDlg, (DLGPROC)DlgProc_About );
                     break;
 
