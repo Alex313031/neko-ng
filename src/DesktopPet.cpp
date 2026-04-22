@@ -16,8 +16,14 @@ CDesktopPet::CDesktopPet() : CPet(), CDesktopHack()
 	//clear the update counter
 	m_nUpdateHWndCounter = 0;
 
-	//set bounds
-	GetDesktopRect( m_rcBounds );
+	// Span the virtual screen (union of all monitor bounds). The virtual-screen
+	// origin can be negative — SM_XVIRTUALSCREEN/SM_YVIRTUALSCREEN — when a
+	// secondary monitor sits to the left of or above the primary.
+	const int x  = GetSystemMetrics(SM_XVIRTUALSCREEN);
+	const int y  = GetSystemMetrics(SM_YVIRTUALSCREEN);
+	const int cx = GetSystemMetrics(SM_CXVIRTUALSCREEN);
+	const int cy = GetSystemMetrics(SM_CYVIRTUALSCREEN);
+	SetRect(&m_rcBounds, x, y, x + cx - 1, y + cy - 1);
 }
 
 CDesktopPet::~CDesktopPet()
@@ -46,7 +52,11 @@ void CDesktopPet::Draw( int nImage )
 	if( ++m_nUpdateHWndCounter > UPDATE_COUNTER_MAX )
 	{
 		FindDesktopHandle();
-		GetDesktopRect( m_rcBounds );
+		const int x  = GetSystemMetrics(SM_XVIRTUALSCREEN);
+		const int y  = GetSystemMetrics(SM_YVIRTUALSCREEN);
+		const int cx = GetSystemMetrics(SM_CXVIRTUALSCREEN);
+		const int cy = GetSystemMetrics(SM_CYVIRTUALSCREEN);
+		SetRect(&m_rcBounds, x, y, x + cx - 1, y + cy - 1);
 	}
 }
 

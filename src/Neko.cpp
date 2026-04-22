@@ -179,9 +179,13 @@ CNeko::CNeko( LPCWSTR lpszName )
     //set initial state
 	SetState( STOP );
 
-    //set initial action
-    m_nActionX = m_pPet->GetBoundsRect().left + ( rand() % (m_pPet->GetBoundsRect().right-(m_dwSpeed * 8)) );
-    m_nActionY = m_pPet->GetBoundsRect().top + ( rand() % (m_pPet->GetBoundsRect().bottom-(m_dwSpeed * 8)) );
+    //set initial action — modulus range must be the bounds' width/height
+    //(not an absolute right/bottom, which can be negative on multi-monitor).
+    {
+        const RECT rcB = m_pPet->GetBoundsRect();
+        m_nActionX = rcB.left + ( rand() % ( rcB.right  - rcB.left - (m_dwSpeed * 8) ) );
+        m_nActionY = rcB.top  + ( rand() % ( rcB.bottom - rcB.top  - (m_dwSpeed * 8) ) );
+    }
     m_nActionDX = ((( rand() % 2 ) ? 1 : -1) * (m_dwSpeed/2)) + 1;
 	m_nActionDY = ((( rand() % 2 ) ? 1 : -1) * (m_dwSpeed/2)) + 1;
 
@@ -309,13 +313,16 @@ void CNeko::RunTowards(int nX, int nY)
                 SetState( AWAKE );
             else if( m_uStateCount >= STOP_TIME )
             {
-                if( m_nDX < 0 && m_pPet->GetPosition().x <= 0 )
+                const RECT rcB = m_pPet->GetBoundsRect();
+                const POINT pt = m_pPet->GetPosition();
+                const SIZE sz = m_pPet->GetSize();
+                if( m_nDX < 0 && pt.x <= rcB.left )
                     SetState( L_CLAW );
-                else if( m_nDX > 0 && m_pPet->GetPosition().x >= ( m_pPet->GetBoundsRect().right - m_pPet->GetBoundsRect().left ) - m_pPet->GetSize().cx )
+                else if( m_nDX > 0 && pt.x >= rcB.right - sz.cx )
                     SetState( R_CLAW );
-                else if( m_nDY < 0 && m_pPet->GetPosition().y <= 0 )
+                else if( m_nDY < 0 && pt.y <= rcB.top )
                     SetState( U_CLAW );
-                else if( m_nDY > 0 && m_pPet->GetPosition().y >= ( m_pPet->GetBoundsRect().bottom - m_pPet->GetBoundsRect().top ) - m_pPet->GetSize().cy )
+                else if( m_nDY > 0 && pt.y >= rcB.bottom - sz.cy )
                     SetState( D_CLAW );
                 else
                     SetState( WASH );
@@ -360,19 +367,23 @@ void CNeko::RunTowards(int nX, int nY)
         case DL_MOVE:
         case DR_MOVE:
 		{
-			//make sure Neko does not go outside boundary area
+			//make sure Neko does not go outside boundary area — use the bounds'
+			//absolute coordinates (which may start at negative X/Y on multi-monitor
+			//virtual-screen setups with a secondary monitor left of / above primary).
+            const RECT rcB = m_pPet->GetBoundsRect();
             int nX = m_pPet->GetPosition().x, nY = m_pPet->GetPosition().y;
 			int nNewX = nX + m_nDX, nNewY = nY + m_nDY;
-            int nWidth = ( m_pPet->GetBoundsRect().right - m_pPet->GetBoundsRect().left ) - m_pPet->GetSize().cx;
-            int nHeight = ( m_pPet->GetBoundsRect().bottom - m_pPet->GetBoundsRect().top ) - m_pPet->GetSize().cy;
-			BOOL fOutside = ( nNewX <= 0 || nNewX >= nWidth || nNewY <= 0 || nNewY >= nHeight );
+            const int nMinX = rcB.left, nMinY = rcB.top;
+            const int nMaxX = rcB.right  - m_pPet->GetSize().cx;
+            const int nMaxY = rcB.bottom - m_pPet->GetSize().cy;
+			BOOL fOutside = ( nNewX <= nMinX || nNewX >= nMaxX || nNewY <= nMinY || nNewY >= nMaxY );
 
 			//change the image and move Neko
 	        CalcDirection();
 
             //clip new x and y positions and see if we've moved anywhere
-            if( nNewX < 0 ) nNewX = 0; else if( nNewX > nWidth ) nNewX = nWidth;
-            if( nNewY < 0 ) nNewY = 0; else if( nNewY > nHeight ) nNewY = nHeight;
+            if( nNewX < nMinX ) nNewX = nMinX; else if( nNewX > nMaxX ) nNewX = nMaxX;
+            if( nNewY < nMinY ) nNewY = nMinY; else if( nNewY > nMaxY ) nNewY = nMaxY;
             BOOL fNotMoved = ( nNewX == nX ) && ( nNewY == nY );
 
             //stop if we can't go any further

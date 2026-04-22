@@ -48,8 +48,15 @@ CAlwaysOnTopPet::CAlwaysOnTopPet() : CPet()
 		m_fRegisteredClass = RegisterClassW(&wc);
 	}
 
-	//set bounding rectangle
-	SetRect( &m_rcBounds, 0, 0, GetSystemMetrics(SM_CXSCREEN)-1, GetSystemMetrics(SM_CYSCREEN)-1 );
+	//set bounding rectangle — span the full virtual screen, respecting a
+	//possibly-negative origin if a secondary monitor is left of / above primary.
+	{
+		const int x  = GetSystemMetrics(SM_XVIRTUALSCREEN);
+		const int y  = GetSystemMetrics(SM_YVIRTUALSCREEN);
+		const int cx = GetSystemMetrics(SM_CXVIRTUALSCREEN);
+		const int cy = GetSystemMetrics(SM_CYVIRTUALSCREEN);
+		SetRect(&m_rcBounds, x, y, x + cx - 1, y + cy - 1);
+	}
 
     //move this pet off-screen to start with
     m_ptPosition.x = m_rcBounds.right;
