@@ -29,3 +29,4 @@ Thumbs.db
 /src/x64/
 *Debug/
 *Release/
+/Output/
