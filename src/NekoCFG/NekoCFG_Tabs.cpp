@@ -43,6 +43,15 @@ LPCATSETTINGS g_lpCurrentCat = nullptr;
 #define MY_WRITESETTINGS (WM_USER+32)
 #define MY_READSETTINGS  (WM_USER+33)
 
+// Post WM_MARKDIRTY to the parent (main config dialog) whenever a tab-page
+// control's value is changed by the user. g_fInitialising gates out the
+// storm of phantom WM_COMMAND / EN_CHANGE events emitted while we populate
+// controls during WM_INITDIALOG / MY_READSETTINGS.
+static inline void MarkDirty( HWND hPage )
+{
+    PostMessageW( GetParent(hPage), WM_MARKDIRTY, 0, 0 );
+}
+
 /**************************************************************************************/
 //tab control data
 
@@ -134,7 +143,11 @@ void WINAPI SetActiveCat( LPCATSETTINGS lpCat )
 {
     GetDialogSettings();
     g_lpCurrentCat = lpCat;
+    // Programmatic updates from MY_READSETTINGS would otherwise be indistinguishable
+    // from user edits — guard the broadcast so no phantom MarkDirty is posted.
+    g_fInitialising = TRUE;
     for( int i = 0; i < NUM_PAGES; i++ ) SendMessageW( tibTabs[i].hDlg, MY_READSETTINGS, 0, 0 );
+    g_fInitialising = FALSE;
 }
 
 /* GetDialogSettings - causes all property pages to write their settings into the data structure */
@@ -174,6 +187,7 @@ BOOL CALLBACK PropPage_Display( HWND hPage, UINT uMsg, WPARAM wParam, LPARAM lPa
             WCHAR szBuffer[32];
             wsprintfW( szBuffer, L"%d%%", (int)(SendDlgItemMessageW( hPage, IDC_SCALESLIDER, TBM_GETPOS, 0, 0 ) * 10) );
             SetDlgItemTextW( hPage, IDC_SCALEDISPLAY, szBuffer );
+            MarkDirty( hPage );
             break;
         }
 
@@ -188,6 +202,11 @@ BOOL CALLBACK PropPage_Display( HWND hPage, UINT uMsg, WPARAM wParam, LPARAM lPa
 
                 case IDC_DEFAULT:
                     SetDlgItemTextW( hPage, IDC_IMAGELIB, L"" );
+                    MarkDirty( hPage );
+                    break;
+
+                case IDC_ALWAYSONTOP:
+                    MarkDirty( hPage );
                     break;
 
                 case IDC_CHANGE:
@@ -219,7 +238,10 @@ BOOL CALLBACK PropPage_Display( HWND hPage, UINT uMsg, WPARAM wParam, LPARAM lPa
                         if( (UINT)(UINT_PTR)ExtractIconW( g_hInstance, ofn.lpstrFile, (UINT)-1 ) < 32 )
                             MessageBoxW( hPage, L"That file does not have enough icons in it - it must have at least 32", L"Change Image Library", MB_ICONEXCLAMATION );
                         else
+                        {
                             SetDlgItemTextW( hPage, IDC_IMAGELIB, ofn.lpstrFile );
+                            MarkDirty( hPage );
+                        }
                     }
                     break;
                 }
@@ -269,6 +291,9 @@ BOOL CALLBACK PropPage_Movement( HWND hPage, UINT uMsg, WPARAM wParam, LPARAM lP
             SendDlgItemMessageW( hPage, IDC_SENSESLIDER, TBM_SETPOS, TRUE, MAX_SENSE - g_lpCurrentCat->uMouseSensitivity );
             break;
 
+        case WM_HSCROLL:
+            MarkDirty( hPage );
+            break;
 
         case WM_SHOWWINDOW:
             if( wParam ) SetWindowPos( hPage, HWND_TOP, g_rcTabStart.left, g_rcTabStart.top, 0, 0, SWP_NOSIZE );
@@ -335,6 +360,10 @@ BOOL CALLBACK PropPage_Sound( HWND hPage, UINT uMsg, WPARAM wParam, LPARAM lPara
             PostMessageW( hPage, WM_COMMAND, MAKEWPARAM( IDC_SOUNDSAVAIL, 0 ), 0 );
             break;
 
+        case WM_HSCROLL:
+            MarkDirty( hPage );
+            break;
+
         case WM_COMMAND:
             switch( LOWORD(wParam) )
             {
@@ -381,6 +410,7 @@ BOOL CALLBACK PropPage_Sound( HWND hPage, UINT uMsg, WPARAM wParam, LPARAM lPara
 
                     //update the display
                     PostMessageW( hPage, WM_COMMAND, MAKEWPARAM( IDC_SOUNDSAVAIL, 0 ), 0 );
+                    MarkDirty( hPage );
                     break;
                 }
 
@@ -426,6 +456,7 @@ BOOL CALLBACK PropPage_Sound( HWND hPage, UINT uMsg, WPARAM wParam, LPARAM lPara
 						if( SendDlgItemMessageW( hPage, IDC_SOUNDFREQ, TBM_GETPOS, 0, 0 ) == 0 )
 							SendDlgItemMessageW( hPage, IDC_SOUNDFREQ, TBM_SETPOS, TRUE, 2 );
 
+                        MarkDirty( hPage );
                     }
                     break;
                 }
@@ -496,6 +527,7 @@ BOOL CALLBACK PropPage_Independence( HWND hPage, UINT uMsg, WPARAM wParam, LPARA
                         };
 
                         SetDlgItemTextW( hPage, IDC_ACTIONDESC, szActionDesc[SendDlgItemMessageW( hPage, IDC_ACTION, CB_GETCURSEL, 0, 0 )] );
+                        MarkDirty( hPage );
                     }
                     break;
             }
@@ -541,8 +573,13 @@ BOOL CALLBACK PropPage_Effects( HWND hPage, UINT uMsg, WPARAM wParam, LPARAM lPa
 
             switch( LOWORD(wParam) )
             {
+                case IDC_FOOTPRINTS:
+                    MarkDirty( hPage );
+                    break;
+
                 case IDC_DEFAULT:
                     SetDlgItemTextW( hPage, IDC_IMAGELIB, L"" );
+                    MarkDirty( hPage );
                     break;
 
                 case IDC_CHANGE:
@@ -577,6 +614,7 @@ BOOL CALLBACK PropPage_Effects( HWND hPage, UINT uMsg, WPARAM wParam, LPARAM lPa
                         {
                             SetDlgItemTextW( hPage, IDC_IMAGELIB, ofn.lpstrFile );
 			                CheckDlgButton( hPage, IDC_FOOTPRINTS, TRUE );
+                            MarkDirty( hPage );
                         }
                     }
                     break;

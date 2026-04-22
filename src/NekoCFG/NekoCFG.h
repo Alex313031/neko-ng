@@ -66,5 +66,12 @@ extern void WINAPI GetDialogSettings();
 //external variables
 extern HINSTANCE g_hInstance;
 extern LPCWSTR szHelpFile;
+extern BOOL g_fInitialising;
+
+// Posted to the main config dialog by any tab page / main control whose value
+// was just changed by the user. The main dlg proc sets a "dirty" flag and
+// un-greys Apply. Gated on g_fInitialising to ignore programmatic updates
+// during WM_INITDIALOG and MY_READSETTINGS.
+#define WM_MARKDIRTY (WM_APP + 1)
 
 #endif //_NEKOCFG_H

@@ -45,6 +45,13 @@ HWND g_hWndNeko = nullptr;
 //global settings
 BOOL g_fShowTaskbar = TRUE;
 
+// Apply-button dirty tracking: g_fDirty becomes TRUE on any data-changing
+// user action; g_fInitialising guards against phantom MarkDirty during
+// WM_INITDIALOG / MY_READSETTINGS (where programmatic control updates may
+// emit WM_COMMAND / EN_CHANGE etc.).
+static BOOL g_fDirty = FALSE;
+BOOL g_fInitialising = FALSE;
+
 //list of all cats
 LPCATSETTINGS catSettings = nullptr;
 
@@ -65,12 +72,22 @@ BOOL WINAPI DeleteCatSettings( LPCATSETTINGS cat )
 
 /* ExecuteNekoProcess - runs the main program *******************************/
 static bool ExecuteNekoProcess() {
-  if ((int)(INT_PTR)ShellExecuteW(nullptr, L"open", L"neko_win32.exe", 0, L"", SW_SHOWNORMAL) <= 32 ) {
+  SHELLEXECUTEINFOW sei = {};
+  sei.cbSize = sizeof(sei);
+  sei.fMask = SEE_MASK_NOCLOSEPROCESS;
+  sei.lpVerb = L"open";
+  sei.lpFile = L"neko_win32.exe";
+  sei.lpParameters = L"";
+  sei.nShow = SW_SHOWNORMAL;
+  if (!ShellExecuteExW(&sei) || !sei.hProcess) {
     MessageBoxW( nullptr, L"Neko Config was unable to start the main program\n'neko_win32.exe'\n\nMake sure that it is in the same folder as this program.", L"neko_win32.exe Not Found", MB_ICONEXCLAMATION );
     return false;
-  } else {
-    return true;
   }
+  // Block until the new process has created its message queue and is idle —
+  // only then is neko_win32's window registered and findable via FindWindowW.
+  WaitForInputIdle( sei.hProcess, 5000 );
+  CloseHandle( sei.hProcess );
+  return true;
 }
 
 /* DlgProc_NewNeko - dialog box procedure to add a neko */
@@ -248,6 +265,8 @@ BOOL CALLBACK DlgProc_Config( HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam
     {
         case WM_INITDIALOG:
         {
+            g_fInitialising = TRUE;
+
             // Set icon in titlebar/taskbar
             SendMessageW(hDlg, WM_SETICON, ICON_BIG, (LPARAM)kMainIcon);
             SendMessageW(hDlg, WM_SETICON, ICON_SMALL, (LPARAM)kSmallIcon);
@@ -262,12 +281,23 @@ BOOL CALLBACK DlgProc_Config( HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam
             }
             SendDlgItemMessageW( hDlg, IDC_NAME, LB_SELECTSTRING, 0, (LPARAM)szDefaultName );
             EnableWindow( GetDlgItem( hDlg, IDC_DELETE ), FALSE );
-            EnableWindow( GetDlgItem( hDlg, IDC_APPLY ), (g_hWndNeko != nullptr ) ? TRUE : FALSE );
+            EnableWindow( GetDlgItem( hDlg, IDC_APPLY ), FALSE );
 
             InitialisePropertyDialog( GetDlgItem( hDlg, IDC_TABS ) );
             SendMessageW( hDlg, WM_COMMAND, MAKEWPARAM(IDC_NAME, LBN_SELCHANGE), 0 );
+
+            g_fInitialising = FALSE;
+            g_fDirty = FALSE;
             return TRUE;
         }
+
+        case WM_MARKDIRTY:
+            if( !g_fInitialising && !g_fDirty )
+            {
+                g_fDirty = TRUE;
+                EnableWindow( GetDlgItem( hDlg, IDC_APPLY ), TRUE );
+            }
+            break;
 
         case WM_DESTROY:
             break;
@@ -295,6 +325,8 @@ BOOL CALLBACK DlgProc_Config( HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam
                     if( IsWindow( g_hWndNeko ) == FALSE ) g_hWndNeko = FindWindowW( szNekoClassName, szNekoWindowTitle );
                     SendMessageW( g_hWndNeko, MY_UPDATENEKO, 0, 0 );
                     SetCursor( LoadCursorW( nullptr, IDC_ARROW ) );
+                    g_fDirty = FALSE;
+                    EnableWindow( GetDlgItem( hDlg, IDC_APPLY ), FALSE );
                     break;
 
                 case IDC_ABOUT:
@@ -302,8 +334,13 @@ BOOL CALLBACK DlgProc_Config( HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam
                     DialogBoxW( g_hInstance, MAKEINTRESOURCEW(IDD_ABOUTBOX), hDlg, (DLGPROC)DlgProc_About );
                     break;
 
+                case IDC_TASKBAR:
+                    PostMessageW( hDlg, WM_MARKDIRTY, 0, 0 );
+                    break;
+
                 case IDC_NEW:
-                    DialogBoxW( g_hInstance, MAKEINTRESOURCEW(IDD_NEWNEKO), hDlg, (DLGPROC)DlgProc_NewNeko );
+                    if( DialogBoxW( g_hInstance, MAKEINTRESOURCEW(IDD_NEWNEKO), hDlg, (DLGPROC)DlgProc_NewNeko ) )
+                        PostMessageW( hDlg, WM_MARKDIRTY, 0, 0 );
                     break;
 
                 case IDC_DELETE:
@@ -337,6 +374,8 @@ BOOL CALLBACK DlgProc_Config( HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam
                         //remove it from memory
                         if( DeleteCatSettings( cat ) == FALSE )
                             MessageBoxW( hDlg, L"Internal Error: Could not delete cat!", szWindowTitle, MB_ICONERROR );
+                        else
+                            PostMessageW( hDlg, WM_MARKDIRTY, 0, 0 );
                     }
                     else
                         MessageBoxW( hDlg, L"Internal Error: Dropped off the end of the cat list!", szWindowTitle, MB_ICONERROR );
@@ -380,7 +419,12 @@ BOOL CALLBACK DlgProc_Config( HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam
                     }
                     break;
                 case IDC_OPENMAIN:
-                  ExecuteNekoProcess();
+                  if( ExecuteNekoProcess() )
+                  {
+                    // neko_win32 is now running — refresh the cached HWND so a
+                    // subsequent Apply / OK can push MY_UPDATENEKO to it.
+                    g_hWndNeko = FindWindowW( szNekoClassName, szNekoWindowTitle );
+                  }
                   break;
             }
             break;
