@@ -2,15 +2,14 @@
 //
 //////////////////////////////////////////////////////////////////////
 
-#if !defined(AFX_DESKTOPHACK_H__A69EBAA1_385D_11D2_9FF9_00001C192944__INCLUDED_)
-#define AFX_DESKTOPHACK_H__A69EBAA1_385D_11D2_9FF9_00001C192944__INCLUDED_
+#ifndef _NEKO_DESKTOP_HACK_H_
+#define _NEKO_DESKTOP_HACK_H_
 
 #if _MSC_VER >= 1000
 #pragma once
 #endif // _MSC_VER >= 1000
 
-#define WIN32_LEAN_AND_MEAN
-#include <windows.h>
+#include "framework.h"
 
 class CDesktopHack  
 {
@@ -28,4 +27,4 @@ protected:
 
 };
 
-#endif // !defined(AFX_DESKTOPHACK_H__A69EBAA1_385D_11D2_9FF9_00001C192944__INCLUDED_)
+#endif // _NEKO_DESKTOP_HACK_H_

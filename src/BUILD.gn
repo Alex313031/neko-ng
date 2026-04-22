@@ -11,6 +11,7 @@ executable("neko_win32") {
     "DesktopHack.h",
     "DesktopPet.cpp",
     "DesktopPet.h",
+    "framework.h",
     "Neko.cpp",
     "Neko.h",
     "Neko95.rc",

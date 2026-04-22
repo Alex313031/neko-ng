@@ -2,8 +2,8 @@
 //
 //////////////////////////////////////////////////////////////////////
 
-#if !defined(AFX_DESKTOPPET_H__A69EBAA3_385D_11D2_9FF9_00001C192944__INCLUDED_)
-#define AFX_DESKTOPPET_H__A69EBAA3_385D_11D2_9FF9_00001C192944__INCLUDED_
+#ifndef _NEKO_DESKTOP_PET_H_
+#define _NEKO_DESKTOP_PET_H_
 
 #if _MSC_VER >= 1000
 #pragma once
@@ -26,4 +26,4 @@ protected:
 	virtual void Draw( int nImage );
 };
 
-#endif // !defined(AFX_DESKTOPPET_H__A69EBAA3_385D_11D2_9FF9_00001C192944__INCLUDED_)
+#endif // _NEKO_DESKTOP_PET_H_

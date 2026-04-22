@@ -2,8 +2,6 @@
 //
 //////////////////////////////////////////////////////////////////////
 
-#define WIN32_LEAN_AND_MEAN
-#include <windows.h>
 #include "DesktopHack.h"
 
 //constants used by callback function

@@ -2,12 +2,14 @@
 //
 //////////////////////////////////////////////////////////////////////
 
-#if !defined(AFX_NEKO_H__A69EBAA5_385D_11D2_9FF9_00001C192944__INCLUDED_)
-#define AFX_NEKO_H__A69EBAA5_385D_11D2_9FF9_00001C192944__INCLUDED_
+#ifndef _NEKO_NEKO_H_
+#define _NEKO_NEKO_H_
 
 #if _MSC_VER >= 1000
 #pragma once
 #endif // _MSC_VER >= 1000
+
+#include "framework.h"
 
 #include "DesktopPet.h"
 #include "AlwaysOnTopPet.h"
@@ -78,4 +80,4 @@ private:
 	void SetState( State state );
 };
 
-#endif // !defined(AFX_NEKO_H__A69EBAA5_385D_11D2_9FF9_00001C192944__INCLUDED_)
+#endif // _NEKO_NEKO_H_

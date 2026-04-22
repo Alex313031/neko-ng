@@ -1,9 +1,6 @@
 /* property sheet functions */
-#include <windows.h>
-#include <commctrl.h>
-#include <stdio.h>
+
 #include "NekoCFG.h"
-#include "../NekoCommon.h"
 #include "NekoCFG_resource.h"
 #include "NekoCFG_resource.hm"
 

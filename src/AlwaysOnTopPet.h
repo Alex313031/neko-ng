@@ -2,8 +2,8 @@
 //
 //////////////////////////////////////////////////////////////////////
 
-#if !defined(AFX_ALWAYSONTOPPET_H__A69EBAA4_385D_11D2_9FF9_00001C192944__INCLUDED_)
-#define AFX_ALWAYSONTOPPET_H__A69EBAA4_385D_11D2_9FF9_00001C192944__INCLUDED_
+#ifndef _NEKO_ALWAYS_ON_TOP_PET_H_
+#define _NEKO_ALWAYS_ON_TOP_PET_H_
 
 #if _MSC_VER >= 1000
 #pragma once
@@ -60,4 +60,4 @@ friend
 	
 };
 
-#endif // !defined(AFX_ALWAYSONTOPPET_H__A69EBAA4_385D_11D2_9FF9_00001C192944__INCLUDED_)
+#endif // _NEKO_ALWAYS_ON_TOP_PET_H_

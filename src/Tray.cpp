@@ -5,7 +5,6 @@
 
  *************************************/
 
-#include <windows.h>
 #include "Tray.h"
 #include "resource.h"
 

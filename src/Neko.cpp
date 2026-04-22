@@ -2,12 +2,10 @@
 //
 //////////////////////////////////////////////////////////////////////
 
-#include <windows.h>
 #include "NekoCommon.h"
 #include "NekoSettings.h"
 #include "Neko.h"
 #include "resource.h"
-#include <math.h>
 
 //maths calculations
 #define g_dSinPiPer8        0.3826834323651  // sin [pi/8]

@@ -1,19 +1,17 @@
 /************************************
  
    Tray Class: Very simple interface
-   onto the system tray
+   into the system tray
 
  *************************************/
 
-#ifndef _TRAY_HPP
-#define _TRAY_HPP
+#ifndef _NEKO_TRAY_H_
+#define _NEKO_TRAY_H_
 
-#define WIN32_LEAN_AND_MEAN
-#include <windows.h>
+#include "framework.h"
 
 //taskbar notification message
 #define MY_NOTIFYICON (WM_USER+32)
-
 
 class CTray {
 
@@ -32,4 +30,4 @@ private:
     HINSTANCE m_hInstance;
 };
 
-#endif
+#endif // _NEKO_TRAY_H_

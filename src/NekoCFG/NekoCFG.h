@@ -2,6 +2,13 @@
 #define _NEKOCFG_H
 
 #include "../version.h"
+
+#include <windows.h>
+#include <commctrl.h>
+#include <tchar.h>
+
+#include <wctype.h>
+
 #include "../NekoCommon.h"
 
 //structures

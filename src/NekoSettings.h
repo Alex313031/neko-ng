@@ -4,8 +4,11 @@
 
  *************************************/
 
-#define WIN32_LEAN_AND_MEAN
-#include <windows.h>
+#ifndef _NEKO_NEKO_SETTINGS_H_
+#define _NEKO_NEKO_SETTINGS_H_
+
+#include "framework.h"
+
 #include "NekoCommon.h"
 
 class CNekoSettings {
@@ -26,3 +29,5 @@ public:
 private:
     HKEY m_hKey;
 };
+
+#endif // _NEKO_NEKO_SETTINGS_H_

@@ -7,11 +7,7 @@
 
 *****************/
 
-#include <windows.h>
-#include <commctrl.h>
-#include <wctype.h>
 #include "NekoCFG.h"
-#include "../NekoCommon.h"
 #include "../NekoSettings.h"
 #include "NekoCFG_resource.h"
 #include "NekoCFG_resource.hm"

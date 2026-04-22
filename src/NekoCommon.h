@@ -7,8 +7,8 @@
 
  *************************************/
 
-#ifndef _NEKOCOMMON_H
-#define _NEKOCOMMON_H
+#ifndef _NEKO_COMMON_H_
+#define _NEKO_COMMON_H_
 
 //class & window names
 #define szNekoClassName   L"Neko98Class"
@@ -51,4 +51,4 @@
 //maximum length of a neko 'Name'
 #define MAX_NEKO_NAME (64)
 
-#endif
+#endif // _NEKO_COMMON_H_
