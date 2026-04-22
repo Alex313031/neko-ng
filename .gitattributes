@@ -39,5 +39,6 @@
 *.CNT eol=crlf
 *.GID eol=crlf
 *.HPJ eol=crlf
+/assets/*.txt eol=crlf
 /src/NekoHelp/Neko98.RTF eol=crlf
 
