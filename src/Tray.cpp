@@ -1,31 +1,31 @@
 /************************************
- 
+
    Tray Class: Very simple interface
-   onto the system tray for Neko95
+   onto the system tray for Neko-ng
 
  *************************************/
 
 #include <windows.h>
 #include <string.h>
-#include "tray.h"
+#include "Tray.h"
 #include "resource.h"
 
 BOOL CTray::AddIcon( HWND hWnd, HICON hIcon, UINT uID )
 {
-    BOOL res; 
-    NOTIFYICONDATA tnid; 
+    BOOL res;
+    NOTIFYICONDATAW tnid;
  
     //fill in the structure
-    tnid.cbSize = sizeof(NOTIFYICONDATA); 
+    tnid.cbSize = sizeof(NOTIFYICONDATAW);
     tnid.hWnd = hWnd;
     tnid.uID = uID;
-    tnid.uFlags = NIF_MESSAGE|NIF_ICON|NIF_TIP; 
-    tnid.uCallbackMessage = MY_NOTIFYICON; 
+    tnid.uFlags = NIF_MESSAGE|NIF_ICON|NIF_TIP;
+    tnid.uCallbackMessage = MY_NOTIFYICON;
     tnid.hIcon = hIcon;
-    strncpy( tnid.szTip, "Neko", sizeof(tnid.szTip) ); 
+    lstrcpynW( tnid.szTip, L"Neko", sizeof(tnid.szTip)/sizeof(tnid.szTip[0]) );
 
     //give the command
-    res = Shell_NotifyIcon( NIM_ADD, &tnid ); 
+    res = Shell_NotifyIconW( NIM_ADD, &tnid );
  
     //delete the icon
     DestroyIcon( tnid.hIcon ); 
@@ -39,15 +39,15 @@ BOOL CTray::AddIcon( HWND hWnd, HICON hIcon, UINT uID )
 BOOL CTray::RemoveIcon( HWND hWnd, UINT uID )
 {
     BOOL res;
-    NOTIFYICONDATA tnid;
+    NOTIFYICONDATAW tnid;
 
     //fill in the structure
-    tnid.cbSize = sizeof(NOTIFYICONDATA);
+    tnid.cbSize = sizeof(NOTIFYICONDATAW);
     tnid.hWnd = hWnd;
     tnid.uID = uID;
 
     //give the notify command
-    res = Shell_NotifyIcon( NIM_DELETE, &tnid );
+    res = Shell_NotifyIconW( NIM_DELETE, &tnid );
 
     //decrement the counter
     if( res ) m_uIconCount--;
@@ -63,8 +63,8 @@ void CTray::ShowPopupMenu( HWND hWnd )
 
     //create the popup menu
     HMENU hMenu = CreatePopupMenu();
-    AppendMenu( hMenu, MF_STRING, ID_SETTINGS,"&Settings" );
-    AppendMenu( hMenu, MF_STRING, ID_EXIT,    "E&xit" );
+    AppendMenuW( hMenu, MF_STRING, ID_SETTINGS, L"&Settings" );
+    AppendMenuW( hMenu, MF_STRING, ID_EXIT,     L"E&xit" );
     SetMenuDefaultItem( hMenu, ID_SETTINGS, FALSE );
 
     //display the menu

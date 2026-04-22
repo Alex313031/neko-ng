@@ -1,0 +1,7 @@
+# Copyright 2026 Alex313031
+
+group("neko-ng") {
+  public_deps = [
+    "./src:neko_win32",
+  ]
+}

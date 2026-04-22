@@ -5,7 +5,7 @@
 #include "AlwaysOnTopPet.h"
 
 //class name constant
-static const char* g_szOnTopClassName = "NekoOnTop_Wnd";
+static const wchar_t* g_szOnTopClassName = L"NekoOnTop_Wnd";
 
 //forward declaration
 LRESULT CALLBACK WndProc_OnTop( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam );
@@ -32,7 +32,7 @@ CAlwaysOnTopPet::CAlwaysOnTopPet() : CPet()
 	//register class
 	if( m_fRegisteredClass == FALSE )
 	{
-		WNDCLASS wc;
+		WNDCLASSW wc;
 
 		wc.style         = CS_OWNDC|CS_DBLCLKS|CS_SAVEBITS;
 		wc.lpfnWndProc   = (WNDPROC)WndProc_OnTop;
@@ -40,12 +40,12 @@ CAlwaysOnTopPet::CAlwaysOnTopPet() : CPet()
 		wc.cbWndExtra    = sizeof(LPVOID);
 		wc.hInstance     = g_hInstance;
 		wc.hIcon         = NULL;
-		wc.hCursor       = LoadCursor( NULL, MAKEINTRESOURCE(IDC_ARROW) );
+		wc.hCursor       = LoadCursorW( NULL, IDC_ARROW );
 		wc.hbrBackground = NULL;
 		wc.lpszMenuName  = NULL;
 		wc.lpszClassName = g_szOnTopClassName;
 
-		m_fRegisteredClass = RegisterClass(&wc);
+		m_fRegisteredClass = RegisterClassW(&wc);
 	}
 
 	//set bounding rectangle
@@ -103,7 +103,7 @@ void CAlwaysOnTopPet::SetImages(HICON * hIconTable, int nIcons )
 	//create the window if it doesn't exist already
 	if( m_hWndOnTop == NULL )
 	{
-        m_hWndOnTop = CreateWindowEx( WS_EX_TOPMOST|WS_EX_TOOLWINDOW, g_szOnTopClassName, NULL, WS_POPUP, m_ptPosition.x, m_ptPosition.y, m_sizeImage.cx, m_sizeImage.cy, NULL, NULL, g_hInstance, NULL );
+        m_hWndOnTop = CreateWindowExW( WS_EX_TOPMOST|WS_EX_TOOLWINDOW, g_szOnTopClassName, NULL, WS_POPUP, m_ptPosition.x, m_ptPosition.y, m_sizeImage.cx, m_sizeImage.cy, NULL, NULL, g_hInstance, NULL );
 
         if( m_hWndOnTop )
         {
@@ -169,7 +169,7 @@ LRESULT CALLBACK WndProc_OnTop( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
 		case WM_SYSCOMMAND:
 			//if the user alt+F4s us or (somehow) minimises or maximises us, ignore it
 			if( LOWORD(wParam) != SC_CLOSE && LOWORD(wParam) != SC_MINIMIZE && LOWORD(wParam) != SC_MAXIMIZE ) 
-			    return DefWindowProc( hWnd, uMsg, wParam, lParam );
+			    return DefWindowProcW( hWnd, uMsg, wParam, lParam );
 			break;
 
         case WM_ERASEBKGND:
@@ -208,7 +208,7 @@ LRESULT CALLBACK WndProc_OnTop( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
         }
 
         default:
-           return DefWindowProc( hWnd, uMsg, wParam, lParam );
+           return DefWindowProcW( hWnd, uMsg, wParam, lParam );
     }
     return 0;
 }
@@ -216,7 +216,7 @@ LRESULT CALLBACK WndProc_OnTop( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
 void CAlwaysOnTopPet::OnLButtonDown()
 {
     //default left button handler - begin window dragging
-    SendMessage( m_hWndOnTop, WM_SYSCOMMAND, SC_MOVE+2, 0 );
+    SendMessageW( m_hWndOnTop, WM_SYSCOMMAND, SC_MOVE+2, 0 );
 }
 
 void CAlwaysOnTopPet::DestroyRegions()

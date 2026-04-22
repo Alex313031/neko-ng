@@ -3,26 +3,25 @@
 
   Configuration
   program for
-  Neko95 v4.0
-  
+  Neko-ng
+
 *****************/
 
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #include <commctrl.h>
-#include <stdio.h>
-#include <string.h>
+#include <wctype.h>
 #include "NekoCFG.h"
-#include "..\NekoCommon.h"
-#include "..\NekoSettings.h"
+#include "../NekoCommon.h"
+#include "../NekoSettings.h"
 #include "NekoCFG_resource.h"
 #include "NekoCFG_resource.hm"
 
 /*************************************************************************************************/
 
-const char* szWindowTitle = "Configure Neko";
-const char* szDefaultName = "Neko (default)";
-const char* szHelpFile = "Neko98.hlp";
+LPCWSTR szWindowTitle = L"Configure Neko-ng";
+LPCWSTR szDefaultName = L"Neko-ng (default)";
+LPCWSTR szHelpFile = L"Neko98.hlp";
 
 /* help ID lookup table */
 static DWORD dwHelpID[] = { 
@@ -34,7 +33,7 @@ static DWORD dwHelpID[] = {
     IDOK,               HIDOK,
     IDCANCEL,           HIDCANCEL,
     IDC_APPLY,          HIDC_APPLY,
-    IDC_HELP,           HIDC_HELP,
+    IDC_HELP32,         HIDC_HELP,
     IDC_TABS,           HIDC_TABS,
     0,0
 };
@@ -80,9 +79,9 @@ BOOL CALLBACK DlgProc_NewNeko( HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPara
 
             if( nCats > 5 )
             {
-                char szBuffer[128];
-                sprintf( szBuffer, "You already have %d Nekos!\nAdding more is likely to slow down your computer - do you want to add one anyway?", nCats );
-                if( IDNO == MessageBox( hDlg, szBuffer, "Add Neko", MB_YESNO|MB_ICONQUESTION ) )
+                WCHAR szBuffer[128];
+                wsprintfW( szBuffer, L"You already have %d Nekos!\nAdding more is likely to slow down your computer - do you want to add one anyway?", nCats );
+                if( IDNO == MessageBoxW( hDlg, szBuffer, L"Add Neko", MB_YESNO|MB_ICONQUESTION ) )
                 {
                     EndDialog( hDlg, FALSE );
                     return TRUE;
@@ -90,30 +89,30 @@ BOOL CALLBACK DlgProc_NewNeko( HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPara
             }
 
             //initialise the text box
-            SendDlgItemMessage( hDlg, IDC_NEWNEKONAME, CB_LIMITTEXT, IDC_NEWNEKONAME-2, 0 );
+            SendDlgItemMessageW( hDlg, IDC_NEWNEKONAME, CB_LIMITTEXT, IDC_NEWNEKONAME-2, 0 );
 
 			//add some demo items
-			SendDlgItemMessage( hDlg, IDC_NEWNEKONAME, CB_ADDSTRING, 0, (LPARAM)"Arthur" );
-			SendDlgItemMessage( hDlg, IDC_NEWNEKONAME, CB_ADDSTRING, 0, (LPARAM)"Boris" );
-			SendDlgItemMessage( hDlg, IDC_NEWNEKONAME, CB_ADDSTRING, 0, (LPARAM)"Kitty" );
-			SendDlgItemMessage( hDlg, IDC_NEWNEKONAME, CB_ADDSTRING, 0, (LPARAM)"Lucy" );
-			SendDlgItemMessage( hDlg, IDC_NEWNEKONAME, CB_ADDSTRING, 0, (LPARAM)"Garfield" );
-			SendDlgItemMessage( hDlg, IDC_NEWNEKONAME, CB_ADDSTRING, 0, (LPARAM)"Tom" );
-			SendDlgItemMessage( hDlg, IDC_NEWNEKONAME, CB_ADDSTRING, 0, (LPARAM)"Bast" );
-			SendDlgItemMessage( hDlg, IDC_NEWNEKONAME, CB_ADDSTRING, 0, (LPARAM)"Ginger" );
-			SendDlgItemMessage( hDlg, IDC_NEWNEKONAME, CB_ADDSTRING, 0, (LPARAM)"Bob" );
-			SendDlgItemMessage( hDlg, IDC_NEWNEKONAME, CB_ADDSTRING, 0, (LPARAM)"Tabs" );
-			SendDlgItemMessage( hDlg, IDC_NEWNEKONAME, CB_ADDSTRING, 0, (LPARAM)"Tigger" );
-			SendDlgItemMessage( hDlg, IDC_NEWNEKONAME, CB_ADDSTRING, 0, (LPARAM)"James" );
-			SendDlgItemMessage( hDlg, IDC_NEWNEKONAME, CB_ADDSTRING, 0, (LPARAM)"Cooper" );
-			SendDlgItemMessage( hDlg, IDC_NEWNEKONAME, CB_ADDSTRING, 0, (LPARAM)"Hey You" );
-			SendDlgItemMessage( hDlg, IDC_NEWNEKONAME, CB_ADDSTRING, 0, (LPARAM)"Greebo" );
-			SendDlgItemMessage( hDlg, IDC_NEWNEKONAME, CB_ADDSTRING, 0, (LPARAM)"Furball" );
-			SendDlgItemMessage( hDlg, IDC_NEWNEKONAME, CB_ADDSTRING, 0, (LPARAM)"Sylvester" );
-			SendDlgItemMessage( hDlg, IDC_NEWNEKONAME, CB_ADDSTRING, 0, (LPARAM)"Buffy" );
-			SendDlgItemMessage( hDlg, IDC_NEWNEKONAME, CB_ADDSTRING, 0, (LPARAM)"Willow" );
-			SendDlgItemMessage( hDlg, IDC_NEWNEKONAME, CB_ADDSTRING, 0, (LPARAM)"Sarah" );
-			//SendDlgItemMessage( hDlg, IDC_NEWNEKONAME, CB_ADDSTRING, 0, (LPARAM)"Vicious Bastard" );
+			SendDlgItemMessageW( hDlg, IDC_NEWNEKONAME, CB_ADDSTRING, 0, (LPARAM)L"Arthur" );
+			SendDlgItemMessageW( hDlg, IDC_NEWNEKONAME, CB_ADDSTRING, 0, (LPARAM)L"Boris" );
+			SendDlgItemMessageW( hDlg, IDC_NEWNEKONAME, CB_ADDSTRING, 0, (LPARAM)L"Kitty" );
+			SendDlgItemMessageW( hDlg, IDC_NEWNEKONAME, CB_ADDSTRING, 0, (LPARAM)L"Lucy" );
+			SendDlgItemMessageW( hDlg, IDC_NEWNEKONAME, CB_ADDSTRING, 0, (LPARAM)L"Garfield" );
+			SendDlgItemMessageW( hDlg, IDC_NEWNEKONAME, CB_ADDSTRING, 0, (LPARAM)L"Tom" );
+			SendDlgItemMessageW( hDlg, IDC_NEWNEKONAME, CB_ADDSTRING, 0, (LPARAM)L"Bast" );
+			SendDlgItemMessageW( hDlg, IDC_NEWNEKONAME, CB_ADDSTRING, 0, (LPARAM)L"Ginger" );
+			SendDlgItemMessageW( hDlg, IDC_NEWNEKONAME, CB_ADDSTRING, 0, (LPARAM)L"Bob" );
+			SendDlgItemMessageW( hDlg, IDC_NEWNEKONAME, CB_ADDSTRING, 0, (LPARAM)L"Tabs" );
+			SendDlgItemMessageW( hDlg, IDC_NEWNEKONAME, CB_ADDSTRING, 0, (LPARAM)L"Tigger" );
+			SendDlgItemMessageW( hDlg, IDC_NEWNEKONAME, CB_ADDSTRING, 0, (LPARAM)L"James" );
+			SendDlgItemMessageW( hDlg, IDC_NEWNEKONAME, CB_ADDSTRING, 0, (LPARAM)L"Cooper" );
+			SendDlgItemMessageW( hDlg, IDC_NEWNEKONAME, CB_ADDSTRING, 0, (LPARAM)L"Hey You" );
+			SendDlgItemMessageW( hDlg, IDC_NEWNEKONAME, CB_ADDSTRING, 0, (LPARAM)L"Greebo" );
+			SendDlgItemMessageW( hDlg, IDC_NEWNEKONAME, CB_ADDSTRING, 0, (LPARAM)L"Furball" );
+			SendDlgItemMessageW( hDlg, IDC_NEWNEKONAME, CB_ADDSTRING, 0, (LPARAM)L"Sylvester" );
+			SendDlgItemMessageW( hDlg, IDC_NEWNEKONAME, CB_ADDSTRING, 0, (LPARAM)L"Buffy" );
+			SendDlgItemMessageW( hDlg, IDC_NEWNEKONAME, CB_ADDSTRING, 0, (LPARAM)L"Willow" );
+			SendDlgItemMessageW( hDlg, IDC_NEWNEKONAME, CB_ADDSTRING, 0, (LPARAM)L"Sarah" );
+			//SendDlgItemMessageW( hDlg, IDC_NEWNEKONAME, CB_ADDSTRING, 0, (LPARAM)L"Vicious Bastard" );
             break;
         }
 
@@ -122,23 +121,23 @@ BOOL CALLBACK DlgProc_NewNeko( HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPara
             {
                 case IDOK:
                 {
-                    char szName[MAX_NEKO_NAME];
-                    GetDlgItemText( hDlg, IDC_NEWNEKONAME, szName, MAX_NEKO_NAME );
-                    char* lpszPtr = szName;
+                    WCHAR szName[MAX_NEKO_NAME];
+                    GetDlgItemTextW( hDlg, IDC_NEWNEKONAME, szName, MAX_NEKO_NAME );
+                    wchar_t* lpszPtr = szName;
 
                     //make sure it's not empty
-                    if( strlen( szName ) == 0 )
+                    if( lstrlenW( szName ) == 0 )
                     {
-                        MessageBox( hDlg, "Invalid Name: You must type a name", "New Neko", MB_ICONINFORMATION );
+                        MessageBoxW( hDlg, L"Invalid Name: You must type a name", L"New Neko", MB_ICONINFORMATION );
                         return TRUE;
                     }
 
                     //make sure it only has letters, numbers and spaces in
-                    while( lpszPtr && *lpszPtr != '\0' )
+                    while( lpszPtr && *lpszPtr != L'\0' )
                     {
-                        if( !( isalpha(*lpszPtr) || isdigit(*lpszPtr) || *lpszPtr == ' ' ) )
+                        if( !( iswalpha(*lpszPtr) || iswdigit(*lpszPtr) || *lpszPtr == L' ' ) )
                         {
-                            MessageBox( hDlg, "Invalid Name: Sorry - a name can only contain letters, numbers and spaces", "Add Neko", MB_ICONINFORMATION );
+                            MessageBoxW( hDlg, L"Invalid Name: Sorry - a name can only contain letters, numbers and spaces", L"Add Neko", MB_ICONINFORMATION );
                             return TRUE;
                         }
                         lpszPtr++;
@@ -148,9 +147,9 @@ BOOL CALLBACK DlgProc_NewNeko( HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPara
                     LPCATSETTINGS cat = catSettings;
                     while( cat )
                     {
-                        if( !cat->fDeleted && (stricmp( cat->szName, szName ) == 0 || stricmp( cat->szName, szDefaultName ) == 0 ))
+                        if( !cat->fDeleted && (lstrcmpiW( cat->szName, szName ) == 0 || lstrcmpiW( cat->szName, szDefaultName ) == 0 ))
                         {
-                            MessageBox( hDlg, "Invalid Name: This neko already exists!", "New Neko", MB_ICONINFORMATION );
+                            MessageBoxW( hDlg, L"Invalid Name: This neko already exists!", L"New Neko", MB_ICONINFORMATION );
                             return TRUE;
                         }
                         cat = cat->next;
@@ -159,23 +158,23 @@ BOOL CALLBACK DlgProc_NewNeko( HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPara
 
                     //create a new neko
                     cat = new CATSETTINGS;
-                    strcpy( cat->szName, szName );
+                    lstrcpyW( cat->szName, szName );
 
                     //set defaults
-                    strcpy( cat->szLibrary, "" );
+                    cat->szLibrary[0] = L'\0';
                     cat->uScale = 100;
                     cat->uSpeed = 16;
                     cat->uMouseSensitivity = 6;
-                    strcpy( cat->szSndIdle1, "" );
-                    strcpy( cat->szSndIdle2, "" );
-                    strcpy( cat->szSndIdle3, "" );
-	                strcpy( cat->szSndSleep, "" );
-                    strcpy( cat->szSndAwake, "" );
+                    cat->szSndIdle1[0] = L'\0';
+                    cat->szSndIdle2[0] = L'\0';
+                    cat->szSndIdle3[0] = L'\0';
+	                cat->szSndSleep[0] = L'\0';
+                    cat->szSndAwake[0] = L'\0';
 	                cat->uSndFrequency = 0;
                     cat->uAction = CHASE_MOUSE;
 					cat->fAlwaysOnTop = FALSE;
                     cat->bFootprints = FALSE;
-                    *cat->szFootprintLib = '\0';
+                    *cat->szFootprintLib = L'\0';
 
                     //link it in
                     cat->fDeleted = FALSE;
@@ -183,9 +182,9 @@ BOOL CALLBACK DlgProc_NewNeko( HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPara
                     catSettings = cat;
 
                     //add it to the list box & select it
-                    int i = SendDlgItemMessage( GetParent(hDlg), IDC_NAME, LB_ADDSTRING, 0, (LPARAM)szName );
-                    SendDlgItemMessage( GetParent(hDlg), IDC_NAME, LB_SETCURSEL, i, 0 );
-                    PostMessage( GetParent(hDlg), WM_COMMAND, MAKEWPARAM(IDC_NAME, CBN_SELCHANGE), 0 );
+                    int i = SendDlgItemMessageW( GetParent(hDlg), IDC_NAME, LB_ADDSTRING, 0, (LPARAM)szName );
+                    SendDlgItemMessageW( GetParent(hDlg), IDC_NAME, LB_SETCURSEL, i, 0 );
+                    PostMessageW( GetParent(hDlg), WM_COMMAND, MAKEWPARAM(IDC_NAME, CBN_SELCHANGE), 0 );
 
                     //close the dialog
                     EndDialog( hDlg, TRUE );
@@ -218,20 +217,20 @@ BOOL CALLBACK DlgProc_Config( HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam
     {
         case WM_INITDIALOG:
         {
-            SendDlgItemMessage( hDlg, IDC_TASKBAR, BM_SETCHECK, g_fShowTaskbar, 0 );
+            SendDlgItemMessageW( hDlg, IDC_TASKBAR, BM_SETCHECK, g_fShowTaskbar, 0 );
 
             LPCATSETTINGS cat = catSettings;
             while( cat )
             {
-                if( !cat->fDeleted ) SendDlgItemMessage( hDlg, IDC_NAME, LB_ADDSTRING, 0, ( strcmp( cat->szName, "" ) == 0 ) ? (LPARAM)szDefaultName : (LPARAM)cat->szName );
+                if( !cat->fDeleted ) SendDlgItemMessageW( hDlg, IDC_NAME, LB_ADDSTRING, 0, ( cat->szName[0] == L'\0' ) ? (LPARAM)szDefaultName : (LPARAM)cat->szName );
                 cat = cat->next;
             }
-            SendDlgItemMessage( hDlg, IDC_NAME, LB_SELECTSTRING, 0, (LPARAM)szDefaultName );
+            SendDlgItemMessageW( hDlg, IDC_NAME, LB_SELECTSTRING, 0, (LPARAM)szDefaultName );
             EnableWindow( GetDlgItem( hDlg, IDC_DELETE ), FALSE );
             EnableWindow( GetDlgItem( hDlg, IDC_APPLY ), (g_hWndNeko != NULL ) ? TRUE : FALSE );
 
             InitialisePropertyDialog( GetDlgItem( hDlg, IDC_TABS ) );
-            SendMessage( hDlg, WM_COMMAND, MAKEWPARAM(IDC_NAME, LBN_SELCHANGE), 0 );
+            SendMessageW( hDlg, WM_COMMAND, MAKEWPARAM(IDC_NAME, LBN_SELCHANGE), 0 );
             return TRUE;
         }
 
@@ -242,50 +241,50 @@ BOOL CALLBACK DlgProc_Config( HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam
             switch( LOWORD(wParam) )
             {
                 case IDOK:
-                    SetCursor( LoadCursor( NULL, IDC_WAIT ) );
+                    SetCursor( LoadCursorW( NULL, IDC_WAIT ) );
                     g_fShowTaskbar = ( IsDlgButtonChecked( hDlg, IDC_TASKBAR ) == BST_CHECKED );
                     WriteSettings();
-                    if( IsWindow( g_hWndNeko ) == FALSE ) g_hWndNeko = FindWindow( szNekoClassName, szNekoWindowTitle );
-                    SendMessage( g_hWndNeko, MY_UPDATENEKO, 0, 0 );
-                    SetCursor( LoadCursor( NULL, IDC_ARROW ) );
-                    EndDialog( hDlg, TRUE ); 
+                    if( IsWindow( g_hWndNeko ) == FALSE ) g_hWndNeko = FindWindowW( szNekoClassName, szNekoWindowTitle );
+                    SendMessageW( g_hWndNeko, MY_UPDATENEKO, 0, 0 );
+                    SetCursor( LoadCursorW( NULL, IDC_ARROW ) );
+                    EndDialog( hDlg, TRUE );
                     break;
 
                 case IDCANCEL:
                     EndDialog( hDlg, FALSE ); break;
 
                 case IDC_APPLY:
-                    SetCursor( LoadCursor( NULL, IDC_WAIT ) );
+                    SetCursor( LoadCursorW( NULL, IDC_WAIT ) );
                     g_fShowTaskbar = ( IsDlgButtonChecked( hDlg, IDC_TASKBAR ) == BST_CHECKED );
                     WriteSettings();
-                    if( IsWindow( g_hWndNeko ) == FALSE ) g_hWndNeko = FindWindow( szNekoClassName, szNekoWindowTitle );
-                    SendMessage( g_hWndNeko, MY_UPDATENEKO, 0, 0 );
-                    SetCursor( LoadCursor( NULL, IDC_ARROW ) );
+                    if( IsWindow( g_hWndNeko ) == FALSE ) g_hWndNeko = FindWindowW( szNekoClassName, szNekoWindowTitle );
+                    SendMessageW( g_hWndNeko, MY_UPDATENEKO, 0, 0 );
+                    SetCursor( LoadCursorW( NULL, IDC_ARROW ) );
                     break;
 
                 case IDC_ABOUT:
-                    DialogBox( g_hInstance, MAKEINTRESOURCE(IDD_ABOUTBOX), hDlg, (DLGPROC)DlgProc_About );
+                    DialogBoxW( g_hInstance, MAKEINTRESOURCEW(IDD_ABOUTBOX), hDlg, (DLGPROC)DlgProc_About );
                     break;
 
                 case IDC_NEW:
-                    DialogBox( g_hInstance, MAKEINTRESOURCE(IDD_NEWNEKO), hDlg, (DLGPROC)DlgProc_NewNeko );
+                    DialogBoxW( g_hInstance, MAKEINTRESOURCEW(IDD_NEWNEKO), hDlg, (DLGPROC)DlgProc_NewNeko );
                     break;
 
                 case IDC_DELETE:
                 {
-                    int iItem = SendDlgItemMessage( hDlg, IDC_NAME, LB_GETCURSEL, 0, 0 );
-                    char szDoomed[MAX_NEKO_NAME] = "";
+                    int iItem = SendDlgItemMessageW( hDlg, IDC_NAME, LB_GETCURSEL, 0, 0 );
+                    WCHAR szDoomed[MAX_NEKO_NAME] = L"";
 
                     //get string
-                    SendDlgItemMessage( hDlg, IDC_NAME, LB_GETTEXT, iItem, (LPARAM)szDoomed );
-                    if( strcmp( szDoomed, szDefaultName ) == 0 ) strcpy( szDoomed, "" );
+                    SendDlgItemMessageW( hDlg, IDC_NAME, LB_GETTEXT, iItem, (LPARAM)szDoomed );
+                    if( lstrcmpW( szDoomed, szDefaultName ) == 0 ) szDoomed[0] = L'\0';
 
                     //find it in the settings list and continue
                     LPCATSETTINGS cat = catSettings;
                     while( cat )
                     {
                         if( !cat->fDeleted )
-                            if( strcmp( cat->szName, szDoomed ) == 0 ) break;
+                            if( lstrcmpW( cat->szName, szDoomed ) == 0 ) break;
 
                         cat = cat->next;
                     }
@@ -293,37 +292,37 @@ BOOL CALLBACK DlgProc_Config( HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam
                     if( cat )
                     {
                         //remove it from the list box
-                        SendDlgItemMessage( hDlg, IDC_NAME, LB_DELETESTRING, iItem, 0 );
+                        SendDlgItemMessageW( hDlg, IDC_NAME, LB_DELETESTRING, iItem, 0 );
 
                         //select another item
-                        SendDlgItemMessage( hDlg, IDC_NAME, LB_SETCURSEL, (iItem ? iItem-1 : 0), 0 );
-                        SendMessage( hDlg, WM_COMMAND, MAKEWPARAM(IDC_NAME,LBN_SELCHANGE), 0 );
+                        SendDlgItemMessageW( hDlg, IDC_NAME, LB_SETCURSEL, (iItem ? iItem-1 : 0), 0 );
+                        SendMessageW( hDlg, WM_COMMAND, MAKEWPARAM(IDC_NAME,LBN_SELCHANGE), 0 );
 
                         //remove it from memory
-                        if( DeleteCatSettings( cat ) == FALSE ) 
-                            MessageBox( hDlg, "Internal Error: Could not delete cat!", szWindowTitle, MB_ICONERROR );
+                        if( DeleteCatSettings( cat ) == FALSE )
+                            MessageBoxW( hDlg, L"Internal Error: Could not delete cat!", szWindowTitle, MB_ICONERROR );
                     }
                     else
-                        MessageBox( hDlg, "Internal Error: Dropped off the end of the cat list!", szWindowTitle, MB_ICONERROR );
+                        MessageBoxW( hDlg, L"Internal Error: Dropped off the end of the cat list!", szWindowTitle, MB_ICONERROR );
 
                     break;
                 }
 
-                case IDC_HELP:
-                    WinHelp( hDlg, szHelpFile, HELP_FINDER, 0 );
+                case IDC_HELP32:
+                    WinHelpW( hDlg, szHelpFile, HELP_FINDER, 0 );
                     break;
 
                 case IDC_NAME:
                     if( HIWORD(wParam) == LBN_SELCHANGE )
                     {
-                        int iNew = SendDlgItemMessage( hDlg, IDC_NAME, LB_GETCURSEL, 0, 0 );
-                        char szNew[MAX_NEKO_NAME] = "";
+                        int iNew = SendDlgItemMessageW( hDlg, IDC_NAME, LB_GETCURSEL, 0, 0 );
+                        WCHAR szNew[MAX_NEKO_NAME] = L"";
 
                         //get string and enable delete if it's not the default item (first)
-                        SendDlgItemMessage( hDlg, IDC_NAME, LB_GETTEXT, iNew, (LPARAM)szNew );
-                        if( strcmp( szNew, szDefaultName ) == 0 )
+                        SendDlgItemMessageW( hDlg, IDC_NAME, LB_GETTEXT, iNew, (LPARAM)szNew );
+                        if( lstrcmpW( szNew, szDefaultName ) == 0 )
                         {
-                            strcpy( szNew, "" );
+                            szNew[0] = L'\0';
                             EnableWindow( GetDlgItem( hDlg, IDC_DELETE ), FALSE );
                         }
                         else EnableWindow( GetDlgItem( hDlg, IDC_DELETE ), TRUE );
@@ -333,7 +332,7 @@ BOOL CALLBACK DlgProc_Config( HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam
                         while( cat )
                         {
                             if( !cat->fDeleted )
-                                if( strcmp( cat->szName, szNew ) == 0 ) break;
+                                if( lstrcmpW( cat->szName, szNew ) == 0 ) break;
 
                             cat = cat->next;
                         }
@@ -341,7 +340,7 @@ BOOL CALLBACK DlgProc_Config( HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam
                         if( cat )
                             SetActiveCat( cat );
                         else
-                            MessageBox( hDlg, "Internal Error: Dropped off the end of the cat list!", szWindowTitle, MB_ICONERROR );
+                            MessageBoxW( hDlg, L"Internal Error: Dropped off the end of the cat list!", szWindowTitle, MB_ICONERROR );
                     }
                     break;
             }
@@ -362,13 +361,13 @@ BOOL CALLBACK DlgProc_Config( HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam
         /* help stuff */
         case WM_HELP:
             if( ((LPHELPINFO)lParam)->iCtrlId != (-1) )
-                WinHelp( (HWND)((LPHELPINFO)lParam)->hItemHandle, szHelpFile, HELP_WM_HELP, (DWORD)(LPSTR)dwHelpID );
+                WinHelpW( (HWND)((LPHELPINFO)lParam)->hItemHandle, szHelpFile, HELP_WM_HELP, (ULONG_PTR)dwHelpID );
             else
                 return FALSE;
             break;
 
         case WM_CONTEXTMENU:
-            WinHelp( (HWND)wParam, szHelpFile, HELP_CONTEXTMENU, (DWORD)(LPVOID)dwHelpID );
+            WinHelpW( (HWND)wParam, szHelpFile, HELP_CONTEXTMENU, (ULONG_PTR)dwHelpID );
             break;
 
         default:
@@ -380,59 +379,59 @@ BOOL CALLBACK DlgProc_Config( HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam
 /*************************************************************************************************/
 
 /* WriteCatSetting - write a cat from the registry with the given cat settings block */
-void WINAPI WriteCatSettings( LPCATSETTINGS cat, LPCSTR szName )
+void WINAPI WriteCatSettings( LPCATSETTINGS cat, LPCWSTR szName )
 {
     //see if this cat is flagged as deleted
     if( cat->fDeleted == TRUE )
     {
         //remove this item from the registry
-        if( strlen( szName ) > 0 )
+        if( lstrlenW( szName ) > 0 )
         {
             HKEY hKey;
-            char szKeyName[MAX_PATH];
-            strcpy( szKeyName, szNekoRegKey );
-            if( RegOpenKeyEx( HKEY_CURRENT_USER, szKeyName, 0, KEY_WRITE, &hKey ) == ERROR_SUCCESS )
+            WCHAR szKeyName[MAX_PATH];
+            lstrcpyW( szKeyName, szNekoRegKey );
+            if( RegOpenKeyExW( HKEY_CURRENT_USER, szKeyName, 0, KEY_WRITE, &hKey ) == ERROR_SUCCESS )
             {
-                LONG l = RegDeleteKey( hKey, cat->szName );
-                if( l != ERROR_SUCCESS ) 
+                LONG l = RegDeleteKeyW( hKey, cat->szName );
+                if( l != ERROR_SUCCESS )
                 {
 /*
                     LPVOID lpMsgBuf;
 
-                    FormatMessage( 
+                    FormatMessageW(
                         FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM,
                         NULL,
                         l,
                         MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), // Default language
-                        (LPTSTR) &lpMsgBuf,
+                        (LPWSTR) &lpMsgBuf,
                         0,
-                        NULL 
+                        NULL
                     );
                     // Display the string.
-                    MessageBox( NULL, (char*)lpMsgBuf, "Can't Delete Key", MB_OK|MB_ICONINFORMATION );
+                    MessageBoxW( NULL, (LPCWSTR)lpMsgBuf, L"Can't Delete Key", MB_OK|MB_ICONINFORMATION );
 
                     // Free the buffer.
                     LocalFree( lpMsgBuf );
 */
- 
+
                 }
                 RegCloseKey( hKey );
             }
             else
-                MessageBox( NULL, "Internal Error: Couldn't open registry key!", 0, MB_TASKMODAL );
+                MessageBoxW( NULL, L"Internal Error: Couldn't open registry key!", 0, MB_TASKMODAL );
         }
         else
-            MessageBox( NULL, "Internal Error: Tried to delete default Neko!", 0, MB_TASKMODAL );
+            MessageBoxW( NULL, L"Internal Error: Tried to delete default Neko!", 0, MB_TASKMODAL );
     }
     else
     {
         //build & open key
-	    char szKey[1024];
-	    strcpy( szKey, szNekoRegKey );
-	    if( strlen( szName ) > 0 )
+	    WCHAR szKey[1024];
+	    lstrcpyW( szKey, szNekoRegKey );
+	    if( lstrlenW( szName ) > 0 )
 	    {
-		    strcat( szKey, "\\" );
-		    strcat( szKey, szName );
+		    lstrcatW( szKey, L"\\" );
+		    lstrcatW( szKey, szName );
 	    }
 
         //write cat to the registry
@@ -486,8 +485,8 @@ void WINAPI WriteSettings()
         if( cat->fDeleted == FALSE )
         {
             //build the key index
-            char szSubKey[MAX_PATH];
-            sprintf( szSubKey, "%d", nNumCats );
+            WCHAR szSubKey[MAX_PATH];
+            wsprintfW( szSubKey, L"%d", nNumCats );
 
             //write this cat's name to the registry
 		    NekoSettings.SetString( szSubKey, cat->szName );
@@ -506,40 +505,40 @@ void WINAPI WriteSettings()
 }
 
 /* ReadCatSetting - loads a cat from the registry into the given cat settings block */
-void WINAPI ReadCatSettings( LPCATSETTINGS cat, LPCSTR szName )
+void WINAPI ReadCatSettings( LPCATSETTINGS cat, LPCWSTR szName )
 {
-    strcpy( cat->szName, szName );
+    lstrcpyW( cat->szName, szName );
 
     //set defaults
-    strcpy( cat->szLibrary, "" );
+    cat->szLibrary[0] = L'\0';
     cat->uScale = 100;
     cat->uSpeed = 16;
     cat->uMouseSensitivity = 6;
-    strcpy( cat->szSndIdle1, "" );
-    strcpy( cat->szSndIdle2, "" );
-    strcpy( cat->szSndIdle3, "" );
-	strcpy( cat->szSndSleep, "" );
-    strcpy( cat->szSndAwake, "" );
+    cat->szSndIdle1[0] = L'\0';
+    cat->szSndIdle2[0] = L'\0';
+    cat->szSndIdle3[0] = L'\0';
+	cat->szSndSleep[0] = L'\0';
+    cat->szSndAwake[0] = L'\0';
 	cat->uSndFrequency = 0;
     cat->uAction = CHASE_MOUSE;
     cat->fDeleted = FALSE;
     cat->fAlwaysOnTop = FALSE;
     cat->bFootprints = FALSE;
-    *cat->szFootprintLib = '\0';
+    *cat->szFootprintLib = L'\0';
 
     //build & open key
-	char szKey[1024];
-	strcpy( szKey, szNekoRegKey );
-	if( strlen( szName ) > 0 )
+	WCHAR szKey[1024];
+	lstrcpyW( szKey, szNekoRegKey );
+	if( lstrlenW( szName ) > 0 )
 	{
-		strcat( szKey, "\\" );
-		strcat( szKey, szName );
+		lstrcatW( szKey, L"\\" );
+		lstrcatW( szKey, szName );
 	}
 
     CNekoSettings NekoSettings( szKey );
 
     //display
-    NekoSettings.GetString( szNekoLibraryKey, cat->szLibrary, MAX_PATH-1 );
+    NekoSettings.GetString( szNekoLibraryKey, cat->szLibrary, (MAX_PATH-1) * sizeof(WCHAR) );
     NekoSettings.GetInt( szNekoScaleKey, &cat->uScale );
     DWORD fAlwaysOnTop = cat->fAlwaysOnTop;
 	NekoSettings.GetInt( szNekoOnTopKey, &fAlwaysOnTop );
@@ -550,18 +549,18 @@ void WINAPI ReadCatSettings( LPCATSETTINGS cat, LPCSTR szName )
     NekoSettings.GetInt( szNekoSenseKey, &cat->uMouseSensitivity );
 
     //sounds
-    NekoSettings.GetString( szNekoSndIdle1Key, cat->szSndIdle1, MAX_PATH-1 );
-    NekoSettings.GetString( szNekoSndIdle2Key, cat->szSndIdle2, MAX_PATH-1 );
-    NekoSettings.GetString( szNekoSndIdle3Key, cat->szSndIdle3, MAX_PATH-1 );
-	NekoSettings.GetString( szNekoSndSleepKey, cat->szSndSleep, MAX_PATH-1 );
-    NekoSettings.GetString( szNekoSndAwakeKey, cat->szSndAwake, MAX_PATH-1 );
+    NekoSettings.GetString( szNekoSndIdle1Key, cat->szSndIdle1, (MAX_PATH-1) * sizeof(WCHAR) );
+    NekoSettings.GetString( szNekoSndIdle2Key, cat->szSndIdle2, (MAX_PATH-1) * sizeof(WCHAR) );
+    NekoSettings.GetString( szNekoSndIdle3Key, cat->szSndIdle3, (MAX_PATH-1) * sizeof(WCHAR) );
+	NekoSettings.GetString( szNekoSndSleepKey, cat->szSndSleep, (MAX_PATH-1) * sizeof(WCHAR) );
+    NekoSettings.GetString( szNekoSndAwakeKey, cat->szSndAwake, (MAX_PATH-1) * sizeof(WCHAR) );
 	NekoSettings.GetInt( szNekoSndFreqKey, &cat->uSndFrequency );
 
     //independence
     NekoSettings.GetInt( szNekoActionKey, &cat->uAction );
 
     NekoSettings.GetBool( szNekoFootprintKey, &cat->bFootprints );
-    NekoSettings.GetString( szNekoFootprintLibKey, cat->szFootprintLib, MAX_PATH-1 );
+    NekoSettings.GetString( szNekoFootprintLibKey, cat->szFootprintLib, (MAX_PATH-1) * sizeof(WCHAR) );
 }
 
 /* ReadSettings - reads all of the settings from the registry and creates the global settings array */
@@ -581,7 +580,7 @@ void WINAPI ReadSettings()
         //the user hasn't run the config program, or there are no Nekos - use default
         cat = new CATSETTINGS;
         cat->next = NULL;
-        ReadCatSettings( cat, "" );
+        ReadCatSettings( cat, L"" );
 
         catSettings = cat;
     }
@@ -590,11 +589,11 @@ void WINAPI ReadSettings()
         for( DWORD i = 0; i < nNumCats; i++ )
         {
             //build the key index
-            char szSubKey[MAX_PATH], szName[MAX_NEKO_NAME];
-            sprintf( szSubKey, "%d", i );
+            WCHAR szSubKey[MAX_PATH], szName[MAX_NEKO_NAME];
+            wsprintfW( szSubKey, L"%d", i );
 
             //load this cat's name from the registry
-		    NekoSettings->GetString( szSubKey, szName, MAX_NEKO_NAME-1 );
+		    NekoSettings->GetString( szSubKey, szName, (MAX_NEKO_NAME-1) * sizeof(WCHAR) );
 
             //create a new setting for it and put the object into the list
             cat = new CATSETTINGS;
@@ -624,7 +623,7 @@ void WINAPI DeleteConfigList()
    if it has been loaded twice */
 BOOL FindAndActivateOldInstance()
 {
-    HWND hWnd = FindWindow( NULL, szWindowTitle );
+    HWND hWnd = FindWindowW( NULL, szWindowTitle );
     if( hWnd )
     {
         OpenIcon(hWnd);
@@ -636,8 +635,11 @@ BOOL FindAndActivateOldInstance()
 }
 
 /* WinMain - main program start point */
-int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow )
-{
+int APIENTRY wWinMain(HINSTANCE hInstance,
+                      HINSTANCE hPrevInstance,
+                      LPWSTR lpCmdLine,
+                      int iCmdShow) {
+  UNREFERENCED_PARAMETER(hPrevInstance);
     //see if the configuration program is loaded already
     if( FindAndActivateOldInstance() ) return 0;
 
@@ -646,11 +648,11 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 
     //store the instance handle and find the Neko window
     g_hInstance = hInstance;
-    g_hWndNeko = FindWindow( szNekoClassName, szNekoWindowTitle );
+    g_hWndNeko = FindWindowW( szNekoClassName, szNekoWindowTitle );
 
     //initialise program and display dialog
     ReadSettings();
-    DialogBox( g_hInstance, MAKEINTRESOURCE(IDD_CONFIG), NULL, (DLGPROC)DlgProc_Config );
+    DialogBoxW( g_hInstance, MAKEINTRESOURCEW(IDD_CONFIG), NULL, (DLGPROC)DlgProc_Config );
     DeleteConfigList();
     ShutdownPropertyDialog();
     return 0;

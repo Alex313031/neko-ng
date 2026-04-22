@@ -1,11 +1,12 @@
 #ifndef _NEKOCFG_H
 #define _NEKOCFG_H
 
-#include "..\NekoCommon.h"
+#include "../version.h"
+#include "../NekoCommon.h"
 
 //structures
 typedef struct tagTABINITDATA {
-    char* szTitle;
+    LPCWSTR szTitle;
     UINT uIDDialog;
     DLGPROC lpfnDlgProc;
     UINT uIDIcon;
@@ -13,10 +14,10 @@ typedef struct tagTABINITDATA {
 } TABINITDATA, *LPTABINITDATA;
 
 typedef struct tagCATSETTINGS {
-    char szName[MAX_NEKO_NAME];
-    
+    WCHAR szName[MAX_NEKO_NAME];
+
     //display
-    char szLibrary[MAX_PATH];
+    WCHAR szLibrary[MAX_PATH];
     DWORD uScale;
 	BOOL fAlwaysOnTop;
 
@@ -25,11 +26,11 @@ typedef struct tagCATSETTINGS {
     DWORD uMouseSensitivity;
 
     //sounds
-    char szSndIdle1[MAX_PATH];
-    char szSndIdle2[MAX_PATH];
-    char szSndIdle3[MAX_PATH];
-	char szSndSleep[MAX_PATH];
-    char szSndAwake[MAX_PATH];
+    WCHAR szSndIdle1[MAX_PATH];
+    WCHAR szSndIdle2[MAX_PATH];
+    WCHAR szSndIdle3[MAX_PATH];
+	WCHAR szSndSleep[MAX_PATH];
+    WCHAR szSndAwake[MAX_PATH];
 	DWORD uSndFrequency;
 
     //independence
@@ -37,7 +38,7 @@ typedef struct tagCATSETTINGS {
 
     //effects
     BOOL bFootprints;
-    char szFootprintLib[MAX_PATH];
+    WCHAR szFootprintLib[MAX_PATH];
 
     //list items
     BOOL fDeleted;
@@ -64,6 +65,6 @@ extern void WINAPI GetDialogSettings();
 
 //external variables
 extern HINSTANCE g_hInstance;
-extern const char* szHelpFile;
+extern LPCWSTR szHelpFile;
 
 #endif //_NEKOCFG_H

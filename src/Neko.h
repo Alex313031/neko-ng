@@ -16,7 +16,7 @@
 class CNeko {
 
 public:
-	CNeko( char* pszName = "" );
+	CNeko( LPCWSTR pszName = L"" );
 	virtual ~CNeko();
 
 	//public interface
@@ -50,17 +50,17 @@ protected:
     //attributes
     DWORD m_dwSpeed;
     DWORD m_dwIdleSpace;
-    char m_szLibname[MAX_PATH];
-    char m_szFootprintLibname[MAX_PATH];
+    WCHAR m_szLibname[MAX_PATH];
+    WCHAR m_szFootprintLibname[MAX_PATH];
     BOOL m_bFootprints;
-	
+
 	//sound stuff
-	char m_szSndIdle1[MAX_PATH], m_szSndIdle2[MAX_PATH], m_szSndIdle3[MAX_PATH];
-	char m_szSndSleep[MAX_PATH], m_szSndAwake[MAX_PATH];
+	WCHAR m_szSndIdle1[MAX_PATH], m_szSndIdle2[MAX_PATH], m_szSndIdle3[MAX_PATH];
+	WCHAR m_szSndSleep[MAX_PATH], m_szSndAwake[MAX_PATH];
 	DWORD m_dwSndFrequency;
 
 	//named Neko stuff
-	char m_szName[MAX_NEKO_NAME];
+	WCHAR m_szName[MAX_NEKO_NAME];
 
 	//animation lookup table
     int m_nAnimation[18][2];

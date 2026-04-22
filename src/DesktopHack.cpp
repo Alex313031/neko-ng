@@ -80,14 +80,14 @@ void CDesktopHack::GetDesktopRect( RECT& rcDesktop )
 
 BOOL CALLBACK DesktopHunter( HWND hWnd, LPARAM lParam )
 {
-    char szBuffer[26];
+    WCHAR szBuffer[26];
 
     switch( lParam )
     {
-        case ENUM_ALLWINDOWS: 
+        case ENUM_ALLWINDOWS:
 			//try and find program manager window
-            GetClassName( hWnd, szBuffer, 25 );
-            if( stricmp( szBuffer, "Progman" ) == 0 )
+            GetClassNameW( hWnd, szBuffer, 25 );
+            if( lstrcmpiW( szBuffer, L"Progman" ) == 0 )
             {
                 EnumChildWindows( hWnd, (WNDENUMPROC)DesktopHunter, ENUM_SHELLDEFVIEW );
                 return ( g_hWndDesktop == NULL ); //keep looking if it's not found
@@ -95,8 +95,8 @@ BOOL CALLBACK DesktopHunter( HWND hWnd, LPARAM lParam )
             break;
 
         case ENUM_SHELLDEFVIEW:
-            GetClassName( hWnd, szBuffer, 25 );
-            if( stricmp( szBuffer, "SHELLDLL_DefView" ) == 0 )
+            GetClassNameW( hWnd, szBuffer, 25 );
+            if( lstrcmpiW( szBuffer, L"SHELLDLL_DefView" ) == 0 )
             {
                 g_hWndShellDefView = hWnd;
                 EnumChildWindows( hWnd, (WNDENUMPROC)DesktopHunter, ENUM_GETDESKTOP );
@@ -104,14 +104,14 @@ BOOL CALLBACK DesktopHunter( HWND hWnd, LPARAM lParam )
             }
             break;
 
-        case ENUM_GETDESKTOP: 
+        case ENUM_GETDESKTOP:
             //only look at child windows of the shell default view
             if( GetParent( hWnd ) != g_hWndShellDefView ) break;
 
-            GetClassName( hWnd, szBuffer, 25 );
+            GetClassNameW( hWnd, szBuffer, 25 );
 
             //check for normal desktop
-            if( stricmp( szBuffer, "SysListView32" ) == 0 )
+            if( lstrcmpiW( szBuffer, L"SysListView32" ) == 0 )
             {
 				//store handle but continue looking
                 g_hWndDesktop = hWnd;
@@ -119,7 +119,7 @@ BOOL CALLBACK DesktopHunter( HWND hWnd, LPARAM lParam )
             }
 
             //check for IE4
-            if( stricmp( szBuffer, "Internet Explorer_Server" ) == 0 )
+            if( lstrcmpiW( szBuffer, L"Internet Explorer_Server" ) == 0 )
             {
                 g_hWndDesktop = hWnd;
                 g_fActiveDesktop = TRUE;

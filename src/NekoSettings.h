@@ -10,18 +10,18 @@
 
 class CNekoSettings {
 public:
-    CNekoSettings( LPCSTR key, BOOL fCreate = TRUE );
+    CNekoSettings( LPCWSTR key, BOOL fCreate = TRUE );
     ~CNekoSettings();
 
 	BOOL IsOpen();
 
-    BOOL GetString( LPCSTR keyname, LPSTR result, ULONG size );
-    BOOL GetInt( LPCSTR keyname, DWORD * result );
-    BOOL GetBool( LPCSTR keyname, BOOL * result );
+    BOOL GetString( LPCWSTR keyname, LPWSTR result, ULONG size );
+    BOOL GetInt( LPCWSTR keyname, DWORD * result );
+    BOOL GetBool( LPCWSTR keyname, BOOL * result );
 
-    BOOL SetString( LPCSTR keyname, LPSTR value );
-    BOOL SetInt( LPCSTR keyname, DWORD value );
-    BOOL SetBool( LPCSTR keyname, BOOL value );
+    BOOL SetString( LPCWSTR keyname, LPCWSTR value );
+    BOOL SetInt( LPCWSTR keyname, DWORD value );
+    BOOL SetBool( LPCWSTR keyname, BOOL value );
 
 private:
     HKEY m_hKey;

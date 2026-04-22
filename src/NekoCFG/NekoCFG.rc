@@ -1,5 +1,6 @@
 //Microsoft Developer Studio generated resource script.
 //
+#include "../version.h"
 #include "NekoCFG_resource.h"
 
 // Generated Help ID header file
@@ -12,7 +13,15 @@
 //
 // Generated from the TEXTINCLUDE 2 resource.
 //
-#include "afxres.h"
+#define APSTUDIO_HIDDEN_SYMBOLS
+#include <windows.h>
+#undef APSTUDIO_HIDDEN_SYMBOLS
+
+#include <winres.h>
+
+#ifdef __MINGW32__
+#include <winuser.h>
+#endif // __MINGW32__
 
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
@@ -22,8 +31,7 @@
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENG)
 #ifdef _WIN32
-LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_UK
-#pragma code_page(1252)
+LANGUAGE LANG_ENGLISH, SUBLANG_NEUTRAL
 #endif //_WIN32
 
 /////////////////////////////////////////////////////////////////////////////
@@ -33,13 +41,13 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_UK
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDI_APPICON             ICON    DISCARDABLE     "res\\appicon.ico"
-IDI_DEFAULT             ICON    DISCARDABLE     "..\\res\\Awake.ico"
-IDI_TAB_SOUNDS          ICON    DISCARDABLE     "Res\\sounds.ico"
-IDI_TAB_MOVEMENT        ICON    DISCARDABLE     "Res\\movement.ico"
-IDI_TAB_DISPLAY         ICON    DISCARDABLE     "Res\\displayi.ico"
-IDI_TAB_INDEPENDENCE    ICON    DISCARDABLE     "res\\independence.ico"
-IDI_TAB_EFFECTS         ICON    DISCARDABLE     "res\\tab_effects.ico"
+IDI_APPICON             ICON    DISCARDABLE     "res/appicon.ico"
+IDI_DEFAULT             ICON    DISCARDABLE     "res/default.ico"
+IDI_TAB_SOUNDS          ICON    DISCARDABLE     "res/sounds.ico"
+IDI_TAB_MOVEMENT        ICON    DISCARDABLE     "res/movement.ico"
+IDI_TAB_DISPLAY         ICON    DISCARDABLE     "res/displayi.ico"
+IDI_TAB_INDEPENDENCE    ICON    DISCARDABLE     "res/independence.ico"
+IDI_TAB_EFFECTS         ICON    DISCARDABLE     "res/tab_effects.ico"
 
 #ifndef _MAC
 /////////////////////////////////////////////////////////////////////////////
@@ -48,33 +56,33 @@ IDI_TAB_EFFECTS         ICON    DISCARDABLE     "res\\tab_effects.ico"
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,0,0,1
- PRODUCTVERSION 1,0,0,1
+ FILEVERSION MAJOR_VERSION, MINOR_VERSION, BUILD_VERSION
+ PRODUCTVERSION MAJOR_VERSION, MINOR_VERSION, BUILD_VERSION
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
- FILEFLAGS 0x1L
-#else
- FILEFLAGS 0x0L
-#endif
- FILEOS 0x40004L
- FILETYPE 0x1L
- FILESUBTYPE 0x0L
+ FILEFLAGS VS_FF_DEBUG // 0x00000010L
+#else // Release mode
+ FILEFLAGS 0x00000000L // Release build
+#endif  // _DEBUG
+ FILEOS VOS_NT_WINDOWS32 // Win32 (Windows NT and later)
+ FILETYPE VFT_APP // 0x00000001L
+ FILESUBTYPE VFT2_UNKNOWN // 0x00000000L
 BEGIN
     BLOCK "StringFileInfo"
     BEGIN
-        BLOCK "000004b0"
+        BLOCK "040904B0" // 0x0409 = US English, 0x04B0 = Unicode (1200)
         BEGIN
-            VALUE "Comments", "\0"
-            VALUE "CompanyName", "DHSoft\0"
-            VALUE "FileDescription", "NekoCFG\0"
-            VALUE "FileVersion", "4.0g\0"
+            VALUE "Comments", "https://github.com/Alex313031/neko-ng\0"
+            VALUE "CompanyName", "Alex313031\0"
+            VALUE "FileDescription", "Neko Configurator for Windows NT\0"
+            VALUE "FileVersion", VERSION_STRING
             VALUE "InternalName", "NekoCFG\0"
-            VALUE "LegalCopyright", "Copyright © 1998\0"
-            VALUE "LegalTrademarks", "\0"
-            VALUE "OriginalFilename", "NekoCFG.exe\0"
+            VALUE "LegalCopyright", LEGAL_COPYRIGHT
+            VALUE "LegalTrademarks", "Freeware\0"
+            VALUE "OriginalFilename", "neko_cfg.exe\0"
             VALUE "PrivateBuild", "\0"
-            VALUE "ProductName", "Neko Configuration Program\0"
-            VALUE "ProductVersion", "4.0g\0"
+            VALUE "ProductName", "Neko-ng Configuration Program\0"
+            VALUE "ProductVersion", VERSION_STRING
             VALUE "SpecialBuild", "\0"
         END
     END
@@ -111,7 +119,7 @@ BEGIN
     DEFPUSHBUTTON   "OK",IDOK,145,189,50,14,0,0,HIDOK
     PUSHBUTTON      "Cancel",IDCANCEL,200,189,50,14,0,0,HIDCANCEL
     PUSHBUTTON      "&Apply",IDC_APPLY,255,189,50,14,0,0,HIDC_APPLY
-    PUSHBUTTON      "&Help",IDC_HELP,62,189,50,14,0,0,HIDC_HELP
+    PUSHBUTTON      "&Help",IDC_HELP32,62,189,50,14,0,0,HIDC_HELP
     LISTBOX         IDC_NAME,7,18,127,85,LBS_SORT | LBS_NOINTEGRALHEIGHT | 
                     WS_VSCROLL | WS_TABSTOP,0,HIDC_NAME
 END
@@ -330,7 +338,13 @@ END
 
 2 TEXTINCLUDE DISCARDABLE 
 BEGIN
-    "#include ""afxres.h""\r\n"
+    "#ifndef APSTUDIO_INVOKED\r\n"
+    "#include ""version.h""\r\n"
+    "#endif\r\n"
+    "#define APSTUDIO_HIDDEN_SYMBOLS\r\n"
+    "#include ""windows.h""\r\n"
+    "#undef APSTUDIO_HIDDEN_SYMBOLS\r\n"
+    "#include ""winres.h""\r\n"
     "\0"
 END
 
@@ -348,14 +362,14 @@ END
 // Cursor
 //
 
-IDC_PLAYING             CURSOR  DISCARDABLE     "res\\playing.cur"
+IDC_PLAYING             CURSOR  DISCARDABLE     "res/playing.cur"
 
 /////////////////////////////////////////////////////////////////////////////
 //
 // Bitmap
 //
 
-IDR_PLAYBITMAP          BITMAP  DISCARDABLE     "res\\play.bmp"
+IDR_PLAYBITMAP          BITMAP  DISCARDABLE     "res/play.bmp"
 #endif    // English (U.K.) resources
 /////////////////////////////////////////////////////////////////////////////
 

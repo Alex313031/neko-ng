@@ -1,0 +1,41 @@
+# Copyright 2026 Alex313031
+
+# Neko configuration program neko_cfg.exe, to live side by side with neko_win32.exe
+executable("neko_cfg") {
+  configs += [ ":neko_cfg_config", ]
+
+  sources = [
+    "NekoCFG.cpp",
+    "NekoCFG.h",
+    "NekoCFG.rc",
+    "NekoCFG_resource.h",
+    "NekoCFG_Tabs.cpp",
+    "../NekoSettings.cpp",
+  ]
+
+  deps = [
+    # ":neko_help32",
+  ]
+}
+
+# neko_cfg specific configs
+config("neko_cfg_config") {
+  defines = [ "NEKO_CFG", ]
+
+  cflags = []
+
+  include_dirs = [ "./", ]
+
+  cflags += [
+    "-Wunused-function",
+  ]
+
+  libs = [
+    "comctl32",
+    "odbccp32",
+    "odbc32",
+    "winmm",
+  ]
+}
+
+# TODO: Add neko_help32 for building hlp files

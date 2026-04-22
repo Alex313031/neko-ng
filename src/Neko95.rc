@@ -1,5 +1,6 @@
 //Microsoft Developer Studio generated resource script.
 //
+#include "version.h"
 #include "resource.h"
 
 #define APSTUDIO_READONLY_SYMBOLS
@@ -7,7 +8,15 @@
 //
 // Generated from the TEXTINCLUDE 2 resource.
 //
-#include "afxres.h"
+#define APSTUDIO_HIDDEN_SYMBOLS
+#include <windows.h>
+#undef APSTUDIO_HIDDEN_SYMBOLS
+
+#include <winres.h>
+
+#ifdef __MINGW32__
+#include <winuser.h>
+#endif // __MINGW32__
 
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
@@ -17,8 +26,7 @@
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEU)
 #ifdef _WIN32
-LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
-#pragma code_page(1252)
+LANGUAGE LANG_ENGLISH, SUBLANG_NEUTRAL
 #endif //_WIN32
 
 #ifndef _MAC
@@ -28,33 +36,33 @@ LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,0,0,1
- PRODUCTVERSION 1,0,0,1
+ FILEVERSION MAJOR_VERSION, MINOR_VERSION, BUILD_VERSION
+ PRODUCTVERSION MAJOR_VERSION, MINOR_VERSION, BUILD_VERSION
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
- FILEFLAGS 0x1L
-#else
- FILEFLAGS 0x0L
-#endif
- FILEOS 0x40004L
- FILETYPE 0x1L
- FILESUBTYPE 0x0L
+ FILEFLAGS VS_FF_DEBUG // 0x00000010L
+#else // Release mode
+ FILEFLAGS 0x00000000L // Release build
+#endif  // _DEBUG
+ FILEOS VOS_NT_WINDOWS32 // Win32 (Windows NT and later)
+ FILETYPE VFT_APP // 0x00000001L
+ FILESUBTYPE VFT2_UNKNOWN // 0x00000000L
 BEGIN
     BLOCK "StringFileInfo"
     BEGIN
-        BLOCK "080904b0"
+        BLOCK "040904B0" // 0x0409 = US English, 0x04B0 = Unicode (1200)
         BEGIN
-            VALUE "Comments", "\0"
-            VALUE "CompanyName", "DHSoft\0"
-            VALUE "FileDescription", "Neko for Windows\0"
-            VALUE "FileVersion", "4.0h\0"
-            VALUE "InternalName", "Neko\0"
-            VALUE "LegalCopyright", "Copyright © 1999\0"
-            VALUE "LegalTrademarks", "\0"
-            VALUE "OriginalFilename", "Neko98.exe\0"
+            VALUE "Comments", "https://github.com/Alex313031/neko-ng\0"
+            VALUE "CompanyName", "Alex313031\0"
+            VALUE "FileDescription", "Neko for Windows NT\0"
+            VALUE "FileVersion", VERSION_STRING
+            VALUE "InternalName", "Neko98\0"
+            VALUE "LegalCopyright", LEGAL_COPYRIGHT
+            VALUE "LegalTrademarks", "Freeware\0"
+            VALUE "OriginalFilename", "neko_win32.exe\0"
             VALUE "PrivateBuild", "\0"
-            VALUE "ProductName", "Neko98\0"
-            VALUE "ProductVersion", "4.0h\0"
+            VALUE "ProductName", "Neko-ng\0"
+            VALUE "ProductVersion", VERSION_STRING
             VALUE "SpecialBuild", "\0"
         END
     END
@@ -74,46 +82,46 @@ END
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDI_AWAKE               ICON    DISCARDABLE     "Res\\Awake.ico"
-IDI_UP1                 ICON    DISCARDABLE     "Res\\Up1.ico"
-IDI_UP2                 ICON    DISCARDABLE     "Res\\Up2.ico"
-IDI_UPRIGHT1            ICON    DISCARDABLE     "Res\\Upright1.ico"
-IDI_UPRIGHT2            ICON    DISCARDABLE     "Res\\Upright2.ico"
-IDI_RIGHT1              ICON    DISCARDABLE     "Res\\Right1.ico"
-IDI_RIGHT2              ICON    DISCARDABLE     "Res\\right2.ico"
-IDI_DOWNRIGHT1          ICON    DISCARDABLE     "Res\\Downright1.ico"
-IDI_DOWNRIGHT2          ICON    DISCARDABLE     "Res\\downright2.ico"
-IDI_DOWN1               ICON    DISCARDABLE     "Res\\Down1.ico"
-IDI_DOWN2               ICON    DISCARDABLE     "Res\\down2.ico"
-IDI_DOWNLEFT1           ICON    DISCARDABLE     "Res\\downleft1.ico"
-IDI_DOWNLEFT2           ICON    DISCARDABLE     "Res\\Downleft2.ico"
-IDI_LEFT1               ICON    DISCARDABLE     "Res\\left1.ico"
-IDI_LEFT2               ICON    DISCARDABLE     "Res\\left2.ico"
-IDI_UPLEFT1             ICON    DISCARDABLE     "Res\\Upleft1.ico"
-IDI_UPLEFT2             ICON    DISCARDABLE     "Res\\Upleft2.ico"
-IDI_UPCLAW1             ICON    DISCARDABLE     "Res\\upclaw1.ico"
-IDI_UPCLAW2             ICON    DISCARDABLE     "Res\\upclaw2.ico"
-IDI_RIGHTCLAW1          ICON    DISCARDABLE     "Res\\rightclaw1.ico"
-IDI_RIGHTCLAW2          ICON    DISCARDABLE     "Res\\Rightclaw2.ico"
-IDI_LEFTCLAW1           ICON    DISCARDABLE     "Res\\leftclaw1.ico"
-IDI_LEFTCLAW2           ICON    DISCARDABLE     "Res\\leftclaw2.ico"
-IDI_DOWNCLAW1           ICON    DISCARDABLE     "Res\\downclaw1.ico"
-IDI_DOWNCLAW2           ICON    DISCARDABLE     "Res\\downclaw2.ico"
-IDI_WASH2               ICON    DISCARDABLE     "Res\\wash2.ico"
-IDI_SCRATCH1            ICON    DISCARDABLE     "Res\\scratch1.ico"
-IDI_SCRATCH2            ICON    DISCARDABLE     "Res\\scratch2.ico"
-IDI_YAWN2               ICON    DISCARDABLE     "Res\\yawn2.ico"
-IDI_YAWN3               ICON    DISCARDABLE     "Res\\yawn3.ico"
-IDI_SLEEP1              ICON    DISCARDABLE     "Res\\sleep1.ico"
-IDI_SLEEP2              ICON    DISCARDABLE     "Res\\sleep2.ico"
-IDI_FP_UP               ICON    DISCARDABLE     "Res\\fp_up.ico"
-IDI_FP_UPRIGHT          ICON    DISCARDABLE     "Res\\fp_upright.ico"
-IDI_FP_RIGHT            ICON    DISCARDABLE     "Res\\fp_right.ico"
-IDI_FP_DOWNRIGHT        ICON    DISCARDABLE     "Res\\fp_downright.ico"
-IDI_FP_DOWN             ICON    DISCARDABLE     "Res\\fp_down.ico"
-IDI_FP_DOWNLEFT         ICON    DISCARDABLE     "Res\\fp_downleft.ico"
-IDI_FP_LEFT             ICON    DISCARDABLE     "Res\\fp_left.ico"
-IDI_FP_UPLEFT           ICON    DISCARDABLE     "Res\\fp_upleft.ico"
+IDI_AWAKE               ICON    DISCARDABLE     "res/Awake.ico"
+IDI_UP1                 ICON    DISCARDABLE     "res/Up1.ico"
+IDI_UP2                 ICON    DISCARDABLE     "res/Up2.ico"
+IDI_UPRIGHT1            ICON    DISCARDABLE     "res/Upright1.ico"
+IDI_UPRIGHT2            ICON    DISCARDABLE     "res/Upright2.ico"
+IDI_RIGHT1              ICON    DISCARDABLE     "res/Right1.ico"
+IDI_RIGHT2              ICON    DISCARDABLE     "res/right2.ico"
+IDI_DOWNRIGHT1          ICON    DISCARDABLE     "res/Downright1.ico"
+IDI_DOWNRIGHT2          ICON    DISCARDABLE     "res/downright2.ico"
+IDI_DOWN1               ICON    DISCARDABLE     "res/Down1.ico"
+IDI_DOWN2               ICON    DISCARDABLE     "res/down2.ico"
+IDI_DOWNLEFT1           ICON    DISCARDABLE     "res/downleft1.ico"
+IDI_DOWNLEFT2           ICON    DISCARDABLE     "res/Downleft2.ico"
+IDI_LEFT1               ICON    DISCARDABLE     "res/left1.ico"
+IDI_LEFT2               ICON    DISCARDABLE     "res/left2.ico"
+IDI_UPLEFT1             ICON    DISCARDABLE     "res/Upleft1.ico"
+IDI_UPLEFT2             ICON    DISCARDABLE     "res/Upleft2.ico"
+IDI_UPCLAW1             ICON    DISCARDABLE     "res/upclaw1.ico"
+IDI_UPCLAW2             ICON    DISCARDABLE     "res/upclaw2.ico"
+IDI_RIGHTCLAW1          ICON    DISCARDABLE     "res/rightclaw1.ico"
+IDI_RIGHTCLAW2          ICON    DISCARDABLE     "res/Rightclaw2.ico"
+IDI_LEFTCLAW1           ICON    DISCARDABLE     "res/leftclaw1.ico"
+IDI_LEFTCLAW2           ICON    DISCARDABLE     "res/leftclaw2.ico"
+IDI_DOWNCLAW1           ICON    DISCARDABLE     "res/downclaw1.ico"
+IDI_DOWNCLAW2           ICON    DISCARDABLE     "res/downclaw2.ico"
+IDI_WASH2               ICON    DISCARDABLE     "res/wash2.ico"
+IDI_SCRATCH1            ICON    DISCARDABLE     "res/scratch1.ico"
+IDI_SCRATCH2            ICON    DISCARDABLE     "res/scratch2.ico"
+IDI_YAWN2               ICON    DISCARDABLE     "res/yawn2.ico"
+IDI_YAWN3               ICON    DISCARDABLE     "res/yawn3.ico"
+IDI_SLEEP1              ICON    DISCARDABLE     "res/sleep1.ico"
+IDI_SLEEP2              ICON    DISCARDABLE     "res/sleep2.ico"
+IDI_FP_UP               ICON    DISCARDABLE     "res/fp_up.ico"
+IDI_FP_UPRIGHT          ICON    DISCARDABLE     "res/fp_upright.ico"
+IDI_FP_RIGHT            ICON    DISCARDABLE     "res/fp_right.ico"
+IDI_FP_DOWNRIGHT        ICON    DISCARDABLE     "res/fp_downright.ico"
+IDI_FP_DOWN             ICON    DISCARDABLE     "res/fp_down.ico"
+IDI_FP_DOWNLEFT         ICON    DISCARDABLE     "res/fp_downleft.ico"
+IDI_FP_LEFT             ICON    DISCARDABLE     "res/fp_left.ico"
+IDI_FP_UPLEFT           ICON    DISCARDABLE     "res/fp_upleft.ico"
 #endif    // Neutral resources
 /////////////////////////////////////////////////////////////////////////////
 
@@ -123,8 +131,7 @@ IDI_FP_UPLEFT           ICON    DISCARDABLE     "Res\\fp_upleft.ico"
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENG)
 #ifdef _WIN32
-LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_UK
-#pragma code_page(1252)
+LANGUAGE LANG_ENGLISH, SUBLANG_NEUTRAL
 #endif //_WIN32
 
 #ifdef APSTUDIO_INVOKED
@@ -140,7 +147,13 @@ END
 
 2 TEXTINCLUDE DISCARDABLE 
 BEGIN
-    "#include ""afxres.h""\r\n"
+    "#ifndef APSTUDIO_INVOKED\r\n"
+    "#include ""version.h""\r\n"
+    "#endif\r\n"
+    "#define APSTUDIO_HIDDEN_SYMBOLS\r\n"
+    "#include ""windows.h""\r\n"
+    "#undef APSTUDIO_HIDDEN_SYMBOLS\r\n"
+    "#include ""winres.h""\r\n"
     "\0"
 END
 

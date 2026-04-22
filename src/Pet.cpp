@@ -54,7 +54,7 @@ void CPet::SetImages( HICON* hIconTable, int nIcons )
 	{
 		nIcons = 1;
 #ifdef DEBUG
-		OutputDebugString( "WARNING: CPet::SetImages() passed 0 as nIcons\n" );
+		OutputDebugStringW( L"WARNING: CPet::SetImages() passed 0 as nIcons\n" );
 #endif
 	}
 

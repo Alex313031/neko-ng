@@ -32,7 +32,7 @@ extern HINSTANCE g_hInstance;
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-CNeko::CNeko( char* lpszName )
+CNeko::CNeko( LPCWSTR lpszName )
 {
 	//store pet
 	m_pPet = NULL;
@@ -59,34 +59,34 @@ CNeko::CNeko( char* lpszName )
 
     //set variables
 	m_nDX = m_nDY = 0;
-	strcpy( m_szName, lpszName );
+	lstrcpyW( m_szName, lpszName );
     m_dwSpeed = 16;
     m_dwIdleSpace = 6;
     m_Action = CHASE_MOUSE;
     m_nActionCount = 0;
-    *m_szFootprintLibname = '\0';
-    *m_szLibname = '\0';
+    *m_szFootprintLibname = L'\0';
+    *m_szLibname = L'\0';
     m_bFootprints = FALSE;
 
-	strcpy( m_szSndIdle1, "" );
-	strcpy( m_szSndIdle2, "" );
-	strcpy( m_szSndIdle3, "" );
-	strcpy( m_szSndSleep, "" );
-	strcpy( m_szSndAwake, "" );
+	m_szSndIdle1[0] = L'\0';
+	m_szSndIdle2[0] = L'\0';
+	m_szSndIdle3[0] = L'\0';
+	m_szSndSleep[0] = L'\0';
+	m_szSndAwake[0] = L'\0';
 	m_dwSndFrequency = 0;
     m_dwScale = 100;
 
 	//build configuration registry key
-	char szKey[1024];
-	strcpy( szKey, szNekoRegKey );
-	if( strlen( m_szName ) > 0 )
+	WCHAR szKey[1024];
+	lstrcpyW( szKey, szNekoRegKey );
+	if( lstrlenW( m_szName ) > 0 )
 	{
-		strcat( szKey, "\\" );
-		strcat( szKey, m_szName );
+		lstrcatW( szKey, L"\\" );
+		lstrcatW( szKey, m_szName );
 	}
 
 	//load configuration
-    CNekoSettings NekoSettings( szKey, (strlen(m_szName) == 0) );
+    CNekoSettings NekoSettings( szKey, (lstrlenW(m_szName) == 0) );
 	if( NekoSettings.IsOpen() )
 	{
 		//load in all of the settings
@@ -132,10 +132,10 @@ CNeko::CNeko( char* lpszName )
 
 	//load the images
 	BOOL fLoadProblems = FALSE;
-	if( m_szLibname == NULL || *m_szLibname == '\0' || ((int)ExtractIcon( g_hInstance, m_szLibname, -1 ) < 32 ))
+	if( m_szLibname == NULL || *m_szLibname == L'\0' || ((int)ExtractIconW( g_hInstance, m_szLibname, -1 ) < 32 ))
     {
         //use default images if there is no file or not enough icons
-		GetModuleFileName( NULL, m_szLibname, MAX_PATH );
+		GetModuleFileNameW( NULL, m_szLibname, MAX_PATH );
 		fLoadProblems = !LoadImages();
     }
 	else
@@ -145,7 +145,7 @@ CNeko::CNeko( char* lpszName )
 		if( fLoadProblems ) 
 		{
 			//use default images if it fails with the user's choice
-			GetModuleFileName( NULL, m_szLibname, MAX_PATH );
+			GetModuleFileNameW( NULL, m_szLibname, MAX_PATH );
 			fLoadProblems = !LoadImages();
 		}
 	}
@@ -484,7 +484,7 @@ BOOL CNeko::LoadImages()
 	int n;
 	HICON hIcons[32];
 	for( n = 0; n < 32; n++ )
-		hIcons[n] =  ExtractIcon( g_hInstance, m_szLibname, n );
+		hIcons[n] =  ExtractIconW( g_hInstance, m_szLibname, n );
 
 	//check last icon
 	if( (UINT)hIcons[31] <= 1 )
@@ -492,9 +492,9 @@ BOOL CNeko::LoadImages()
 		//error - delete all icons
 		for( n = 0; n < 32; n++ ) DestroyIcon( hIcons[n] );
 
-        char szBuffer[1024];
-        wsprintf( szBuffer, "There are not enough icons in this icon library\n%s\nIt must contain at least 32 icons", m_szLibname );
-        MessageBox( NULL, szBuffer, "Error", MB_ICONERROR|MB_TASKMODAL );
+        WCHAR szBuffer[1024];
+        wsprintfW( szBuffer, L"There are not enough icons in this icon library\n%s\nIt must contain at least 32 icons", m_szLibname );
+        MessageBoxW( NULL, szBuffer, L"Error", MB_ICONERROR|MB_TASKMODAL );
 		return FALSE;
 	}
 
@@ -508,11 +508,11 @@ BOOL CNeko::LoadImages()
     if( m_bFootprints )
     {
         if( *m_szFootprintLibname )
-            for( n = 0; n < 8; n++ ) m_hIconFootprints[n] = ExtractIcon( g_hInstance, m_szFootprintLibname, n );
+            for( n = 0; n < 8; n++ ) m_hIconFootprints[n] = ExtractIconW( g_hInstance, m_szFootprintLibname, n );
         else
         {
             UINT uID[] = { IDI_FP_UP, IDI_FP_UPRIGHT, IDI_FP_RIGHT, IDI_FP_DOWNRIGHT, IDI_FP_DOWN, IDI_FP_DOWNLEFT, IDI_FP_LEFT, IDI_FP_UPLEFT };
-            for( n = 0; n < 8; n++ ) m_hIconFootprints[n] = LoadIcon( g_hInstance, MAKEINTRESOURCE(uID[n]) );
+            for( n = 0; n < 8; n++ ) m_hIconFootprints[n] = LoadIconW( g_hInstance, MAKEINTRESOURCEW(uID[n]) );
         }
     }
 
@@ -629,19 +629,19 @@ void CNeko::Update()
             switch( GetState() )
             {
                 case AWAKE:
-                    PlaySound( m_szSndAwake, NULL, SND_NOSTOP|SND_NOWAIT|SND_FILENAME|SND_NODEFAULT|SND_ASYNC );
+                    PlaySoundW( m_szSndAwake, NULL, SND_NOSTOP|SND_NOWAIT|SND_FILENAME|SND_NODEFAULT|SND_ASYNC );
                     break;
 
                 case SLEEP:
-                    PlaySound( m_szSndSleep, NULL, SND_NOSTOP|SND_NOWAIT|SND_FILENAME|SND_NODEFAULT|SND_ASYNC );
+                    PlaySoundW( m_szSndSleep, NULL, SND_NOSTOP|SND_NOWAIT|SND_FILENAME|SND_NODEFAULT|SND_ASYNC );
                     break;
 
 				default:
                     switch( rand()%3 )
                     {
-                        case 0:  PlaySound( m_szSndIdle1, NULL, SND_NOSTOP|SND_NOWAIT|SND_FILENAME|SND_NODEFAULT|SND_ASYNC ); break;
-                        case 1:  PlaySound( m_szSndIdle2, NULL, SND_NOSTOP|SND_NOWAIT|SND_FILENAME|SND_NODEFAULT|SND_ASYNC ); break;
-                        default: PlaySound( m_szSndIdle3, NULL, SND_NOSTOP|SND_NOWAIT|SND_FILENAME|SND_NODEFAULT|SND_ASYNC ); break;
+                        case 0:  PlaySoundW( m_szSndIdle1, NULL, SND_NOSTOP|SND_NOWAIT|SND_FILENAME|SND_NODEFAULT|SND_ASYNC ); break;
+                        case 1:  PlaySoundW( m_szSndIdle2, NULL, SND_NOSTOP|SND_NOWAIT|SND_FILENAME|SND_NODEFAULT|SND_ASYNC ); break;
+                        default: PlaySoundW( m_szSndIdle3, NULL, SND_NOSTOP|SND_NOWAIT|SND_FILENAME|SND_NODEFAULT|SND_ASYNC ); break;
                     }
                 break;
             }

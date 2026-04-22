@@ -29,8 +29,8 @@ BOOL g_fNeedReinit = TRUE;
 /* ExecuteConfigProcess - runs the configuration program *******************************/
 void ExecuteConfigProcess()
 {
-    if( (int)ShellExecute( NULL, "open", "NekoCFG.EXE", 0, "", SW_SHOWNORMAL ) <= 32 )
-        MessageBox( NULL, "Neko was unable to start the configuration program\n'NekoCFG.EXE'\n\nMake sure that this file is in the same folder as the main Neko program.", "Configure Neko", MB_ICONEXCLAMATION );
+    if( (int)(INT_PTR)ShellExecuteW( NULL, L"open", L"neko_cfg.exe", 0, L"", SW_SHOWNORMAL ) <= 32 )
+        MessageBoxW( NULL, L"Neko was unable to start the configuration program\n'neko_cfg.exe'\n\nMake sure that this file is in the same folder as the main Neko program.", L"Configure Neko", MB_ICONEXCLAMATION );
 }
 
 
@@ -65,11 +65,11 @@ void LoadConfiguration()
         for( i = 0; i < g_nNumCats; i++ )
         {
             //build the key index
-            char szSubKey[MAX_PATH], szName[MAX_NEKO_NAME];
-            sprintf( szSubKey, "%d", i );
+            WCHAR szSubKey[MAX_PATH], szName[MAX_NEKO_NAME];
+            wsprintfW( szSubKey, L"%d", i );
 
             //load this cat's name from the registry
-		    NekoSettings->GetString( szSubKey, szName, MAX_NEKO_NAME-1 );
+		    NekoSettings->GetString( szSubKey, szName, (MAX_NEKO_NAME-1) * sizeof(WCHAR) );
 
             //add this Neko to the array
 			g_NekoArray[i] = new CNeko( szName );
@@ -86,8 +86,8 @@ void LoadConfiguration()
     //update task bar
     if( g_fTaskbar )
     {
-        if( Tray->GetCount() == 0 ) 
-			Tray->AddIcon( g_hWndMain, LoadIcon( g_hInstance, MAKEINTRESOURCE( IDI_AWAKE )), 1 );
+        if( Tray->GetCount() == 0 )
+			Tray->AddIcon( g_hWndMain, LoadIconW( g_hInstance, MAKEINTRESOURCEW( IDI_AWAKE )), 1 );
     }
     else
     {
@@ -160,8 +160,8 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam 
             break;
         }
 
-        default: 
-            return DefWindowProc( hWnd, message, wParam, lParam );
+        default:
+            return DefWindowProcW( hWnd, message, wParam, lParam );
     }
 
     return 0;
@@ -175,7 +175,7 @@ BOOL InitApplication( HINSTANCE hInstance )
     g_hInstance = hInstance;
 
 	//create the (hidden) window
-    WNDCLASS wc;
+    WNDCLASSW wc;
     wc.style = 0;
     wc.lpfnWndProc = (WNDPROC)WndProc;
     wc.cbClsExtra = 0;
@@ -187,10 +187,10 @@ BOOL InitApplication( HINSTANCE hInstance )
     wc.lpszMenuName = NULL;
     wc.lpszClassName = szNekoClassName;
 
-    if( RegisterClass(&wc) )
+    if( RegisterClassW(&wc) )
     {
         //create the window
-        g_hWndMain = CreateWindow( szNekoClassName, szNekoWindowTitle, WS_OVERLAPPEDWINDOW, 0, 0, 0, 0, NULL, NULL, hInstance, NULL);
+        g_hWndMain = CreateWindowW( szNekoClassName, szNekoWindowTitle, WS_OVERLAPPEDWINDOW, 0, 0, 0, 0, NULL, NULL, hInstance, NULL);
 
 		if( g_hWndMain == NULL ) return FALSE;
     }
@@ -204,13 +204,16 @@ BOOL InitApplication( HINSTANCE hInstance )
 
 
 /* WinMain - program entry point *******************************************************/
-int CALLBACK WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow )
-{
+int APIENTRY wWinMain(HINSTANCE hInstance,
+                      HINSTANCE hPrevInstance,
+                      LPWSTR lpCmdLine,
+                      int iCmdShow) {
+  UNREFERENCED_PARAMETER(hPrevInstance);
 	//check for previous version & unload both if it's found
-	HWND hWndOld = FindWindow( szNekoClassName, szNekoWindowTitle );
+	HWND hWndOld = FindWindowW( szNekoClassName, szNekoWindowTitle );
 	if( hWndOld != NULL )
 	{
-		PostMessage( hWndOld, WM_QUIT, 0, 0 );
+		PostMessageW( hWndOld, WM_QUIT, 0, 0 );
 		return FALSE;
 	}
 
@@ -224,11 +227,11 @@ int CALLBACK WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdL
     SetTimer( g_hWndMain, ID_TIMER_NEKO, 200, NULL );
 
     MSG msg;
-    while( GetMessage( &msg, NULL, 0, 0 ) )
+    while( GetMessageW( &msg, NULL, 0, 0 ) )
     {
 		//pass the message onto our WndProc
 		TranslateMessage( &msg );
-		DispatchMessage( &msg );
+		DispatchMessageW( &msg );
 	}
 
     //remove the timer

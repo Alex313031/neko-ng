@@ -1,0 +1,53 @@
+# Copyright 2026 Alex313031
+
+# Neko desktop toy Win32 port
+executable("neko_win32") {
+  configs += [ ":neko_win32_config", ]
+
+  sources = [
+    "AlwaysOnTopPet.cpp",
+    "AlwaysOnTopPet.h",
+    "DesktopHack.cpp",
+    "DesktopHack.h",
+    "DesktopPet.cpp",
+    "DesktopPet.h",
+    "Neko.cpp",
+    "Neko.h",
+    "Neko95.rc",
+    "Neko98.cpp",
+    "NekoCommon.h",
+    "NekoSettings.cpp",
+    "NekoSettings.h",
+    "Pet.cpp",
+    "Pet.h",
+    "resource.h",
+    "Tray.cpp",
+    "Tray.h",
+    "version.h",
+  ]
+
+  public_deps = [ "./NekoCFG:neko_cfg", ]
+}
+
+# neko_win32 specific configs
+config("neko_win32_config") {
+  defines = []
+
+  cflags = []
+
+  include_dirs = [
+    "./",
+    "./NekoCFG",
+  ]
+
+  cflags += [
+    "-Wunused-function",
+  ]
+
+  libs = [
+    "comctl32",
+    "odbccp32",
+    "odbc32",
+    "winmm",
+  ]
+}
