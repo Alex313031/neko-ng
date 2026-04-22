@@ -107,7 +107,7 @@ void CAlwaysOnTopPet::SetImages(HICON * hIconTable, int nIcons )
 
         if( m_hWndOnTop )
         {
-            SetWindowLong( m_hWndOnTop, 0, (LONG)this );
+            SetWindowLongPtrW( m_hWndOnTop, 0, (LONG_PTR)this );
             ShowWindow( m_hWndOnTop, SW_SHOWNA );
             UpdateWindow( m_hWndOnTop );
         }
@@ -154,7 +154,7 @@ LRESULT CALLBACK WndProc_OnTop( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
         case WM_PAINT:
 		{
             //draw the most recent icon if the window is being dragged
-            CAlwaysOnTopPet* pPet = (CAlwaysOnTopPet*)GetWindowLong( hWnd, 0 );
+            CAlwaysOnTopPet* pPet = (CAlwaysOnTopPet*)GetWindowLongPtrW( hWnd, 0 );
             if( pPet->m_fBeingDragged )
             {
     			//draw the current icon onto the window (we can't call draw because it checks for icon index and changes the window's region
@@ -176,22 +176,22 @@ LRESULT CALLBACK WndProc_OnTop( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
             return TRUE; //don't erase the background
 
         //pass mouse messages onto the class
-        case WM_LBUTTONDOWN:   ((CAlwaysOnTopPet*)GetWindowLong( hWnd, 0 ))->OnLButtonDown(); break;
-        case WM_LBUTTONUP:     ((CAlwaysOnTopPet*)GetWindowLong( hWnd, 0 ))->OnLButtonUp(); break;
-        case WM_LBUTTONDBLCLK: ((CAlwaysOnTopPet*)GetWindowLong( hWnd, 0 ))->OnLButtonDblClk(); break;
+        case WM_LBUTTONDOWN:   ((CAlwaysOnTopPet*)GetWindowLongPtrW( hWnd, 0 ))->OnLButtonDown(); break;
+        case WM_LBUTTONUP:     ((CAlwaysOnTopPet*)GetWindowLongPtrW( hWnd, 0 ))->OnLButtonUp(); break;
+        case WM_LBUTTONDBLCLK: ((CAlwaysOnTopPet*)GetWindowLongPtrW( hWnd, 0 ))->OnLButtonDblClk(); break;
 
-        case WM_MBUTTONDOWN:   ((CAlwaysOnTopPet*)GetWindowLong( hWnd, 0 ))->OnMButtonDown(); break;
-        case WM_MBUTTONUP:     ((CAlwaysOnTopPet*)GetWindowLong( hWnd, 0 ))->OnMButtonUp(); break;
-        case WM_MBUTTONDBLCLK: ((CAlwaysOnTopPet*)GetWindowLong( hWnd, 0 ))->OnMButtonDblClk(); break;
+        case WM_MBUTTONDOWN:   ((CAlwaysOnTopPet*)GetWindowLongPtrW( hWnd, 0 ))->OnMButtonDown(); break;
+        case WM_MBUTTONUP:     ((CAlwaysOnTopPet*)GetWindowLongPtrW( hWnd, 0 ))->OnMButtonUp(); break;
+        case WM_MBUTTONDBLCLK: ((CAlwaysOnTopPet*)GetWindowLongPtrW( hWnd, 0 ))->OnMButtonDblClk(); break;
 
-        case WM_RBUTTONDOWN:   ((CAlwaysOnTopPet*)GetWindowLong( hWnd, 0 ))->OnRButtonDown(); break;
-        case WM_RBUTTONUP:     ((CAlwaysOnTopPet*)GetWindowLong( hWnd, 0 ))->OnRButtonUp(); break;
-        case WM_RBUTTONDBLCLK: ((CAlwaysOnTopPet*)GetWindowLong( hWnd, 0 ))->OnRButtonDblClk(); break;
+        case WM_RBUTTONDOWN:   ((CAlwaysOnTopPet*)GetWindowLongPtrW( hWnd, 0 ))->OnRButtonDown(); break;
+        case WM_RBUTTONUP:     ((CAlwaysOnTopPet*)GetWindowLongPtrW( hWnd, 0 ))->OnRButtonUp(); break;
+        case WM_RBUTTONDBLCLK: ((CAlwaysOnTopPet*)GetWindowLongPtrW( hWnd, 0 ))->OnRButtonDblClk(); break;
 
         //window is being dragged
         case WM_ENTERSIZEMOVE:
         {
-            CAlwaysOnTopPet* pPet = (CAlwaysOnTopPet*)GetWindowLong( hWnd, 0 );
+            CAlwaysOnTopPet* pPet = (CAlwaysOnTopPet*)GetWindowLongPtrW( hWnd, 0 );
             pPet->m_fBeingDragged = TRUE;
             break;
         }
@@ -199,7 +199,7 @@ LRESULT CALLBACK WndProc_OnTop( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
         //window is being dropped
         case WM_EXITSIZEMOVE:
         {
-            CAlwaysOnTopPet* pPet = (CAlwaysOnTopPet*)GetWindowLong( hWnd, 0 );
+            CAlwaysOnTopPet* pPet = (CAlwaysOnTopPet*)GetWindowLongPtrW( hWnd, 0 );
             pPet->m_fBeingDragged = FALSE;
             RECT rc;
             GetWindowRect( hWnd, &rc );
@@ -398,6 +398,7 @@ void CAlwaysOnTopPet::BuildRegions()
 
 		//clean up
         DeleteObject( SelectObject( hDC, hOldBmp ) );
+        GlobalUnlock(hData);
         GlobalFree(hData);
     
         //store the region

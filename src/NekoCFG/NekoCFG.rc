@@ -80,10 +80,9 @@ BEGIN
             VALUE "LegalCopyright", LEGAL_COPYRIGHT
             VALUE "LegalTrademarks", "Freeware\0"
             VALUE "OriginalFilename", "neko_cfg.exe\0"
-            VALUE "PrivateBuild", "\0"
             VALUE "ProductName", "Neko-ng Configuration Program\0"
             VALUE "ProductVersion", VERSION_STRING
-            VALUE "SpecialBuild", "\0"
+            VALUE "SpecialBuild", "NekoCFG NT\0"
         END
     END
     BLOCK "VarFileInfo"

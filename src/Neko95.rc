@@ -60,10 +60,9 @@ BEGIN
             VALUE "LegalCopyright", LEGAL_COPYRIGHT
             VALUE "LegalTrademarks", "Freeware\0"
             VALUE "OriginalFilename", "neko_win32.exe\0"
-            VALUE "PrivateBuild", "\0"
             VALUE "ProductName", "Neko-ng\0"
             VALUE "ProductVersion", VERSION_STRING
-            VALUE "SpecialBuild", "\0"
+            VALUE "SpecialBuild", "Neko98 NT\0"
         END
     END
     BLOCK "VarFileInfo"

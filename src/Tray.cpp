@@ -6,15 +6,14 @@
  *************************************/
 
 #include <windows.h>
-#include <string.h>
 #include "Tray.h"
 #include "resource.h"
 
 BOOL CTray::AddIcon( HWND hWnd, HICON hIcon, UINT uID )
 {
     BOOL res;
-    NOTIFYICONDATAW tnid;
- 
+    NOTIFYICONDATAW tnid = {};
+
     //fill in the structure
     tnid.cbSize = sizeof(NOTIFYICONDATAW);
     tnid.hWnd = hWnd;
@@ -26,10 +25,7 @@ BOOL CTray::AddIcon( HWND hWnd, HICON hIcon, UINT uID )
 
     //give the command
     res = Shell_NotifyIconW( NIM_ADD, &tnid );
- 
-    //delete the icon
-    DestroyIcon( tnid.hIcon ); 
- 
+
     //increment the counter
     if( res ) m_uIconCount++;
 
@@ -39,7 +35,7 @@ BOOL CTray::AddIcon( HWND hWnd, HICON hIcon, UINT uID )
 BOOL CTray::RemoveIcon( HWND hWnd, UINT uID )
 {
     BOOL res;
-    NOTIFYICONDATAW tnid;
+    NOTIFYICONDATAW tnid = {};
 
     //fill in the structure
     tnid.cbSize = sizeof(NOTIFYICONDATAW);

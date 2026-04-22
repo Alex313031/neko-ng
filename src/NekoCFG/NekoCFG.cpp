@@ -21,7 +21,7 @@
 
 LPCWSTR szWindowTitle = L"Configure Neko-ng";
 LPCWSTR szDefaultName = L"Neko-ng (default)";
-LPCWSTR szHelpFile = L"Neko98.hlp";
+LPCWSTR szHelpFile = L"neko-ng.hlp";
 
 /* help ID lookup table */
 static DWORD dwHelpID[] = { 

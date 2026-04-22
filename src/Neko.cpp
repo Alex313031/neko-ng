@@ -132,7 +132,7 @@ CNeko::CNeko( LPCWSTR lpszName )
 
 	//load the images
 	BOOL fLoadProblems = FALSE;
-	if( m_szLibname == NULL || *m_szLibname == L'\0' || ((int)ExtractIconW( g_hInstance, m_szLibname, -1 ) < 32 ))
+	if( m_szLibname == NULL || *m_szLibname == L'\0' || ((INT_PTR)ExtractIconW( g_hInstance, m_szLibname, -1 ) < 32 ))
     {
         //use default images if there is no file or not enough icons
 		GetModuleFileNameW( NULL, m_szLibname, MAX_PATH );
@@ -487,7 +487,7 @@ BOOL CNeko::LoadImages()
 		hIcons[n] =  ExtractIconW( g_hInstance, m_szLibname, n );
 
 	//check last icon
-	if( (UINT)hIcons[31] <= 1 )
+	if( (INT_PTR)hIcons[31] <= 1 )
 	{
 		//error - delete all icons
 		for( n = 0; n < 32; n++ ) DestroyIcon( hIcons[n] );

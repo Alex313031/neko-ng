@@ -245,5 +245,5 @@ int APIENTRY wWinMain(HINSTANCE hInstance,
     if( g_fTaskbar ) Tray->RemoveIcon( g_hWndMain, 1 );
     delete Tray;
 
-    return msg.wParam;
+    return (int)msg.wParam;
 }
