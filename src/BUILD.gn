@@ -40,12 +40,16 @@ config("neko_win32_config") {
 
   cflags = [
     "-Wall",
-    "-Werror",
     "-Wunused-function",
   ]
 
   libs = [
+    "kernel32",
+    "user32",
+    "shell32",
     "comctl32",
+    "comdlg32",
+    "gdi32",
     "odbccp32",
     "odbc32",
     "winmm",
