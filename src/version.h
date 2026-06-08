@@ -58,12 +58,21 @@
  #define _STRINGIZER_
  #define _STRINGIZER(in) #in
  #define STRINGIZE(in) _STRINGIZER(in)
+ // Wide-string variant: L ## "x" -> L"x". Two levels so the argument is
+ // expanded before the L## paste widens the resulting narrow literal.
+ #define _WIDEN(in) L ## in
+ #define WIDEN(in) _WIDEN(in)
 #endif // !defined(_STRINGIZER_)
 
-// Main version constant
+// Main version constant. The whole dotted version is stringized in ONE step so
+// it expands to a SINGLE wide string literal (e.g. L"4.0.5") rather than several
+// adjacent ones (L"4" L"." L"0" ...). GNU windres concatenates adjacent literals
+// anywhere, but llvm-rc does not concatenate them in a dialog control's text
+// field and fails with 'expected ',', got "4"'. A single literal works for
+// both toolchains.
 #ifndef _VERSION
  // Run stringizer above
- #define _VERSION(major,minor,build) STRINGIZE(major) "." STRINGIZE(minor) "." STRINGIZE(build)
+ #define _VERSION(major,minor,build) WIDEN(STRINGIZE(major.minor.build))
 #endif // _VERSION
 
 // These next few lines are where we control version number and copyright year
@@ -74,7 +83,10 @@
 
 // String constants
 #define VERSION_STRING _VERSION(MAJOR_VERSION, MINOR_VERSION, BUILD_VERSION)
-#define ABOUT_CONTENT  L"Neko-ng " VERSION_STRING
+// Stringize the name and version together so this is one wide literal
+// (L"Neko-ng 4.0.5"). See the note on _VERSION above for why this must not be a
+// run of adjacent literals (L"Neko-ng " VERSION_STRING) under llvm-rc.
+#define ABOUT_CONTENT  WIDEN(STRINGIZE(Neko-ng MAJOR_VERSION.MINOR_VERSION.BUILD_VERSION))
 #define LEGAL_COPYRIGHT L"Copyright \251 2026 Alex313031 "
 
 #ifndef _PACKVERSION
